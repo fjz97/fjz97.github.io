@@ -7,26 +7,26 @@
 <head>
   <meta charset="utf-8">
   
-  <title>mongodb配置用户权限 | 冯京哲的狗窝</title>
+  <title>ES5 forEach/map JQuery $.each/$.map | 冯京哲的狗窝</title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
   
-    <meta name="keywords" content="mongodb," />
+    <meta name="keywords" content="JQuery,JavaScript," />
   
 
-  <meta name="description" content="开启mongod服务后，进入mongo shell 1mongo --port=### 切换到myblog数据库 123&amp;gt; use myblogswitched to db myblog&amp;gt; 创建用户 12345678910111213db.createUser(&amp;#123;	user: &amp;apos;###&amp;apos;,	pwd: &amp;apos;###&amp;apos;,    roles:">
-<meta name="keywords" content="mongodb">
+  <meta name="description" content="ES5 forEach 1.不支持IE9之前的版本。2.匿名函数中的this都是指Window。3.只能遍历数组。4.没有返回值。 123456var ary = [12,23,24,42,1]; var res = ary.forEach(function (value,index,array) &amp;#123; array[index] = value*10; &amp;#125;) console.lo">
+<meta name="keywords" content="JQuery,JavaScript">
 <meta property="og:type" content="article">
-<meta property="og:title" content="mongodb配置用户权限">
-<meta property="og:url" content="http://www.fengjingzhe.com/2017/11/26/mongodb配置用户权限/index.html">
+<meta property="og:title" content="ES5 forEach&#x2F;map JQuery $.each&#x2F;$.map">
+<meta property="og:url" content="http://www.fengjingzhe.com/2017/12/07/ES5 forEach&map JQuery $.each&$.map/index.html">
 <meta property="og:site_name" content="冯京哲的狗窝">
-<meta property="og:description" content="开启mongod服务后，进入mongo shell 1mongo --port=### 切换到myblog数据库 123&amp;gt; use myblogswitched to db myblog&amp;gt; 创建用户 12345678910111213db.createUser(&amp;#123;	user: &amp;apos;###&amp;apos;,	pwd: &amp;apos;###&amp;apos;,    roles:">
+<meta property="og:description" content="ES5 forEach 1.不支持IE9之前的版本。2.匿名函数中的this都是指Window。3.只能遍历数组。4.没有返回值。 123456var ary = [12,23,24,42,1]; var res = ary.forEach(function (value,index,array) &amp;#123; array[index] = value*10; &amp;#125;) console.lo">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-03-14T09:12:50.666Z">
+<meta property="og:updated_time" content="2018-03-14T10:15:05.735Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="mongodb配置用户权限">
-<meta name="twitter:description" content="开启mongod服务后，进入mongo shell 1mongo --port=### 切换到myblog数据库 123&amp;gt; use myblogswitched to db myblog&amp;gt; 创建用户 12345678910111213db.createUser(&amp;#123;	user: &amp;apos;###&amp;apos;,	pwd: &amp;apos;###&amp;apos;,    roles:">
+<meta name="twitter:title" content="ES5 forEach&#x2F;map JQuery $.each&#x2F;$.map">
+<meta name="twitter:description" content="ES5 forEach 1.不支持IE9之前的版本。2.匿名函数中的this都是指Window。3.只能遍历数组。4.没有返回值。 123456var ary = [12,23,24,42,1]; var res = ary.forEach(function (value,index,array) &amp;#123; array[index] = value*10; &amp;#125;) console.lo">
 
   
 
@@ -151,14 +151,14 @@
 
 
 <div class="content content-post CENTER">
-   <article id="post-mongodb配置用户权限" class="article article-type-post" itemprop="blogPost">
+   <article id="post-ES5 forEach&amp;map JQuery $.each&amp;$.map" class="article article-type-post" itemprop="blogPost">
   <header class="article-header">
-    <h1 class="post-title">mongodb配置用户权限</h1>
+    <h1 class="post-title">ES5 forEach/map JQuery $.each/$.map</h1>
 
     <div class="article-meta">
       <span>
         <i class="icon-calendar"></i>
-        <span>2017.11.26</span>
+        <span>2017.12.07</span>
       </span>
 
       
@@ -191,23 +191,19 @@
 
   <div class="article-content">
     
-      <p>开启mongod服务后，进入mongo shell</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mongo --port=###</span><br></pre></td></tr></table></figure>
-<p>切换到myblog数据库</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt; use myblog</span><br><span class="line">switched to db myblog</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
-<p>创建用户</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">db.createUser(</span><br><span class="line">&#123;</span><br><span class="line">	user: &apos;###&apos;,</span><br><span class="line">	pwd: &apos;###&apos;,</span><br><span class="line">    roles:</span><br><span class="line">    [</span><br><span class="line">      &#123;</span><br><span class="line">        role: &apos;dbOwner&apos;,</span><br><span class="line">        db: &apos;myblog&apos;</span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
-<p>mongoose连接</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mongodb: &apos;mongodb://name:pwd@ip:port/myblog&apos;</span><br></pre></td></tr></table></figure>
-<p>添加用户权限</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.grantRolesToUser(&quot;&lt;username&gt;&quot;, [&#123; role: &quot;&lt;role-name&gt;&quot;, db: &quot;&lt;db-name&gt;&quot; &#125;])</span><br></pre></td></tr></table></figure>
-<p>撤销用户权限</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.revokeRolesFromUser(&quot;&lt;username&gt;&quot;, [&#123; role: &quot;&lt;role-name&gt;&quot;, db: &quot;&lt;db-name&gt;&quot;&#125;])</span><br></pre></td></tr></table></figure>
-<p>编辑批处理命令</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">start mongod -f mongodb.conf</span><br></pre></td></tr></table></figure>
-<p>运行自定义配置项</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">dbpath=C:\mongodb\data\db</span><br><span class="line">logpath=C:\mongodb\log\mongodb.log</span><br><span class="line">bind_ip=127.0.0.1</span><br><span class="line">port=###</span><br><span class="line">auth=true</span><br></pre></td></tr></table></figure>
-<p>总结一下：auth=true即可为mongodb设定权限访问，每个数据库有自己的用户，我们需要做的就是在该数据库下创建用户并为用户配置权限。</p>
+      <p>ES5 forEach</p>
+<p>1.不支持IE9之前的版本。<br>2.匿名函数中的this都是指Window。<br>3.只能遍历数组。<br>4.没有返回值。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">var ary = [12,23,24,42,1]; </span><br><span class="line">var res = ary.forEach(function (value,index,array) &#123; </span><br><span class="line">array[index] = value*10; </span><br><span class="line">&#125;) </span><br><span class="line">console.log(res);//--&gt; undefined; </span><br><span class="line">console.log(ary);//--&gt; 通过数组索引改变了原数组</span><br></pre></td></tr></table></figure>
+<p>ES5 map</p>
+<p>1.不支持IE9之前的版本。<br>2.匿名函数中的this都是指Window。<br>3.只能遍历数组。<br>4.返回一个新的数组，原数组不变。map的回调函数中支持return返回值；return的是啥，相当于把数组中的这一项变为啥。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">var ary = [12,23,24,42,1]; </span><br><span class="line">var res = ary.map(function (value,index,array) &#123; </span><br><span class="line">return item*10; </span><br><span class="line">&#125;) </span><br><span class="line">console.log(res);//--&gt;[120,230,240,420,10];原数组拷贝了一份，并进行了修改</span><br><span class="line">console.log(ary);//--&gt;[12,23,24,42,1];原数组并未发生变化</span><br></pre></td></tr></table></figure>
+<p>JQuery $.each</p>
+<p>1.与ES5 forEach类似，但是第一二两个参数相反。<br>2.支持IE9之前版本。<br>3.能遍历数组和类。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$.each( [&quot;a&quot;,&quot;b&quot;,&quot;c&quot;], function(i, v)&#123; </span><br><span class="line">alert( i + &quot;: &quot; + v ); </span><br><span class="line">&#125;); </span><br><span class="line"></span><br><span class="line">$.each( &#123; name: &quot;John&quot;, lang: &quot;JS&quot; &#125;, function(k, v)&#123; </span><br><span class="line">alert( &quot;Name: &quot; + k + &quot;, Value: &quot; + v ); </span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>JQuery $.map</p>
+<p>1.与ES5 map类似，但是第一二两个参数相反。<br>2.支持IE9之前版本。<br>3.能遍历数组和类。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var arr=$.map( [0,1,2], function(v)&#123; </span><br><span class="line">return v + 4; </span><br><span class="line">&#125;); </span><br><span class="line"></span><br><span class="line">$.map(&#123;&quot;name&quot;:&quot;Jim&quot;,&quot;age&quot;:17&#125;,function(k, v)&#123; </span><br><span class="line">console.log( k+&quot;:&quot;+v ); </span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>再纠正个认知错误：each方法是JQuery对象的方法，对JQuery对象数组进行遍历，this指向该DOM对象，同理也有JQuery对象的map方法。</p>
 
     
   </div>
@@ -240,10 +236,10 @@
 
    
   <div class="box-prev-next clearfix">
-    <a class="hide pull-left" href="/">
+    <a class="show pull-left" href="/2017/11/27/node设置环境变量/">
         <i class="icon icon-angle-left"></i>
     </a>
-    <a class="show pull-right" href="/2017/11/27/node设置环境变量/">
+    <a class="hide pull-right" href="/">
         <i class="icon icon-angle-right"></i>
     </a>
   </div>
