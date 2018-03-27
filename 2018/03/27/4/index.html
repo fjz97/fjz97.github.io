@@ -23,7 +23,7 @@
 <meta property="og:site_name" content="冯京哲的狗窝">
 <meta property="og:description" content="在之前的项目中要实现文件上传功能时，我一般使用Apache的commons-fileupload组件，最近发现Servlet3.0提供了对文件上传的原生支持，API非常简洁易懂，总结一下使用方法。  后端   使用注解@MultipartConfig将一个Servlet标识为支持文件上传，否则会报Unable to process parts as no multi-part configurat">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-03-27T05:55:45.279Z">
+<meta property="og:updated_time" content="2018-03-27T05:57:24.364Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="H5 + Servlet3.0实现文件上传">
 <meta name="twitter:description" content="在之前的项目中要实现文件上传功能时，我一般使用Apache的commons-fileupload组件，最近发现Servlet3.0提供了对文件上传的原生支持，API非常简洁易懂，总结一下使用方法。  后端   使用注解@MultipartConfig将一个Servlet标识为支持文件上传，否则会报Unable to process parts as no multi-part configurat">
@@ -206,7 +206,7 @@
 <ul>
 <li>前端</li>
 </ul>
-<p>创建一个FormData对象，由于参数为表单的DOM，所以用JQuery选择器获取后应转换为js原生对象。</p>
+<p>创建一个FormData对象，由于参数为表单的DOM对象，所以用JQuery选择器获取后应转换为DOM对象。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$.ajax(&#123;</span><br><span class="line">             type: &apos;post&apos;,</span><br><span class="line">             url: &apos;updateAvatar.action&apos;,</span><br><span class="line">             data: new FormData($(&apos;#form&apos;)[0]),</span><br><span class="line">             processData: false,</span><br><span class="line">             contentType: false,</span><br><span class="line">             success: function(data) &#123;</span><br><span class="line">                 </span><br><span class="line">             &#125;</span><br><span class="line">         &#125;);</span><br></pre></td></tr></table></figure>
     
   </div>
