@@ -24,7 +24,9 @@
 <meta property="og:description" content="查阅了许多博客，对ViewHolder的优化原理仍然不明白，今天深入研究了一下，总算是理解了。先贴上项目里使用的一个图片GridView的Adapter代码： 12345678910111213141516171819202122232425262728293031323334353637383940414243444546public class MyAdapter extends BaseAd">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://www.fengjingzhe.com/images/5/Recycler.jpg">
-<meta property="og:updated_time" content="2018-03-27T12:46:27.442Z">
+<meta property="og:image" content="http://www.fengjingzhe.com/images/5/before.png">
+<meta property="og:image" content="http://www.fengjingzhe.com/images/5/after.png">
+<meta property="og:updated_time" content="2018-03-27T13:31:22.094Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android性能优化之ViewHolder&amp;convertView">
 <meta name="twitter:description" content="查阅了许多博客，对ViewHolder的优化原理仍然不明白，今天深入研究了一下，总算是理解了。先贴上项目里使用的一个图片GridView的Adapter代码： 12345678910111213141516171819202122232425262728293031323334353637383940414243444546public class MyAdapter extends BaseAd">
@@ -207,6 +209,9 @@
 <li>下拉屏幕，获取新的item，此时创建item，调用getView方法，convertView就不为空了，我们直接拿到ViewHolder并修改其中子控件的内容，此时这个被回收的convertView就摇身一变，变成了我们期望的新View了（图片URL被改变了），于是我们将它返回。</li>
 </ol>
 <p>最后满足一下我的好奇心~当GridView多个View被回收，又创建多个新View的时候，convertView会是怎么样对应的呢？<br>我们对上述例子代码修改SimpleDraweeView内容的一行注释掉，看看运行结果~</p>
+<p><img src="/images/5/before.png" alt="before"></p>
+<p><img src="/images/5/after.png" alt="after"></p>
+<p>可以看出来，当下拉加载第一排图片的时候，第一张图片的convertView是下拉前的第一张图片，也就是第一个被回收的图片，第二三四张图片的convertView却是null，所以加载了正确的图片。接着下拉加载第二排的图片，第一二张图片的convertView是下拉前的第三四张图片，也就是最后回收的两张图片。</p>
 
     
   </div>
