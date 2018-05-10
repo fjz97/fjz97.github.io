@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>《Java SE 8 for the really impatient》第一章习题笔记 | 冯京哲的狗窝</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="java," />
+  
+
+  <meta name="description" content="2. lambda表达式： 123456789public static File[] getChildDirectory(File file) &amp;#123;	return file.listFiles(pathname -&amp;gt; &amp;#123;		if(pathname.isDirectory()) &amp;#123;			return true;		&amp;#125;		else &amp;#123;			ret">
+<meta name="keywords" content="java">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《Java SE 8 for the really impatient》第一章习题笔记">
+<meta property="og:url" content="http://www.fengjingzhe.com/2017/02/09/13/index.html">
+<meta property="og:site_name" content="冯京哲的狗窝">
+<meta property="og:description" content="2. lambda表达式： 123456789public static File[] getChildDirectory(File file) &amp;#123;	return file.listFiles(pathname -&amp;gt; &amp;#123;		if(pathname.isDirectory()) &amp;#123;			return true;		&amp;#125;		else &amp;#123;			ret">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-05-09T13:21:26.864Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="《Java SE 8 for the really impatient》第一章习题笔记">
+<meta name="twitter:description" content="2. lambda表达式： 123456789public static File[] getChildDirectory(File file) &amp;#123;	return file.listFiles(pathname -&amp;gt; &amp;#123;		if(pathname.isDirectory()) &amp;#123;			return true;		&amp;#125;		else &amp;#123;			ret">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbe6" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?57e94d016e201fba3603a8a2b0263af0";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+
+  
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">导航</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">导航</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-13" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">《Java SE 8 for the really impatient》第一章习题笔记</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2017.02.09</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>feng</span>
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/技术/">技术</a>
+  </span>
+
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <p>2.</p>
+<p>lambda表达式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">public static File[] getChildDirectory(File file) &#123;</span><br><span class="line">	return file.listFiles(pathname -&gt; &#123;</span><br><span class="line">		if(pathname.isDirectory()) &#123;</span><br><span class="line">			return true;</span><br><span class="line">		&#125;</span><br><span class="line">		else &#123;</span><br><span class="line">			return false;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;);</span><br></pre></td></tr></table></figure>
+<p>方法引用：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public static File[] getChildDirectory(File file) &#123;</span><br><span class="line">	return file.listFiles(File::isDirectory);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<p>3.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">public static File[] getChildFilesByExt(File file, String ext) &#123;</span><br><span class="line">	return file.listFiles((dir, name) -&gt; &#123;</span><br><span class="line">		if (name.substring(name.lastIndexOf(&quot;.&quot;) + 1).equals(ext)) &#123;</span><br><span class="line">			return true;</span><br><span class="line">		&#125; else &#123;</span><br><span class="line">			return false;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>捕获file以及ext。</p>
+<hr>
+<p>6.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">public class Test &#123;</span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		</span><br><span class="line">		new Thread(uncheck(() -&gt; &#123;</span><br><span class="line">			System.out.println(&quot;start&quot;);</span><br><span class="line">			Thread.sleep(1000);</span><br><span class="line">			System.out.println(&quot;end&quot;);</span><br><span class="line">		&#125;)).start();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public static Runnable uncheck(RunnableEx runnableEx) &#123;</span><br><span class="line">		return new Runnable() &#123;</span><br><span class="line">			@Override</span><br><span class="line">			public void run() &#123;</span><br><span class="line">				try &#123;</span><br><span class="line">					runnableEx.run();</span><br><span class="line">				&#125; catch (Exception e) &#123;</span><br><span class="line">					e.printStackTrace();</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">interface RunnableEx &#123;</span><br><span class="line">	public void run() throws Exception;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p> uncheck实际上做的事就是，封装了一个Runnable并返回，其中Runnable的run方法调用了lambda表达式的代码段并检查了代码段。</p>
+<p>我感觉是可以用<code>Callable&lt;Void&gt;</code>的，在代码段最后加上<code>return null</code>就可以了，确实可以跑起来。</p>
+<hr>
+<p>7.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">public static void main(String[] args) &#123;</span><br><span class="line">	</span><br><span class="line">	andThen(()-&gt;&#123;System.out.println(&quot;1&quot;);&#125;, ()-&gt;&#123;System.out.println(&quot;2&quot;);&#125;);</span><br><span class="line">	</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public static Thread[] andThen(Runnable a, Runnable b) &#123;</span><br><span class="line">	Thread thread1 = new Thread(a);</span><br><span class="line">	thread1.start();</span><br><span class="line">	Thread thread2 = new Thread(b);</span><br><span class="line">	thread2.start();</span><br><span class="line">	Thread[] threads = new Thread[2];</span><br><span class="line">	return threads;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<p>8.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">String[] names = &#123; &quot;Peter&quot;, &quot;Paul&quot;, &quot;Merry&quot; &#125;;</span><br><span class="line">List&lt;Runnable&gt; runners = new ArrayList&lt;Runnable&gt;();</span><br><span class="line">for(String name : names) &#123;</span><br><span class="line"> runners.add(() -&gt; System.out.println(name));</span><br><span class="line">&#125;</span><br><span class="line">for(Runnable r : runners) &#123;</span><br><span class="line"> new Thread(r).start();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>合法</p>
+<p>如果使用传统的for循环，不合法，编译器报错Local variable i defined in an enclosing scope must be final or effectively final。捕获的i值发生了变化，即为非法。与内部类相同，JDK1.8开始可以在内部类和lambda表达式中使用非final局部变量，前提是值不发生改变（本质上还是final的）。</p>
+
+    
+  </div>
+
+  
+      <div class="git"></div>
+  
+
+</article>
+
+
+   
+  <div class="text-center donation">
+    <div class="inner-donation">
+      <span class="btn-donation">我要拍砖</span>
+      <div class="donation-body">
+        <div class="tip text-center">扫一扫，打爆博主的狗头</div>
+        <ul>
+        
+          <li class="item">
+            <span></span>
+            <img src="/images/qr-qq.png" alt="">
+          </li>
+        
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2017/02/05/12/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2017/02/10/14/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+    
+
+    
+    
+
+    
+
+    
+    
+
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script>
+    <div id="comment" class="vcomment" ></div>
+    <script>
+        var notify = 'false' == true ? true : false;
+        var verify = 'false' == true ? true : false;
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+            return GUEST_INFO.indexOf(item) > -1
+        });
+        guest_info = guest_info.length == 0 ? GUEST_INFO :guest_info;
+        window.valine = new Valine({
+            el: '.vcomment',
+            notify: notify,
+            verify: verify,
+            appId: "J9z6ka2wUFUVUCWYSq5VJ9za-gzGzoHsz",
+            appKey: "BLKCG6iPjTGHoSrRA0CdSDj6",
+            avatar:'mm',
+            placeholder: "说点什么吧，虽然你也看不懂~",
+            guest_info:guest_info,
+            pageSize:'10'
+        });
+    </script>
+  
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

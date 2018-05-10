@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>jQuery学习笔记2：性能和技巧 | 冯京哲的狗窝</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="jQuery," />
+  
+
+  <meta name="description" content="1、选择器的选用尽量使用$(&amp;quot;#id&amp;quot;)，会调用js底层的document.getElementById()方法，速度最快。 其次使用标签选择器$(&amp;quot;p&amp;quot;)，速度也很快。 接下来是$(&amp;quot;.class&amp;quot;)，再后是$(&amp;quot;:hidden&amp;quot;)。 后者性能很低，最好用$(&amp;quot;#content&amp;quot;).find(&amp;q">
+<meta name="keywords" content="jQuery">
+<meta property="og:type" content="article">
+<meta property="og:title" content="jQuery学习笔记2：性能和技巧">
+<meta property="og:url" content="http://www.fengjingzhe.com/2017/02/02/10/index.html">
+<meta property="og:site_name" content="冯京哲的狗窝">
+<meta property="og:description" content="1、选择器的选用尽量使用$(&amp;quot;#id&amp;quot;)，会调用js底层的document.getElementById()方法，速度最快。 其次使用标签选择器$(&amp;quot;p&amp;quot;)，速度也很快。 接下来是$(&amp;quot;.class&amp;quot;)，再后是$(&amp;quot;:hidden&amp;quot;)。 后者性能很低，最好用$(&amp;quot;#content&amp;quot;).find(&amp;q">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-05-09T13:11:05.500Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="jQuery学习笔记2：性能和技巧">
+<meta name="twitter:description" content="1、选择器的选用尽量使用$(&amp;quot;#id&amp;quot;)，会调用js底层的document.getElementById()方法，速度最快。 其次使用标签选择器$(&amp;quot;p&amp;quot;)，速度也很快。 接下来是$(&amp;quot;.class&amp;quot;)，再后是$(&amp;quot;:hidden&amp;quot;)。 后者性能很低，最好用$(&amp;quot;#content&amp;quot;).find(&amp;q">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbe6" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?57e94d016e201fba3603a8a2b0263af0";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+
+  
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">导航</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">导航</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1、选择器的选用"><span class="toc-text">1、选择器的选用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2、尽量缓存对象"><span class="toc-text">2、尽量缓存对象</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3、不要在循环内操作DOM或者其他耗时操作"><span class="toc-text">3、不要在循环内操作DOM或者其他耗时操作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4、使用事件代理"><span class="toc-text">4、使用事件代理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5、使用-proxy-指定上下文"><span class="toc-text">5、使用$.proxy()指定上下文</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-10" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">jQuery学习笔记2：性能和技巧</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2017.02.02</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>feng</span>
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/技术/">技术</a>
+  </span>
+
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <h2 id="1、选择器的选用"><a href="#1、选择器的选用" class="headerlink" title="1、选择器的选用"></a>1、选择器的选用</h2><p>尽量使用<code>$(&quot;#id&quot;)</code>，会调用js底层的<code>document.getElementById()</code>方法，速度最快。</p>
+<p>其次使用标签选择器<code>$(&quot;p&quot;)</code>，速度也很快。</p>
+<p>接下来是<code>$(&quot;.class&quot;)</code>，再后是<code>$(&quot;:hidden&quot;)</code>。</p>
+<p>后者性能很低，最好用<code>$(&quot;#content&quot;).find(&quot;:hidden&quot;)</code>或是<code>$(&quot;a.button&quot;).filter(&quot;:animated&quot;)</code>来代替。</p>
+<hr>
+<h2 id="2、尽量缓存对象"><a href="#2、尽量缓存对象" class="headerlink" title="2、尽量缓存对象"></a>2、尽量缓存对象</h2><p><strong>原则：重复出现的元素用变量缓存下来，防止jQuery创建多个对象占用内存</strong>。</p>
+<hr>
+<h2 id="3、不要在循环内操作DOM或者其他耗时操作"><a href="#3、不要在循环内操作DOM或者其他耗时操作" class="headerlink" title="3、不要在循环内操作DOM或者其他耗时操作"></a>3、不要在循环内操作DOM或者其他耗时操作</h2><p>错误例子如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">for(var i = 0; i &lt; 100; i++)&#123;</span><br><span class="line">    $list = $(&quot;#list&quot;);</span><br><span class="line">    $list.append(&quot;&lt;li&gt;&quot; + i + &quot;&lt;/li&gt;&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上面代码段有两处地方欠妥：在循环中查找元素，在循环中操作DOM。</p>
+<hr>
+<h2 id="4、使用事件代理"><a href="#4、使用事件代理" class="headerlink" title="4、使用事件代理"></a>4、使用事件代理</h2><p>每个js事件都会冒泡到父级节点，当给多个元素元素调用同一个函数时，可以对父对象进行事件绑定。</p>
+<p>例如，给table中的td绑定点击背景变红事件时，可以这样写。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$(&quot;#table&quot;).click(function(e)&#123;</span><br><span class="line">    var $clicked = $(e.target);</span><br><span class="line">    $clicked.css(&quot;background&quot;, &quot;red&quot;);</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="5、使用-proxy-指定上下文"><a href="#5、使用-proxy-指定上下文" class="headerlink" title="5、使用$.proxy()指定上下文"></a>5、使用$.proxy()指定上下文</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$(&quot;#panel&quot;).fadeIn(function()&#123;</span><br><span class="line">    $(&quot;#panel button&quot;).click($.proxy(function()&#123;</span><br><span class="line">        $(this).fadeOut();</span><br><span class="line">    &#125;, this));</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>click触发后panel消失。</p>
+
+    
+  </div>
+
+  
+      <div class="git"></div>
+  
+
+</article>
+
+
+   
+  <div class="text-center donation">
+    <div class="inner-donation">
+      <span class="btn-donation">我要拍砖</span>
+      <div class="donation-body">
+        <div class="tip text-center">扫一扫，打爆博主的狗头</div>
+        <ul>
+        
+          <li class="item">
+            <span></span>
+            <img src="/images/qr-qq.png" alt="">
+          </li>
+        
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2017/02/02/11/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2017/02/05/12/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+    
+
+    
+    
+
+    
+
+    
+    
+
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script>
+    <div id="comment" class="vcomment" ></div>
+    <script>
+        var notify = 'false' == true ? true : false;
+        var verify = 'false' == true ? true : false;
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+            return GUEST_INFO.indexOf(item) > -1
+        });
+        guest_info = guest_info.length == 0 ? GUEST_INFO :guest_info;
+        window.valine = new Valine({
+            el: '.vcomment',
+            notify: notify,
+            verify: verify,
+            appId: "J9z6ka2wUFUVUCWYSq5VJ9za-gzGzoHsz",
+            appKey: "BLKCG6iPjTGHoSrRA0CdSDj6",
+            avatar:'mm',
+            placeholder: "说点什么吧，虽然你也看不懂~",
+            guest_info:guest_info,
+            pageSize:'10'
+        });
+    </script>
+  
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

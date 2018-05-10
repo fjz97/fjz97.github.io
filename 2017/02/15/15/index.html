@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>《Java SE 8 for the really impatient》第二章习题笔记 | 冯京哲的狗窝</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="java," />
+  
+
+  <meta name="description" content="3. 1234567891011121314151617         long startTime = System.nanoTime();long countNotParallel = words.stream().count();long endTime = System.nanoTime();long time = endTime-startTime;System.out.println">
+<meta name="keywords" content="java">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《Java SE 8 for the really impatient》第二章习题笔记">
+<meta property="og:url" content="http://www.fengjingzhe.com/2017/02/15/15/index.html">
+<meta property="og:site_name" content="冯京哲的狗窝">
+<meta property="og:description" content="3. 1234567891011121314151617         long startTime = System.nanoTime();long countNotParallel = words.stream().count();long endTime = System.nanoTime();long time = endTime-startTime;System.out.println">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-05-09T13:26:40.272Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="《Java SE 8 for the really impatient》第二章习题笔记">
+<meta name="twitter:description" content="3. 1234567891011121314151617         long startTime = System.nanoTime();long countNotParallel = words.stream().count();long endTime = System.nanoTime();long time = endTime-startTime;System.out.println">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbe6" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?57e94d016e201fba3603a8a2b0263af0";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+
+  
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">导航</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">导航</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-15" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">《Java SE 8 for the really impatient》第二章习题笔记</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2017.02.15</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>feng</span>
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/技术/">技术</a>
+  </span>
+
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <p>3.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">         long startTime = System.nanoTime();</span><br><span class="line">long countNotParallel = words.stream().count();</span><br><span class="line">long endTime = System.nanoTime();</span><br><span class="line">long time = endTime-startTime;</span><br><span class="line">System.out.println(&quot;stream方法：&quot; + time + &quot; 统计单词数为：&quot; + countNotParallel);</span><br><span class="line"></span><br><span class="line">startTime = System.nanoTime();</span><br><span class="line">long countParallel = words.parallelStream().count();</span><br><span class="line">endTime = System.nanoTime();</span><br><span class="line">time = endTime - startTime;</span><br><span class="line">System.out.println(&quot;streamParallel方法：&quot; + time + &quot; 统计单词数为：&quot; + countParallel);</span><br><span class="line"></span><br><span class="line">startTime = System.nanoTime();</span><br><span class="line">words.parallelStream();</span><br><span class="line">endTime = System.nanoTime();</span><br><span class="line">time = endTime - startTime;</span><br><span class="line">System.out.println(&quot;stream生成耗时：&quot; + time);</span><br></pre></td></tr></table></figure>
+<p>顺便做了个stream生成耗时测试，运行结果可以看出stream是延时操作，只有当聚合方法被调用才会被执行。</p>
+<hr>
+<p>6.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">public static void main(String[] args) &#123;</span><br><span class="line">	String string = &quot;feng jing zhe da shuai b&quot;;</span><br><span class="line">	characterStream(string).filter(c -&gt; c != &apos; &apos;).forEach(System.out::print);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public static Stream&lt;Character&gt; characterStream(String s) &#123;</span><br><span class="line">	return Stream.iterate(0, n-&gt;n+=1).limit(s.length()).map(s::charAt);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>注意这里是对象的方法引用。</p>
+<hr>
+<p>9.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">public static void main(String[] args) &#123;</span><br><span class="line">	String string = &quot;feng jing zhe&quot;;</span><br><span class="line">	ArrayList&lt;String&gt; stringList = new ArrayList&lt;String&gt;(Arrays.asList(string.split(&quot; &quot;)));</span><br><span class="line">	Stream&lt;ArrayList&lt;String&gt;&gt; stream = Stream.of(stringList, stringList, stringList, stringList);</span><br><span class="line">	ArrayList&lt;String&gt; concatList = concat(stream);</span><br><span class="line">	concatList.forEach(System.out::print);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public static &lt;T&gt; ArrayList&lt;T&gt; concat(Stream&lt;ArrayList&lt;T&gt;&gt; stream) &#123;</span><br><span class="line">	Optional&lt;ArrayList&lt;T&gt;&gt; optional = stream.reduce(Test::arrayListConcat);</span><br><span class="line">	return optional.get();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public static &lt;T&gt; ArrayList&lt;T&gt; arrayListConcat(ArrayList&lt;T&gt; prev, ArrayList&lt;T&gt; next) &#123;</span><br><span class="line">	ArrayList&lt;T&gt; temp = (ArrayList&lt;T&gt;) prev.clone();</span><br><span class="line">	temp.addAll(next);</span><br><span class="line">	return temp;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>注意reduce（聚合）和collect（收集）的区别，就是让Stream&lt;ArrayList<t>&gt;转换成ArrayList<t>和ArrayList&lt;ArrayList<t>&gt;的区别。</t></t></t></p>
+<hr>
+<p>12.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">String content = new String(Files.readAllBytes(Paths.get(</span><br><span class="line">		&quot;C:/Users/Administrator/Desktop/WarAndPeace.txt&quot;)), &quot;UTF-8&quot;);</span><br><span class="line">List&lt;String&gt; words = Arrays.asList(content.split(&quot;[\\P&#123;L&#125;]+&quot;));</span><br><span class="line">Stream&lt;String&gt; stream = words.stream();</span><br><span class="line">AtomicInteger[] wordLengthNum = new AtomicInteger[5];</span><br><span class="line">for (int i = 0; i &lt; wordLengthNum.length; i++) &#123;</span><br><span class="line">	AtomicInteger atomicInteger = new AtomicInteger(0);</span><br><span class="line">	wordLengthNum[i] = atomicInteger;</span><br><span class="line">&#125;</span><br><span class="line">stream.parallel().forEach(s-&gt;&#123;</span><br><span class="line">	if (s.length() &lt;= 5) &#123;</span><br><span class="line">		wordLengthNum[s.length()-1].incrementAndGet();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;);</span><br><span class="line">for (AtomicInteger atomicInteger : wordLengthNum) &#123;</span><br><span class="line">	System.out.println(atomicInteger);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<p>13.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Map&lt;Integer, Long&gt; result = stream.collect(Collectors.groupingBy(String::length, Collectors.counting()));</span><br></pre></td></tr></table></figure>
+    
+  </div>
+
+  
+      <div class="git"></div>
+  
+
+</article>
+
+
+   
+  <div class="text-center donation">
+    <div class="inner-donation">
+      <span class="btn-donation">我要拍砖</span>
+      <div class="donation-body">
+        <div class="tip text-center">扫一扫，打爆博主的狗头</div>
+        <ul>
+        
+          <li class="item">
+            <span></span>
+            <img src="/images/qr-qq.png" alt="">
+          </li>
+        
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2017/02/10/14/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2017/02/20/16/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+    
+
+    
+    
+
+    
+
+    
+    
+
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script>
+    <div id="comment" class="vcomment" ></div>
+    <script>
+        var notify = 'false' == true ? true : false;
+        var verify = 'false' == true ? true : false;
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+            return GUEST_INFO.indexOf(item) > -1
+        });
+        guest_info = guest_info.length == 0 ? GUEST_INFO :guest_info;
+        window.valine = new Valine({
+            el: '.vcomment',
+            notify: notify,
+            verify: verify,
+            appId: "J9z6ka2wUFUVUCWYSq5VJ9za-gzGzoHsz",
+            appKey: "BLKCG6iPjTGHoSrRA0CdSDj6",
+            avatar:'mm',
+            placeholder: "说点什么吧，虽然你也看不懂~",
+            guest_info:guest_info,
+            pageSize:'10'
+        });
+    </script>
+  
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>
