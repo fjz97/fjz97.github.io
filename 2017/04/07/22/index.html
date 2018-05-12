@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>RecyclerView学习笔记 | 冯京哲的狗窝</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="android," />
+  
+
+  <meta name="description" content="以前在做app时，我习惯使用ListView、GridView等控件来实现列表、网格展示数据的效果。今天研究b站客户端源码的时候，稍微了解了一下RecyclerView控件，它可以用来替代以往的ListView和GridView，并且对上拉刷新和下拉加载功能有很方便的回调，此外添加删除操作也有特殊的动效，而且结合前面所学的Design Library，CoordinatorLayout对它有很好的">
+<meta name="keywords" content="android">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RecyclerView学习笔记">
+<meta property="og:url" content="http://www.fengjingzhe.com/2017/04/07/22/index.html">
+<meta property="og:site_name" content="冯京哲的狗窝">
+<meta property="og:description" content="以前在做app时，我习惯使用ListView、GridView等控件来实现列表、网格展示数据的效果。今天研究b站客户端源码的时候，稍微了解了一下RecyclerView控件，它可以用来替代以往的ListView和GridView，并且对上拉刷新和下拉加载功能有很方便的回调，此外添加删除操作也有特殊的动效，而且结合前面所学的Design Library，CoordinatorLayout对它有很好的">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://www.fengjingzhe.com/images/22/recyclerview.gif">
+<meta property="og:image" content="http://www.fengjingzhe.com/images/22/recyclerview_gridview.gif">
+<meta property="og:image" content="http://www.fengjingzhe.com/images/22/click.png">
+<meta property="og:image" content="http://www.fengjingzhe.com/images/22/remove.gif">
+<meta property="og:image" content="http://www.fengjingzhe.com/images/22/insert.gif">
+<meta property="og:image" content="http://www.fengjingzhe.com/images/22/pull.gif">
+<meta property="og:image" content="http://www.fengjingzhe.com/images/22/pull_footer.gif">
+<meta property="og:updated_time" content="2018-05-12T06:38:09.155Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="RecyclerView学习笔记">
+<meta name="twitter:description" content="以前在做app时，我习惯使用ListView、GridView等控件来实现列表、网格展示数据的效果。今天研究b站客户端源码的时候，稍微了解了一下RecyclerView控件，它可以用来替代以往的ListView和GridView，并且对上拉刷新和下拉加载功能有很方便的回调，此外添加删除操作也有特殊的动效，而且结合前面所学的Design Library，CoordinatorLayout对它有很好的">
+<meta name="twitter:image" content="http://www.fengjingzhe.com/images/22/recyclerview.gif">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbe6" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?57e94d016e201fba3603a8a2b0263af0";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+
+  
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">导航</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">导航</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-基本使用"><span class="toc-text">1.基本使用</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-点击事件监听"><span class="toc-text">2.点击事件监听</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-添加-删除item"><span class="toc-text">3.添加/删除item</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-上拉刷新"><span class="toc-text">4.上拉刷新</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-下拉加载"><span class="toc-text">5.下拉加载</span></a></li></ol></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-22" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">RecyclerView学习笔记</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2017.04.07</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>feng</span>
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/技术/">技术</a>
+  </span>
+
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <p>以前在做app时，我习惯使用ListView、GridView等控件来实现列表、网格展示数据的效果。今天研究b站客户端源码的时候，稍微了解了一下RecyclerView控件，它可以用来替代以往的ListView和GridView，并且对上拉刷新和下拉加载功能有很方便的回调，此外添加删除操作也有特殊的动效，而且结合前面所学的Design Library，CoordinatorLayout对它有很好的支持，看来很值得学习一下它。</p>
+<p>学习参考：<a href="https://blog.csdn.net/developer_jiangqq/article/details/49927631" target="_blank" rel="noopener">【FastDev4Android框架开发】RecyclerView完全解析,让你从此爱上它(二十八)</a></p>
+<p><a href="https://blog.csdn.net/developer_jiangqq/article/details/49992269" target="_blank" rel="noopener">【FastDev4Android框架开发】RecyclerView完全解析之下拉刷新与上拉加载SwipeRefreshLayout(三十一)</a></p>
+<hr>
+<h1 id="1-基本使用"><a href="#1-基本使用" class="headerlink" title="1.基本使用"></a>1.基本使用</h1><p>引入RecyclerView后，设置LayoutManager和Adapter就可以使用了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);</span><br><span class="line">LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());</span><br><span class="line">linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);</span><br><span class="line">recyclerView.setLayoutManager(linearLayoutManager);</span><br><span class="line">recyclerView.setAdapter(new RecyclerViewAdapter(this.getContext()));</span><br></pre></td></tr></table></figure>
+<p>Adapter的设置和ListView不太一样。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">//Adapter必须继承自RecyclerView.Adapter，MyViewHolder必须继承自RecyclerView.ViewHolder</span><br><span class="line">public class RecyclerViewAdapter extends RecyclerView.Adapter&lt;RecyclerViewAdapter.MyViewHolder&gt; &#123;</span><br><span class="line">    public RecyclerViewAdapter(Context context) &#123;</span><br><span class="line">        titles = new String[20];</span><br><span class="line">        mInflater = LayoutInflater.from(context);</span><br><span class="line">        for (int i = 0; i &lt; 20; i++) &#123;</span><br><span class="line">            titles[i] = &quot;item&quot; + i;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) &#123;</span><br><span class="line">        View view = mInflater.inflate(R.layout.item_recycler, parent, false);</span><br><span class="line">        MyViewHolder viewHolder = new MyViewHolder(view);</span><br><span class="line">        return viewHolder;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void onBindViewHolder(MyViewHolder holder, int position) &#123;</span><br><span class="line">        holder.textView.setText(titles[position]);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public int getItemCount() &#123;</span><br><span class="line">        return titles.length;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public class MyViewHolder extends RecyclerView.ViewHolder &#123;</span><br><span class="line">        TextView textView;</span><br><span class="line">        public MyViewHolder(View view) &#123;</span><br><span class="line">            super(view);</span><br><span class="line">            textView = (TextView) view.findViewById(R.id.text_view);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private String[] titles;</span><br><span class="line">    private LayoutInflater mInflater;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里不做太多的解释，仿照着写就可以，值得注意的地方是泛型中的ViewHolder类型必须与onCreateViewHolder的返回类型保持一致。可以看出Google官方对ViewHolder的使用官方化了，正好以前看不懂，这下我也不用管它的内部实现了233。</p>
+<p><img src="/images/22/recyclerview.gif" width="30%" height="30%"></p>
+<p>和ListView没什么区别~通过改变LayoutManager的设置，我们还可以实现GridView的效果。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">GridLayoutManager girdLayoutManager=new GridLayoutManager(getContext(),4);  </span><br><span class="line">recyclerView.setLayoutManager(girdLayoutManager);</span><br></pre></td></tr></table></figure>
+<p><img src="/images/22/recyclerview_gridview.gif" width="30%" height="30%"></p>
+<h2 id="2-点击事件监听"><a href="#2-点击事件监听" class="headerlink" title="2.点击事件监听"></a>2.点击事件监听</h2><p>遗憾的是，RecyclerView并没有给我们提供点击事件的回调，我们需要自己实现回调的监听。</p>
+<p>具体的思路就是在Adapter内添加一个监听点击事件的接口，开放一个set方法让外部重写这个函数式接口，在onBindViewHolder方法中获取到View对每个View添加OnClickListener，在里面调用接口的方法。</p>
+<p>//接口</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public interface OnRecyclerItemClickListener &#123;</span><br><span class="line">    void onItemClick(View view, int position);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>//onBindViewHolder </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">public void onBindViewHolder(MyViewHolder holder, int position) &#123;</span><br><span class="line">    holder.textView.setText(titles[position]);</span><br><span class="line">    if (onRecyclerItemClickListener != null)</span><br><span class="line">        holder.itemView.setOnClickListener(v-&gt;onRecyclerItemClickListener.onItemClick(v, position));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>//外部调用 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">adapter.setOnItemClickListener((v, position) -&gt;</span><br><span class="line">    Snackbar.make(v, position + &quot;&quot;, Snackbar.LENGTH_SHORT).show());</span><br></pre></td></tr></table></figure>
+<p><img src="/images/22/click.png" alt="click"></p>
+<h2 id="3-添加-删除item"><a href="#3-添加-删除item" class="headerlink" title="3.添加/删除item"></a>3.添加/删除item</h2><p>回想使用Listview的时候，我们对适配器内数据进行更改以后，使用notifyDatasetChange方法来刷新界面，在RecyclerView中，我们也可以使用notifyDatasetChange方法来刷新界面，但在这里，我们尝试使用更加高级的notifyItemInserted(position)和notifyItemDeleted(position)方法，这两个方法可以在任何位置添加或删除元素，并提供了动画效果。</p>
+<p>先看个简单的删除例子</p>
+<p>//main</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">adapter.setOnItemClickListener((v, position) -&gt;</span><br><span class="line">    adapter.deleteItem(position));</span><br></pre></td></tr></table></figure>
+<p>//Adapter </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">public void deleteItem(int position) &#123;</span><br><span class="line">    titles.remove(position);</span><br><span class="line">    notifyItemRemoved(position);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>//onBindViewHolder</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">holder.itemView.setOnClickListener( v -&gt; &#123;</span><br><span class="line">    int pos = holder.getLayoutPosition();</span><br><span class="line">    onRecyclerItemClickListener.onItemClick(v, pos);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>在进行了添加删除操作后，由于Adapter更新不及时，position值就不一定准确了，所以应该使用ViewHolder.getLayoutPosition方法得到正确的pos值。（坑爹）</p>
+<p><img src="/images/22/remove.gif" width="30%" height="30%"></p>
+<p>添加操作我们放到上拉刷新里一起说。</p>
+<h2 id="4-上拉刷新"><a href="#4-上拉刷新" class="headerlink" title="4.上拉刷新"></a>4.上拉刷新</h2><p>上拉刷新效果非常简单，只需要在RecyclerView外层嵌套一层SwipeRefreshLayout，然后在java代码中获取到它进行设置就行了。在我们完成刷新后记得要调用setRefreshing(false)使刷新动画结束。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">SwipeRefreshLayout swipeRefreshLayout findViewById(R.id.swipe_refresh_layout);</span><br><span class="line">      swipeRefreshLayout.setOnRefreshListener(() -&gt; &#123;</span><br><span class="line">          for (int i = 0; i &lt; 5; i++) &#123;</span><br><span class="line">              adapter.addItem(&quot;new item&quot; + i, 0);</span><br><span class="line">          &#125;</span><br><span class="line">          swipeRefreshLayout.setRefreshing(false);</span><br><span class="line">      &#125;);</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">public void addItem(String title, int position) &#123;</span><br><span class="line">       titles.add(position, title);</span><br><span class="line">       notifyItemInserted(position);</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<p><img src="/images/22/insert.gif" width="30%" height="30%"></p>
+<h2 id="5-下拉加载"><a href="#5-下拉加载" class="headerlink" title="5.下拉加载"></a>5.下拉加载</h2><p>下拉刷新效果则是设置RecyclerView.setOnScrollListener，这里用到了LayoutManager.findLastVisibleItemPosition方法。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() &#123;</span><br><span class="line">    private boolean isDown;</span><br><span class="line">    private int lastVisibleItem;</span><br><span class="line">    @Override</span><br><span class="line">    public void onScrollStateChanged(RecyclerView recyclerView, int newState) &#123;</span><br><span class="line">        super.onScrollStateChanged(recyclerView, newState);</span><br><span class="line">        if (newState == RecyclerView.SCROLL_STATE_IDLE &amp;&amp; adapter.getItemCount() == lastVisibleItem + 1 &amp;&amp; isDown) &#123;</span><br><span class="line">            new Handler().postDelayed(()-&gt; &#123;</span><br><span class="line">                List&lt;String&gt; newTitles = new ArrayList&lt;&gt;();</span><br><span class="line">                for (int i = 0; i &lt; 5; i++) &#123;</span><br><span class="line">                    newTitles.add(&quot;new item&quot; + i);</span><br><span class="line">                &#125;</span><br><span class="line">                adapter.addMoreItem(newTitles);</span><br><span class="line">            &#125;, 2000);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void onScrolled(RecyclerView recyclerView, int dx, int dy) &#123;</span><br><span class="line">        super.onScrolled(recyclerView, dx, dy);</span><br><span class="line">        if (dy &gt; 0) &#123;</span><br><span class="line">            isDown = true;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            isDown = false;</span><br><span class="line">        &#125;</span><br><span class="line">        lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>和上拉刷新一样，这样写并没有让新增的数据显示出来，用户甚至不知道自己进行了刷新操作。</p>
+<p><img src="/images/22/pull.gif" width="30%" height="30%"></p>
+<p>观察RecyclerView.Adapter.onCreateViewHolder方法，第二个参数是viewType，再看RecyclerView.Adapter的可重载方法，我们发现了getItemViewType方法，实际上在调用onCreateViewHolder方法前，会调用getItemViewType方法确定View的种类，onCreateViewHolder方法第二个参数是viewType就是这个方法的返回值。如果我们不重写这个方法，它会默认返回0。我们可以通过重写这个方法控制onCreateViewHolder方法生成不同的View。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">public int getItemCount() &#123;</span><br><span class="line">    return titles.size() + 1;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">public int getItemViewType(int position) &#123;</span><br><span class="line">    if (position + 1 == getItemCount()) &#123;</span><br><span class="line">        return TYPE_FOOTER;</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        return TYPE_ITEM;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) &#123;</span><br><span class="line">    if (viewType == TYPE_ITEM) &#123;</span><br><span class="line">        View view = mInflater.inflate(R.layout.item_recycler, parent, false);</span><br><span class="line">        return new MyViewHolder(view);</span><br><span class="line">    &#125; else if (viewType == TYPE_FOOTER) &#123;</span><br><span class="line">        View view = mInflater.inflate(R.layout.item_footer, parent, false);</span><br><span class="line">       return new FooterViewHolder(view);</span><br><span class="line">    &#125;</span><br><span class="line">    return null;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当item为最后一个元素的时候，我们返回TYPE_FOOTER，生成footer view给用户提示数据正在加载。注意，当item过少而不满一页时，我们需要隐藏footer view。</p>
+<p><img src="/images/22/pull_footer.gif" width="30%" height="30%"></p>
+
+    
+  </div>
+
+  
+      <div class="git"></div>
+  
+
+</article>
+
+
+   
+  <div class="text-center donation">
+    <div class="inner-donation">
+      <span class="btn-donation">我要拍砖</span>
+      <div class="donation-body">
+        <div class="tip text-center">扫一扫，打爆博主的狗头</div>
+        <ul>
+        
+          <li class="item">
+            <span></span>
+            <img src="/images/qr-qq.png" alt="">
+          </li>
+        
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2017/04/04/21/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2017/04/15/23/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+    
+
+    
+    
+
+    
+
+    
+    
+
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script>
+    <div id="comment" class="vcomment" ></div>
+    <script>
+        var notify = 'false' == true ? true : false;
+        var verify = 'false' == true ? true : false;
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+            return GUEST_INFO.indexOf(item) > -1
+        });
+        guest_info = guest_info.length == 0 ? GUEST_INFO :guest_info;
+        window.valine = new Valine({
+            el: '.vcomment',
+            notify: notify,
+            verify: verify,
+            appId: "J9z6ka2wUFUVUCWYSq5VJ9za-gzGzoHsz",
+            appKey: "BLKCG6iPjTGHoSrRA0CdSDj6",
+            avatar:'mm',
+            placeholder: "说点什么吧，虽然你也看不懂~",
+            guest_info:guest_info,
+            pageSize:'10'
+        });
+    </script>
+  
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>
