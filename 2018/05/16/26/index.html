@@ -23,12 +23,12 @@
 <meta property="og:site_name" content="冯京哲的狗窝">
 <meta property="og:description" content="起因Android7.0为了进一步加强私有文件的安全性，不再由开发者放宽私有文件的访问权限，这就意味着我们在代码中不能再随心所欲地操纵一些文件。 昨天在做更新app并打开安装包的时候，就报了FileUriExposedException 异常。经过百度，找到了解决的办法——使用FileProvider，参考文章在这里。照着文章使用了FileProvider后，却出现了解析程序包时出现问题。  查看">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://www.fengjingzhe.com/2018/05/16/26/images/26/problem.png">
-<meta property="og:updated_time" content="2018-05-16T13:18:07.349Z">
+<meta property="og:image" content="http://www.fengjingzhe.com/images/26/problem.png">
+<meta property="og:updated_time" content="2018-05-16T13:27:47.960Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="java File返回什么路径">
 <meta name="twitter:description" content="起因Android7.0为了进一步加强私有文件的安全性，不再由开发者放宽私有文件的访问权限，这就意味着我们在代码中不能再随心所欲地操纵一些文件。 昨天在做更新app并打开安装包的时候，就报了FileUriExposedException 异常。经过百度，找到了解决的办法——使用FileProvider，参考文章在这里。照着文章使用了FileProvider后，却出现了解析程序包时出现问题。  查看">
-<meta name="twitter:image" content="http://www.fengjingzhe.com/2018/05/16/26/images/26/problem.png">
+<meta name="twitter:image" content="http://www.fengjingzhe.com/images/26/problem.png">
 
   
 
@@ -202,7 +202,7 @@
     
       <h1 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h1><p>Android7.0为了进一步加强私有文件的安全性，不再由开发者放宽私有文件的访问权限，这就意味着我们在代码中不能再随心所欲地操纵一些文件。</p>
 <p>昨天在做更新app并打开安装包的时候，就报了FileUriExposedException 异常。经过百度，找到了解决的办法——使用FileProvider，<a href="https://www.jianshu.com/p/3f9e3fc38eae" target="_blank" rel="noopener">参考文章在这里</a>。照着文章使用了FileProvider后，却出现了解析程序包时出现问题。</p>
-<p><img src="images/26/problem.png" alt="解析程序包时出现问题"></p>
+<p><img src="/images/26/problem.png" alt="解析程序包时出现问题"></p>
 <p>查看log发现了如下的warning：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Error staging apk from content URI: content://com.fengjingzhe.fightpicture.fileprovider/download/file%3A/storage/emulated/0/Android/data/com.fengjingzhe.fightpicture/files/Download/fightpicture-1.1.2.apk</span><br><span class="line">                                                     java.io.FileNotFoundException: No such file or directory</span><br></pre></td></tr></table></figure>
 <p>也就是说，uri出了错误，系统找不到apk文件了。我赶紧查看生成uri的代码。</p>
