@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>java File返回什么路径 | 冯京哲的狗窝</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="java," />
+  
+
+  <meta name="description" content="起因Android7.0为了进一步加强私有文件的安全性，不再由开发者放宽私有文件的访问权限，这就意味着我们在代码中不能再随心所欲地操纵一些文件。 昨天在做更新app并打开安装包的时候，就报了FileUriExposedException 异常。经过百度，找到了解决的办法——使用FileProvider，参考文章在这里。照着文章使用了FileProvider后，却出现了解析程序包时出现问题。  查看">
+<meta name="keywords" content="java">
+<meta property="og:type" content="article">
+<meta property="og:title" content="java File返回什么路径">
+<meta property="og:url" content="http://www.fengjingzhe.com/2018/05/16/26/index.html">
+<meta property="og:site_name" content="冯京哲的狗窝">
+<meta property="og:description" content="起因Android7.0为了进一步加强私有文件的安全性，不再由开发者放宽私有文件的访问权限，这就意味着我们在代码中不能再随心所欲地操纵一些文件。 昨天在做更新app并打开安装包的时候，就报了FileUriExposedException 异常。经过百度，找到了解决的办法——使用FileProvider，参考文章在这里。照着文章使用了FileProvider后，却出现了解析程序包时出现问题。  查看">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://www.fengjingzhe.com/2018/05/16/26/images/26/problem.png">
+<meta property="og:updated_time" content="2018-05-16T13:18:07.349Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="java File返回什么路径">
+<meta name="twitter:description" content="起因Android7.0为了进一步加强私有文件的安全性，不再由开发者放宽私有文件的访问权限，这就意味着我们在代码中不能再随心所欲地操纵一些文件。 昨天在做更新app并打开安装包的时候，就报了FileUriExposedException 异常。经过百度，找到了解决的办法——使用FileProvider，参考文章在这里。照着文章使用了FileProvider后，却出现了解析程序包时出现问题。  查看">
+<meta name="twitter:image" content="http://www.fengjingzhe.com/2018/05/16/26/images/26/problem.png">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbe6" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?57e94d016e201fba3603a8a2b0263af0";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+
+  
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">导航</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">导航</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#起因"><span class="toc-text">起因</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#解决"><span class="toc-text">解决</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-26" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">java File返回什么路径</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2018.05.16</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>feng</span>
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/技术/">技术</a>
+  </span>
+
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <h1 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h1><p>Android7.0为了进一步加强私有文件的安全性，不再由开发者放宽私有文件的访问权限，这就意味着我们在代码中不能再随心所欲地操纵一些文件。</p>
+<p>昨天在做更新app并打开安装包的时候，就报了FileUriExposedException 异常。经过百度，找到了解决的办法——使用FileProvider，<a href="https://www.jianshu.com/p/3f9e3fc38eae" target="_blank" rel="noopener">参考文章在这里</a>。照着文章使用了FileProvider后，却出现了解析程序包时出现问题。</p>
+<p><img src="images/26/problem.png" alt="解析程序包时出现问题"></p>
+<p>查看log发现了如下的warning：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Error staging apk from content URI: content://com.fengjingzhe.fightpicture.fileprovider/download/file%3A/storage/emulated/0/Android/data/com.fengjingzhe.fightpicture/files/Download/fightpicture-1.1.2.apk</span><br><span class="line">                                                     java.io.FileNotFoundException: No such file or directory</span><br></pre></td></tr></table></figure>
+<p>也就是说，uri出了错误，系统找不到apk文件了。我赶紧查看生成uri的代码。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Uri apkUri = FileProvider.getUriForFile(MainActivity.this, &quot;com.fengjingzhe.fightpicture.fileprovider&quot;, file);</span><br></pre></td></tr></table></figure>
+<p>这个uri是通过官方的api生成的，网上也都是使用了这个方法，理应不会有错猜对啊！！！真是百思不得其解！！！</p>
+<p>反复观察了这个生成的uri，我猜测问题出在了中间的<code>file%3A</code>上。抱着试一试的心态，我自己拼接了一下uri：</p>
+<p><code>content://com.fengjingzhe.fightpicture.fileprovider/download/storage/emulated/0/Android/data/com.fengjingzhe.fightpicture/files/Download/fightpicture-1.1.2.apk</code></p>
+<p>运行程序，居然成功了！成功打开了这个apk，进入安装界面。</p>
+<p>那么为什么官方的api生成的uri出错了呢？我深入FileProvider源码仔细查看，看了大半个晚上，仍然没有找出猫腻，只能悻悻然会宿舍了。</p>
+<h1 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h1><p>时间回到今天，我在测试<code>File.getAbsolutePath()</code>和<code>File.getPath()</code>两个方法返回的路径究竟有什么区别的时候，为了省事，直接在项目中找现成的File类进行测试，其中就包括了这个下载好的apk。这时，意料之外的情况发生了。我发现，不同的两个文件，就算是同一个<code>getPath()</code>方法，居然返回的路径格式大相径庭。比如，这个apk文件返回了这样一个路径：</p>
+<p><code>file:/storage/emulated/0/Android/data/com.fengjingzhe.fightpicture/files/Download/fightpicture-1.1.2.apk</code></p>
+<p>而一张图片文件返回了这样一个路径：</p>
+<p><code>/storage/emulated/0/fightpicture/1526470886506.jpg</code></p>
+<p>抱着疑问，我打开了File的源码，这里贴出关键部分：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">   public File(String pathname) &#123;</span><br><span class="line">       if (pathname == null) &#123;</span><br><span class="line">           throw new NullPointerException();</span><br><span class="line">       &#125;</span><br><span class="line">       //nomalize方法去除了头尾多余的斜杠</span><br><span class="line">       this.path = fs.normalize(pathname);</span><br><span class="line">       this.prefixLength = fs.prefixLength(this.path);</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">public String getPath() &#123;</span><br><span class="line">       return path;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<p>也就是说，你的构造方法传什么样的路径，getPath()方法就会返回给你什么样的路径，而构造方法恰恰接受file:///和/开头的两种类型路径。</p>
+<p>回到getUriForFile方法上来，之所以返回的uri多了一点东西，就是因为我们的apk文件的getPath方法返回的路径多了file:///的前缀。那么，我们在getUriForFile方法中给它传一个/前缀的文件，返回的uri是不是就正常了呢？我们改动代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">File file = new File(Uri.parse(filename).getEncodedPath());</span><br><span class="line">                    Uri apkUri = FileProvider.getUriForFile(MainActivity.this, &quot;com.fengjingzhe.fightpicture.fileprovider&quot;, file);</span><br></pre></td></tr></table></figure>
+<p>果然，成功打开了apk文件，进入了安装界面。问题成功解决了。</p>
+
+    
+  </div>
+
+  
+      <div class="git"></div>
+  
+
+</article>
+
+
+   
+  <div class="text-center donation">
+    <div class="inner-donation">
+      <span class="btn-donation">我要拍砖</span>
+      <div class="donation-body">
+        <div class="tip text-center">扫一扫，打爆博主的狗头</div>
+        <ul>
+        
+          <li class="item">
+            <span></span>
+            <img src="/images/qr-qq.png" alt="">
+          </li>
+        
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2018/04/28/7/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="hide pull-right" href="/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+    
+
+    
+    
+
+    
+
+    
+    
+
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script>
+    <div id="comment" class="vcomment" ></div>
+    <script>
+        var notify = 'false' == true ? true : false;
+        var verify = 'false' == true ? true : false;
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+            return GUEST_INFO.indexOf(item) > -1
+        });
+        guest_info = guest_info.length == 0 ? GUEST_INFO :guest_info;
+        window.valine = new Valine({
+            el: '.vcomment',
+            notify: notify,
+            verify: verify,
+            appId: "J9z6ka2wUFUVUCWYSq5VJ9za-gzGzoHsz",
+            appKey: "BLKCG6iPjTGHoSrRA0CdSDj6",
+            avatar:'mm',
+            placeholder: "说点什么吧，虽然你也看不懂~",
+            guest_info:guest_info,
+            pageSize:'10'
+        });
+    </script>
+  
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>
