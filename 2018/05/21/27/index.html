@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>android自定义Preference | 冯京哲的狗窝</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="android," />
+  
+
+  <meta name="description" content="在写设置时参考了EH，发现使用了Preference类，它帮我们自动实现了ListView，只需要编写一个xml文件就可以实现各种样式的设置项，并自动将设置项保存到SharedPreferences内，非常方便。具体可以参考这篇文章：Android Preference 设置偏好全攻略 这篇文章讲一下如何重写Preference，以实现自定义样式。  在开始前我们需要一个颜色设置选项，可以选择不同">
+<meta name="keywords" content="android">
+<meta property="og:type" content="article">
+<meta property="og:title" content="android自定义Preference">
+<meta property="og:url" content="http://www.fengjingzhe.com/2018/05/21/27/index.html">
+<meta property="og:site_name" content="冯京哲的狗窝">
+<meta property="og:description" content="在写设置时参考了EH，发现使用了Preference类，它帮我们自动实现了ListView，只需要编写一个xml文件就可以实现各种样式的设置项，并自动将设置项保存到SharedPreferences内，非常方便。具体可以参考这篇文章：Android Preference 设置偏好全攻略 这篇文章讲一下如何重写Preference，以实现自定义样式。  在开始前我们需要一个颜色设置选项，可以选择不同">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://www.fengjingzhe.com/images/27/layout.png">
+<meta property="og:image" content="http://www.fengjingzhe.com/images/27/color_preference.png">
+<meta property="og:updated_time" content="2018-05-21T09:52:22.520Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="android自定义Preference">
+<meta name="twitter:description" content="在写设置时参考了EH，发现使用了Preference类，它帮我们自动实现了ListView，只需要编写一个xml文件就可以实现各种样式的设置项，并自动将设置项保存到SharedPreferences内，非常方便。具体可以参考这篇文章：Android Preference 设置偏好全攻略 这篇文章讲一下如何重写Preference，以实现自定义样式。  在开始前我们需要一个颜色设置选项，可以选择不同">
+<meta name="twitter:image" content="http://www.fengjingzhe.com/images/27/layout.png">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbe6" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?57e94d016e201fba3603a8a2b0263af0";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+
+  
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">导航</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">导航</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#在开始前"><span class="toc-text">在开始前</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#实现"><span class="toc-text">实现</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#One-More-Step"><span class="toc-text">One More Step</span></a>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-27" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">android自定义Preference</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2018.05.21</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>feng</span>
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/技术/">技术</a>
+  </span>
+
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <p>在写设置时参考了EH，发现使用了Preference类，它帮我们自动实现了ListView，只需要编写一个xml文件就可以实现各种样式的设置项，并自动将设置项保存到SharedPreferences内，非常方便。具体可以参考这篇文章：<a href="https://www.cnblogs.com/valenhua/archive/2017/10/03/7624640.html" target="_blank" rel="noopener">Android Preference 设置偏好全攻略</a></p>
+<p>这篇文章讲一下如何重写Preference，以实现自定义样式。</p>
+<hr>
+<h2 id="在开始前"><a href="#在开始前" class="headerlink" title="在开始前"></a>在开始前</h2><p>我们需要一个颜色设置选项，可以选择不同的颜色，并把选择的颜色显示在右侧。</p>
+<p>那么理所应当的，我们需要写一个布局文件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span><br><span class="line">&lt;RelativeLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;</span><br><span class="line">                android:layout_width=&quot;match_parent&quot;</span><br><span class="line">                android:layout_height=&quot;60dp&quot;</span><br><span class="line">                android:gravity=&quot;center_vertical&quot; &gt;</span><br><span class="line"></span><br><span class="line">    &lt;TextView</span><br><span class="line">            android:id=&quot;@+id/title&quot;</span><br><span class="line">            android:text=&quot;color&quot;</span><br><span class="line">            android:layout_width=&quot;wrap_content&quot;</span><br><span class="line">            android:layout_height=&quot;wrap_content&quot;</span><br><span class="line">            android:layout_marginLeft=&quot;20dp&quot; /&gt;</span><br><span class="line"></span><br><span class="line">    &lt;ImageView</span><br><span class="line">            android:id=&quot;@+id/color&quot;</span><br><span class="line">            android:layout_width=&quot;20dp&quot;</span><br><span class="line">            android:layout_height=&quot;20dp&quot;</span><br><span class="line">            android:layout_alignParentRight=&quot;true&quot;</span><br><span class="line">            android:layout_alignTop=&quot;@+id/title&quot;</span><br><span class="line">            android:layout_marginRight=&quot;30dp&quot;</span><br><span class="line">            android:background=&quot;@color/colorPrimary&quot; /&gt;</span><br><span class="line"></span><br><span class="line">&lt;/RelativeLayout&gt;</span><br></pre></td></tr></table></figure>
+<p>just like this:</p>
+<p><img src="/images/27/layout.png" alt="layout"></p>
+<h1 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h1><p>接下来重写Preference，我们看到重载方法中有onCreateView，那么显而易见，我们应该在这里inflate我们的布局文件。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">public class ColorPreference extends ListPreference &#123;</span><br><span class="line">	@Override</span><br><span class="line">    protected View onCreateView(ViewGroup parent) &#123;</span><br><span class="line">        super.onCreateView(parent);</span><br><span class="line">        View view = LayoutInflater.from(getContext()).inflate(R.layout.preference_color, parent, false);</span><br><span class="line">        return view;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样，我们就可以在preference的xml文件里使用我们自定义的Preference了：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;com.fengjingzhe.fightpicture.preference.ColorPreference</span><br><span class="line">            android:key=&quot;theme&quot;</span><br><span class="line">            android:entries=&quot;@array/settings_theme_colors&quot;</span><br><span class="line">            android:entryValues=&quot;@array/settings_theme_colors_values&quot;/&gt;</span><br></pre></td></tr></table></figure></p>
+<p>效果如图</p>
+<p><img src="/images/27/color_preference.png" alt="color_preference"></p>
+<h1 id="One-More-Step"><a href="#One-More-Step" class="headerlink" title="One More Step"></a>One More Step</h1><p>虽然我们实现了一个有着自定义View的Preference，但是TextView和ImageView中的内容都被限制了，需要每次到layout中更改，也不能动态设置内容，可重用性很差，我们希望实现的是一个通用的颜色选项，那么就需要做一点修改。</p>
+<p>回想起之前使用fresco的经验，当我们需要给SimpleDraweeView加上一个url或是设置默认图案的时候，我们在xml文档中使用了fresco的自定义属性，那么在这里，我们肯定也能使用自定义属性。</p>
+<p>在attrs.xml中添加我们的自定义属性title和imageColor，分别对应了TextView和ImageView的内容。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span><br><span class="line">&lt;resources&gt;</span><br><span class="line">    &lt;declare-styleable name=&quot;fightpicture&quot;&gt;</span><br><span class="line">        &lt;attr name=&quot;title&quot; format=&quot;string&quot;&gt;&lt;/attr&gt;</span><br><span class="line">        &lt;attr name=&quot;imageColor&quot; format=&quot;string&quot;&gt;&lt;/attr&gt;</span><br><span class="line">    &lt;/declare-styleable&gt;</span><br><span class="line">&lt;/resources&gt;</span><br></pre></td></tr></table></figure>
+<p>接着我们在Preference的xml文档中使用我们的自定义属性：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;com.fengjingzhe.fightpicture.preference.ColorPreference</span><br><span class="line">    android:key=&quot;theme&quot;</span><br><span class="line">    fightpicture:title=&quot;@string/settings_theme_color&quot;</span><br><span class="line">    fightpicture:imageColor=&quot;?attr/colorPrimary&quot;</span><br><span class="line">    android:entries=&quot;@array/settings_theme_colors&quot;</span><br><span class="line">    android:entryValues=&quot;@array/settings_theme_colors_values&quot; /&gt;</span><br></pre></td></tr></table></figure>
+<p>接下来的思路很明确，我们要在自定义的Preference类中获取到这两个属性并设置到TextView和ImageView上。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">public class ColorPreference extends ListPreference &#123;</span><br><span class="line"></span><br><span class="line">    private String title;</span><br><span class="line">    private String color;</span><br><span class="line"></span><br><span class="line">    public ColorPreference(Context context, AttributeSet attrs) &#123;</span><br><span class="line">        this(context, attrs, 0);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public ColorPreference(Context context, AttributeSet attrs, int defStyle) &#123;</span><br><span class="line">        super(context, attrs, defStyle);</span><br><span class="line">        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.fightpicture, defStyle, 0);</span><br><span class="line">        title = a.getString(R.styleable.fightpicture_title);</span><br><span class="line">        color = a.getString(R.styleable.fightpicture_imageColor);</span><br><span class="line">        a.recycle();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    protected View onCreateView(ViewGroup parent) &#123;</span><br><span class="line">        super.onCreateView(parent);</span><br><span class="line">        View view = LayoutInflater.from(getContext()).inflate(R.layout.preference_color, parent, false);</span><br><span class="line">        if (title != null) &#123;</span><br><span class="line">            TextView titleTextView = view.findViewById(R.id.title);</span><br><span class="line">            titleTextView.setText(title);</span><br><span class="line">        &#125;</span><br><span class="line">        if (color != null) &#123;</span><br><span class="line">            ImageView colorImageView = view.findViewById(R.id.color);</span><br><span class="line">            colorImageView.setBackgroundColor(Color.parseColor(color));</span><br><span class="line">        &#125;</span><br><span class="line">        return view;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在构造方法中使用TypedArray可以获取到xml文档中使用的属性，接下来拿到子View并将属性值设置上去就大功告成了！</p>
+<p>再接着回想fresco，我们在给它设置url属性的时候，往往都不是在xml文档中，而是在代码中，也就是说，我们的自定义Preference还得具备动态设置属性的功能，很简单，我们给类添加两个set方法。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">public void setTitle(String title) &#123;</span><br><span class="line">    this.title = title;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public void setColor(String color) &#123;</span><br><span class="line">    this.color = color;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>由于PreferenceFragment的onCreate回调肯定先与Preference的onCreateView回调，我们在PreferenceFragment的onCreate回调中拿到Preference实例并对它设置属性就可以了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ColorPreference theme = (ColorPreference) findPreference(THEME_KEY);</span><br><span class="line">theme.setTitle(title);</span><br><span class="line">theme.setColor(color);</span><br></pre></td></tr></table></figure>
+    
+  </div>
+
+  
+      <div class="git"></div>
+  
+
+</article>
+
+
+   
+  <div class="text-center donation">
+    <div class="inner-donation">
+      <span class="btn-donation">我要拍砖</span>
+      <div class="donation-body">
+        <div class="tip text-center">扫一扫，打爆博主的狗头</div>
+        <ul>
+        
+          <li class="item">
+            <span></span>
+            <img src="/images/qr-qq.png" alt="">
+          </li>
+        
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2018/05/16/26/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="hide pull-right" href="/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+    
+
+    
+    
+
+    
+
+    
+    
+
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script>
+    <div id="comment" class="vcomment" ></div>
+    <script>
+        var notify = 'false' == true ? true : false;
+        var verify = 'false' == true ? true : false;
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+            return GUEST_INFO.indexOf(item) > -1
+        });
+        guest_info = guest_info.length == 0 ? GUEST_INFO :guest_info;
+        window.valine = new Valine({
+            el: '.vcomment',
+            notify: notify,
+            verify: verify,
+            appId: "J9z6ka2wUFUVUCWYSq5VJ9za-gzGzoHsz",
+            appKey: "BLKCG6iPjTGHoSrRA0CdSDj6",
+            avatar:'mm',
+            placeholder: "说点什么吧，虽然你也看不懂~",
+            guest_info:guest_info,
+            pageSize:'10'
+        });
+    </script>
+  
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>
