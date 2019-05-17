@@ -1,0 +1,50 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="description" content="jQuery学习笔记1：要注意的坑"><meta name="keywords" content="jQuery"><meta name="author" content="feng"><meta name="copyright" content="feng"><title>jQuery学习笔记1：要注意的坑 | 冯京哲的狗窝</title><link rel="shortcut icon" href="/melody-favicon.ico"><link rel="stylesheet" href="/css/index.css?version=1.6.1"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css?version=1.6.1"><link rel="dns-prefetch" href="https://cdn.staticfile.org"><link rel="dns-prefetch" href="https://cdn.bootcss.com"><link rel="dns-prefetch" href="https://creativecommons.org"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  }
+} </script></head><body><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i><div id="sidebar"><div class="author-info"><div class="author-info__avatar text-center"><img src="/images/avatar.jpg"></div><div class="author-info__name text-center">feng</div><div class="author-info__description text-center">feng's blog</div><hr><div class="author-info-articles"><a class="author-info-articles__archives article-meta" href="/archives"><span class="pull-left">Articles</span><span class="pull-right">30</span></a><a class="author-info-articles__tags article-meta" href="/tags"><span class="pull-left">Tags</span><span class="pull-right">11</span></a><a class="author-info-articles__categories article-meta" href="/categories"><span class="pull-left">Categories</span><span class="pull-right">3</span></a></div></div></div><div id="content-outer"><div id="top-container" style="background-image: url(https://sotama.cool/picture)"><div id="page-header"><span class="pull-left"> <a id="site-name" href="/">冯京哲的狗窝</a></span><i class="fa fa-bars toggle-menu pull-right" aria-hidden="true"></i><span class="pull-right menus"><a class="site-page" href="/">Home</a><a class="site-page" href="/archives">Archives</a><a class="site-page" href="/tags">Tags</a><a class="site-page" href="/categories">Categories</a></span></div><div id="post-info"><div id="post-title">jQuery学习笔记1：要注意的坑</div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 2017-02-01</time><span class="post-meta__separator">|</span><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/技术/">技术</a></div></div></div><div class="layout" id="content-inner"><article id="post"><div class="article-container" id="post-content"><p>有这么一种情况，在filter方法的:contains过滤器中想要包含字符串变量，那么就需要将该变量用’” +()+ “‘包围起来，你要问我为什么，我也不知道。</p>
+<p><code>$(&quot;table tbody tr&quot;).filter(&quot;:not(:contains(&#39;&quot; + (text) + &quot;&#39;))&quot;).hide();</code></p>
+<hr>
+<p><strong>要注意区分子元素过滤选择器和后代选择器。</strong></p>
+<p><code>$(&quot;ul li:first-child&quot;)</code></p>
+<p><code>$(&quot;ul :fist-child&quot;)</code></p>
+<p>这两个选择在ul下只有li的情况时选择出来的是一样的，同样是第一个li。</p>
+<p>另外一般last-child好像是文本结点。</p>
+<hr>
+<p><strong>要充分注意上下文的变换。</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$(&quot;div&quot;).find(&quot;p&quot;).click(function()&#123;</span><br><span class="line">    $(this).css(&quot;color&quot;, &quot;red&quot;);</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>this已经从所有div切换到了div下的所有p。这个很好注意到，一般不会出错，容易出错的是下面的情况：</p>
+<p><code>$(&quot;ul li&quot;).filter(&quot;:gt(5):lt(8)&quot;);</code></p>
+<p>问：取出来的是ul下的哪几个li？</p>
+<p>这很容易被误以为是index大于5小于8的li，而事实上却是index大于5小于13的li。</p>
+<p>原因就在于:gt(5)已经对li进行了一次筛选，得到的是新的li的集合，也就是说，上下文发生了变换，对新的元素集:lt(8)，那就是index大于5后的8个元素了，这点务必注意！</p>
+<hr>
+<p>toggle（切换）方法有两个含义：</p>
+<p>1.当没有参数时，表示对元素的可见性进行切换，原本可见的切换成不可见，不可见的切换成可见。</p>
+<p>2.当参数为n个函数时，表示对元素连续点击事件进行绑定，第一次点击触发第一个函数，第二次点击触发第二个函数，以此类推，循环执行。</p>
+<hr>
+<p>trigger（触发）方法则是对事件的主动触发。</p>
+<p>首先要知道，</p>
+<p>我们在绑定比如点击事件的时候一般会这么写：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$(&quot;#btn&quot;).click(function()&#123;</span><br><span class="line">    //do sth</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>而本质是做了:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$(&quot;btn&quot;).bind(&quot;click&quot;, function()&#123;</span><br><span class="line">    //do</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>当然，unbind同理就是解除事件绑定。</p>
+<p>知道了这点，我们就可以自定义事件和回调函数，那么问题就是：如何来触发我们的这些自定义事件，这时候就得用trigger方法。</p>
+<p>trigger方法原型：trigger(type, [data])，前一个参数是指事件名称，后一个参数指事件的回调函数参数，要注意的是，</p>
+<p>事件回调函数默认的第一个参数是event，所以如果回调函数没有参数，那一切安好，如果要给回调函数加上参数，第一个必须是event，</p>
+<p>而在trigger方法中传参数的时候，event时不需要我们去传的，我们只要传之后的其他参数就行。</p>
+<p>还有一点就是trigger方法的第二个参数是以数组形式传递，不能与传对象搞混。</p>
+<hr>
+<p>检查jQuery对象是否存在，例如<code>var $elem = $(&quot;#id&quot;);</code></p>
+<p>不能用<code>if($elem)</code>来判断，它会一直返回true。</p>
+<p>可以用<code>if($elem.length)</code>来判断。</p>
+</div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="mailto:undefined">feng</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="http://www.fengjingzhe.com/2017/02/01/jQuery学习笔记1：要注意的坑/">http://www.fengjingzhe.com/2017/02/01/jQuery学习笔记1：要注意的坑/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/jQuery/">jQuery</a></div><nav id="pagination"><div class="prev-post pull-left"><a href="/2017/02/02/jQuery学习笔记3：pagination的优化/"><i class="fa fa-chevron-left">  </i><span>jQuery学习笔记3：pagination的优化</span></a></div><div class="next-post pull-right"><a href="/2017/01/29/总结一下博客实现中的几个关键思路/"><span>总结一下博客实现中的几个关键思路</span><i class="fa fa-chevron-right"></i></a></div></nav></div></div><footer class="footer-bg" style="background-image: url(https://sotama.cool/picture)"><div class="layout" id="footer"><div class="copyright">&copy;2017 - 2019 By feng</div><div class="framework-info"><span>Driven - </span><a href="http://hexo.io"><span>Hexo</span></a><span class="footer-separator">|</span><span>Theme - </span><a href="https://github.com/Molunerfinn/hexo-theme-melody"><span>Melody</span></a></div><div class="busuanzi"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><span id="busuanzi_container_page_pv"><i class="fa fa-file-o"></i><span id="busuanzi_value_page_pv"></span><span></span></span></div></div></footer><i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i><script src="https://cdn.jsdelivr.net/npm/animejs@latest/anime.min.js"></script><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@latest/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-ui-pack@latest/velocity.ui.min.js"></script><script src="/js/utils.js?version=1.6.1"></script><script src="/js/fancybox.js?version=1.6.1"></script><script src="/js/sidebar.js?version=1.6.1"></script><script src="/js/copy.js?version=1.6.1"></script><script src="/js/fireworks.js?version=1.6.1"></script><script src="/js/transition.js?version=1.6.1"></script><script src="/js/scroll.js?version=1.6.1"></script><script src="/js/head.js?version=1.6.1"></script><script>if(/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
+  $('#nav').addClass('is-mobile')
+  $('footer').addClass('is-mobile')
+}</script></body></html>
