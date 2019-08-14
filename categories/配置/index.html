@@ -27,7 +27,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
   
   <link rel="stylesheet" href="//at.alicdn.com/t/font_1038733_0xvrvpg9c0r.css">
-  <link rel="stylesheet" href="/css/style.css?v=1565793202741">
+  <link rel="stylesheet" href="/css/style.css?v=1565794301968">
 </head>
 
 <body class="mdui-drawer-body-left">
@@ -144,7 +144,7 @@
         </a>
         <div class="nexmoe-post-meta">
             <a><i class="nexmoefont icon-calendar-fill"></i>2017年11月27日</a>
-            <a><i class="nexmoefont icon-areachart"></i>11 字</a>
+            <a><i class="nexmoefont icon-areachart"></i>10 字</a>
             <a><i class="nexmoefont icon-time-circle-fill"></i>大概 1 分钟</a>
             
                 <a class="nexmoefont icon-appstore-fill -link" href="/categories/配置/">配置</a>
@@ -156,9 +156,10 @@
         <article>
             
             <p>shell下</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">set NODE_ENV=development</span><br></pre></td></tr></table></figure>
-<p>ps下</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$env:NODE_ENV=“development”</span><br></pre></td></tr></table></figure>
+<pre><code>set NODE_ENV=development
+</code></pre><p>ps下</p>
+<pre><code>$env:NODE_ENV=“development”
+</code></pre>
             
         </article>
     </div>
@@ -174,7 +175,7 @@
         </a>
         <div class="nexmoe-post-meta">
             <a><i class="nexmoefont icon-calendar-fill"></i>2017年11月26日</a>
-            <a><i class="nexmoefont icon-areachart"></i>210 字</a>
+            <a><i class="nexmoefont icon-areachart"></i>205 字</a>
             <a><i class="nexmoefont icon-time-circle-fill"></i>大概 1 分钟</a>
             
                 <a class="nexmoefont icon-appstore-fill -link" href="/categories/配置/">配置</a>
@@ -186,22 +187,40 @@
         <article>
             
             <p>开启mongod服务后，进入mongo shell</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mongo --port=###</span><br></pre></td></tr></table></figure>
-<p>切换到myblog数据库</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt; use myblog</span><br><span class="line">switched to db myblog</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
-<p>创建用户</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">db.createUser(</span><br><span class="line">&#123;</span><br><span class="line">	user: &apos;###&apos;,</span><br><span class="line">	pwd: &apos;###&apos;,</span><br><span class="line">    roles:</span><br><span class="line">    [</span><br><span class="line">      &#123;</span><br><span class="line">        role: &apos;dbOwner&apos;,</span><br><span class="line">        db: &apos;myblog&apos;</span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
-<p>mongoose连接</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mongodb: &apos;mongodb://name:pwd@ip:port/myblog&apos;</span><br></pre></td></tr></table></figure>
-<p>添加用户权限</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.grantRolesToUser(&quot;&lt;username&gt;&quot;, [&#123; role: &quot;&lt;role-name&gt;&quot;, db: &quot;&lt;db-name&gt;&quot; &#125;])</span><br></pre></td></tr></table></figure>
-<p>撤销用户权限</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.revokeRolesFromUser(&quot;&lt;username&gt;&quot;, [&#123; role: &quot;&lt;role-name&gt;&quot;, db: &quot;&lt;db-name&gt;&quot;&#125;])</span><br></pre></td></tr></table></figure>
-<p>编辑批处理命令</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">start mongod -f mongodb.conf</span><br></pre></td></tr></table></figure>
-<p>运行自定义配置项</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">dbpath=C:\mongodb\data\db</span><br><span class="line">logpath=C:\mongodb\log\mongodb.log</span><br><span class="line">bind_ip=127.0.0.1</span><br><span class="line">port=###</span><br><span class="line">auth=true</span><br></pre></td></tr></table></figure>
-<p>总结一下：auth=true即可为mongodb设定权限访问，每个数据库有自己的用户，我们需要做的就是在该数据库下创建用户并为用户配置权限。</p>
+<pre><code>mongo --port=###
+</code></pre><p>切换到myblog数据库</p>
+<pre><code>&gt; use myblog
+switched to db myblog
+&gt;
+</code></pre><p>创建用户</p>
+<pre><code>db.createUser(
+{
+    user: &#39;###&#39;,
+    pwd: &#39;###&#39;,
+    roles:
+    [
+      {
+        role: &#39;dbOwner&#39;,
+        db: &#39;myblog&#39;
+      }
+    ]
+  }
+)
+</code></pre><p>mongoose连接</p>
+<pre><code>mongodb: &#39;mongodb://name:pwd@ip:port/myblog&#39;
+</code></pre><p>添加用户权限</p>
+<pre><code>db.grantRolesToUser(&quot;&lt;username&gt;&quot;, [{ role: &quot;&lt;role-name&gt;&quot;, db: &quot;&lt;db-name&gt;&quot; }]) 
+</code></pre><p>撤销用户权限</p>
+<pre><code>db.revokeRolesFromUser(&quot;&lt;username&gt;&quot;, [{ role: &quot;&lt;role-name&gt;&quot;, db: &quot;&lt;db-name&gt;&quot;}])  
+</code></pre><p>编辑批处理命令</p>
+<pre><code>start mongod -f mongodb.conf
+</code></pre><p>运行自定义配置项</p>
+<pre><code>dbpath=C:\mongodb\data\db
+logpath=C:\mongodb\log\mongodb.log
+bind_ip=127.0.0.1
+port=###
+auth=true
+</code></pre><p>总结一下：auth=true即可为mongodb设定权限访问，每个数据库有自己的用户，我们需要做的就是在该数据库下创建用户并为用户配置权限。</p>
 
             
         </article>
@@ -218,7 +237,7 @@
         </a>
         <div class="nexmoe-post-meta">
             <a><i class="nexmoefont icon-calendar-fill"></i>2017年04月15日</a>
-            <a><i class="nexmoefont icon-areachart"></i>666 字</a>
+            <a><i class="nexmoefont icon-areachart"></i>662 字</a>
             <a><i class="nexmoefont icon-time-circle-fill"></i>大概 2 分钟</a>
             
                 <a class="nexmoefont icon-appstore-fill -link" href="/categories/配置/">配置</a>
@@ -247,8 +266,12 @@
 <p>②引入aar包。我们将库所在文件夹的build文件里找到aar包，复制到要使用库的项目的libs文件夹下，按照先前的经验，接下来应该在app module的gradle文件中增加aar依赖。</p>
 <p><code>compile(name:&#39;mylibrary&#39;, ext:&#39;aar&#39;)</code></p>
 <p>之后的思路也很明确，AS如何能找到mylibrary文件呢，libs只是一个普通文件夹而已，并没有环境变量定义它的路径，办法是给app module增加一个仓库，仓库地址就是libs文件夹。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">repositories &#123;</span><br><span class="line">    flatDir &#123;</span><br><span class="line">        dirs &apos;libs&apos;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>OK，可以愉快地在项目中使用我们自己编写的android库啦~</p>
+<pre><code>repositories {
+    flatDir {
+        dirs &#39;libs&#39;
+    }
+}
+</code></pre><p>OK，可以愉快地在项目中使用我们自己编写的android库啦~</p>
 <h2 id="2-创建自己的gradle依赖包"><a href="#2-创建自己的gradle依赖包" class="headerlink" title="2.创建自己的gradle依赖包"></a>2.创建自己的gradle依赖包</h2><p>参考：<a href="https://blog.csdn.net/tgbus18990140382/article/details/53066865" target="_blank" rel="noopener">Android创建自己的gradle依赖包</a></p>
 <p>首先这里需要用到两个网站：</p>
 <p>1.github</p>
@@ -273,7 +296,7 @@
         </a>
         <div class="nexmoe-post-meta">
             <a><i class="nexmoefont icon-calendar-fill"></i>2017年02月20日</a>
-            <a><i class="nexmoefont icon-areachart"></i>49 字</a>
+            <a><i class="nexmoefont icon-areachart"></i>45 字</a>
             <a><i class="nexmoefont icon-time-circle-fill"></i>大概 1 分钟</a>
             
                 <a class="nexmoefont icon-appstore-fill -link" href="/categories/配置/">配置</a>
@@ -287,8 +310,13 @@
             <p>在项目gradle中加入</p>
 <p><code>classpath &#39;me.tatarka:gradle-retrolambda:3.2.5&#39;</code></p>
 <p>在app模块gradle中加入</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">android &#123;</span><br><span class="line">    compileOptions &#123;</span><br><span class="line">        sourceCompatibility JavaVersion.VERSION_1_8</span><br><span class="line">        targetCompatibility JavaVersion.VERSION_1_8</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>以及</p>
+<pre><code>android {
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+</code></pre><p>以及</p>
 <p><code>apply plugin: &#39;me.tatarka.retrolambda&#39;</code></p>
 <p>引入插件</p>
 
@@ -307,7 +335,7 @@
         </a>
         <div class="nexmoe-post-meta">
             <a><i class="nexmoefont icon-calendar-fill"></i>2017年02月05日</a>
-            <a><i class="nexmoefont icon-areachart"></i>163 字</a>
+            <a><i class="nexmoefont icon-areachart"></i>162 字</a>
             <a><i class="nexmoefont icon-time-circle-fill"></i>大概 1 分钟</a>
             
                 <a class="nexmoefont icon-appstore-fill -link" href="/categories/配置/">配置</a>
@@ -319,8 +347,9 @@
         <article>
             
             <p>在server.xml的<code>&lt;Host&gt;</code>标签中加入</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;Context path=&quot;/site&quot; docBase=&quot;c:\site&quot; reloadable=&quot;true&quot;&gt; </span><br><span class="line">&lt;/Context&gt;</span><br></pre></td></tr></table></figure>
-<p>其中path为引用资源时的路径，docBase为资源绝对路径。注意：路径后面不能多加一个<code>&#39;/&#39;</code>，否则访问不到。</p>
+<pre><code>&lt;Context path=&quot;/site&quot; docBase=&quot;c:\site&quot; reloadable=&quot;true&quot;&gt; 
+&lt;/Context&gt;
+</code></pre><p>其中path为引用资源时的路径，docBase为资源绝对路径。注意：路径后面不能多加一个<code>&#39;/&#39;</code>，否则访问不到。</p>
 <hr>
 <p>在tomcat8.5.8版本下，<code>response.sendRedirect(&quot;&quot;)</code>不跳转，<code>response.sendRedirect(&quot;/&quot;)</code>却能跳转，换成tomcat8.0.0就解决了</p>
 <hr>
@@ -348,7 +377,7 @@
 <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.15.8/build/highlight.min.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>
 
-<script src="/js/app.js?v=1565793202747"></script>
+<script src="/js/app.js?v=1565794301974"></script>
 <script src="https://cdn.jsdelivr.net/npm/lazysizes@5.1.0/lazysizes.min.js"></script>
 
   

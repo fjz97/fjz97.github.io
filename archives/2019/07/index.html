@@ -27,7 +27,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
   
   <link rel="stylesheet" href="//at.alicdn.com/t/font_1038733_0xvrvpg9c0r.css">
-  <link rel="stylesheet" href="/css/style.css?v=1565793202730">
+  <link rel="stylesheet" href="/css/style.css?v=1565794301959">
 </head>
 
 <body class="mdui-drawer-body-left">
@@ -144,7 +144,7 @@
         </a>
         <div class="nexmoe-post-meta">
             <a><i class="nexmoefont icon-calendar-fill"></i>2019年07月14日</a>
-            <a><i class="nexmoefont icon-areachart"></i>229 字</a>
+            <a><i class="nexmoefont icon-areachart"></i>228 字</a>
             <a><i class="nexmoefont icon-time-circle-fill"></i>大概 1 分钟</a>
             
                 <a class="nexmoefont icon-appstore-fill -link" href="/categories/技术/">技术</a>
@@ -155,8 +155,21 @@
         </div>
         <article>
             
-            <p>当状态码有叠加态的时候，可以用与或操作去处理。<br>当左右的值分别是2的次方且不相同的时候，或操作表示相加。<br>1 | 2 = 3<br>1 | 2 | 4 = 7<br>1 | 4 = 5<br>这个不难理解，2的次方bit码最高位为1，其余为0，如果左右的值不同，进行或操作后，会把两个最高位都置为1，即相加。<br>当左值为2的次方叠加，右值为2的次方时，与操作可以用来判断右值是否是左值的加数，当右值为左值加数时，结果是右值，否则是0。<br>15 &amp; 1 = 1<br>15 &amp; 2 = 2<br>15 &amp; 4 = 4<br>15 &amp; 8 = 8<br>15 &amp; 16 = 0<br>这个同理也不难理解。<br>于是可以这样处理状态码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">public int state;</span><br><span class="line">public static final int STATE_1 = 1;</span><br><span class="line">public static final int STATE_2 = 2;</span><br><span class="line">public static final int STATE_3 = 4;</span><br><span class="line"></span><br><span class="line">//set</span><br><span class="line">state = STATE_1 | STATE_2 | STATE_3;</span><br><span class="line"></span><br><span class="line">//get </span><br><span class="line">if ((state &amp; STATE_1) == STATE_1) &#123;</span><br><span class="line">	//state include STATE_1</span><br><span class="line">&#125;</span><br><span class="line">......</span><br></pre></td></tr></table></figure></p>
+            <p>当状态码有叠加态的时候，可以用与或操作去处理。<br>当左右的值分别是2的次方且不相同的时候，或操作表示相加。<br>1 | 2 = 3<br>1 | 2 | 4 = 7<br>1 | 4 = 5<br>这个不难理解，2的次方bit码最高位为1，其余为0，如果左右的值不同，进行或操作后，会把两个最高位都置为1，即相加。<br>当左值为2的次方叠加，右值为2的次方时，与操作可以用来判断右值是否是左值的加数，当右值为左值加数时，结果是右值，否则是0。<br>15 &amp; 1 = 1<br>15 &amp; 2 = 2<br>15 &amp; 4 = 4<br>15 &amp; 8 = 8<br>15 &amp; 16 = 0<br>这个同理也不难理解。<br>于是可以这样处理状态码：</p>
+<pre><code>public int state;
+public static final int STATE_1 = 1;
+public static final int STATE_2 = 2;
+public static final int STATE_3 = 4;
 
+//set
+state = STATE_1 | STATE_2 | STATE_3;
+
+//get 
+if ((state &amp; STATE_1) == STATE_1) {
+    //state include STATE_1
+}
+......
+</code></pre>
             
         </article>
     </div>
@@ -178,7 +191,7 @@
 <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.15.8/build/highlight.min.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>
 
-<script src="/js/app.js?v=1565793202739"></script>
+<script src="/js/app.js?v=1565794301965"></script>
 <script src="https://cdn.jsdelivr.net/npm/lazysizes@5.1.0/lazysizes.min.js"></script>
 
   

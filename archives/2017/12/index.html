@@ -27,7 +27,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
   
   <link rel="stylesheet" href="//at.alicdn.com/t/font_1038733_0xvrvpg9c0r.css">
-  <link rel="stylesheet" href="/css/style.css?v=1565793202652">
+  <link rel="stylesheet" href="/css/style.css?v=1565794301836">
 </head>
 
 <body class="mdui-drawer-body-left">
@@ -144,8 +144,8 @@
         </a>
         <div class="nexmoe-post-meta">
             <a><i class="nexmoefont icon-calendar-fill"></i>2017年12月07日</a>
-            <a><i class="nexmoefont icon-areachart"></i>409 字</a>
-            <a><i class="nexmoefont icon-time-circle-fill"></i>大概 2 分钟</a>
+            <a><i class="nexmoefont icon-areachart"></i>392 字</a>
+            <a><i class="nexmoefont icon-time-circle-fill"></i>大概 1 分钟</a>
             
                 <a class="nexmoefont icon-appstore-fill -link" href="/categories/技术/">技术</a>
             
@@ -157,17 +157,39 @@
             
             <p>ES5 forEach</p>
 <p>1.不支持IE9之前的版本。<br>2.匿名函数中的this都是指Window。<br>3.只能遍历数组。<br>4.没有返回值。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">var ary = [12,23,24,42,1]; </span><br><span class="line">var res = ary.forEach(function (value,index,array) &#123; </span><br><span class="line">array[index] = value*10; </span><br><span class="line">&#125;) </span><br><span class="line">console.log(res);//--&gt; undefined; </span><br><span class="line">console.log(ary);//--&gt; 通过数组索引改变了原数组</span><br></pre></td></tr></table></figure>
-<p>ES5 map</p>
+<pre><code>var ary = [12,23,24,42,1]; 
+var res = ary.forEach(function (value,index,array) { 
+array[index] = value*10; 
+}) 
+console.log(res);//--&gt; undefined; 
+console.log(ary);//--&gt; 通过数组索引改变了原数组
+</code></pre><p>ES5 map</p>
 <p>1.不支持IE9之前的版本。<br>2.匿名函数中的this都是指Window。<br>3.只能遍历数组。<br>4.返回一个新的数组，原数组不变。map的回调函数中支持return返回值；return的是啥，相当于把数组中的这一项变为啥。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">var ary = [12,23,24,42,1]; </span><br><span class="line">var res = ary.map(function (value,index,array) &#123; </span><br><span class="line">return item*10; </span><br><span class="line">&#125;) </span><br><span class="line">console.log(res);//--&gt;[120,230,240,420,10];原数组拷贝了一份，并进行了修改</span><br><span class="line">console.log(ary);//--&gt;[12,23,24,42,1];原数组并未发生变化</span><br></pre></td></tr></table></figure>
-<p>JQuery $.each</p>
+<pre><code>var ary = [12,23,24,42,1]; 
+var res = ary.map(function (value,index,array) { 
+return item*10; 
+}) 
+console.log(res);//--&gt;[120,230,240,420,10];原数组拷贝了一份，并进行了修改
+console.log(ary);//--&gt;[12,23,24,42,1];原数组并未发生变化
+</code></pre><p>JQuery $.each</p>
 <p>1.与ES5 forEach类似，但是第一二两个参数相反。<br>2.支持IE9之前版本。<br>3.能遍历数组和类。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$.each( [&quot;a&quot;,&quot;b&quot;,&quot;c&quot;], function(i, v)&#123; </span><br><span class="line">alert( i + &quot;: &quot; + v ); </span><br><span class="line">&#125;); </span><br><span class="line"></span><br><span class="line">$.each( &#123; name: &quot;John&quot;, lang: &quot;JS&quot; &#125;, function(k, v)&#123; </span><br><span class="line">alert( &quot;Name: &quot; + k + &quot;, Value: &quot; + v ); </span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<p>JQuery $.map</p>
+<pre><code>$.each( [&quot;a&quot;,&quot;b&quot;,&quot;c&quot;], function(i, v){ 
+alert( i + &quot;: &quot; + v ); 
+}); 
+
+$.each( { name: &quot;John&quot;, lang: &quot;JS&quot; }, function(k, v){ 
+alert( &quot;Name: &quot; + k + &quot;, Value: &quot; + v ); 
+}); 
+</code></pre><p>JQuery $.map</p>
 <p>1.与ES5 map类似，但是第一二两个参数相反。<br>2.支持IE9之前版本。<br>3.能遍历数组和类。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var arr=$.map( [0,1,2], function(v)&#123; </span><br><span class="line">return v + 4; </span><br><span class="line">&#125;); </span><br><span class="line"></span><br><span class="line">$.map(&#123;&quot;name&quot;:&quot;Jim&quot;,&quot;age&quot;:17&#125;,function(k, v)&#123; </span><br><span class="line">console.log( k+&quot;:&quot;+v ); </span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<p>再纠正个认知错误：each方法是JQuery对象的方法，对JQuery对象数组进行遍历，this指向该DOM对象，同理也有JQuery对象的map方法。</p>
+<pre><code>var arr=$.map( [0,1,2], function(v){ 
+return v + 4; 
+}); 
+
+$.map({&quot;name&quot;:&quot;Jim&quot;,&quot;age&quot;:17},function(k, v){ 
+console.log( k+&quot;:&quot;+v ); 
+}); 
+</code></pre><p>再纠正个认知错误：each方法是JQuery对象的方法，对JQuery对象数组进行遍历，this指向该DOM对象，同理也有JQuery对象的map方法。</p>
 
             
         </article>
@@ -190,7 +212,7 @@
 <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.15.8/build/highlight.min.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>
 
-<script src="/js/app.js?v=1565793202658"></script>
+<script src="/js/app.js?v=1565794301847"></script>
 <script src="https://cdn.jsdelivr.net/npm/lazysizes@5.1.0/lazysizes.min.js"></script>
 
   

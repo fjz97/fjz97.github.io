@@ -35,7 +35,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
   
   <link rel="stylesheet" href="//at.alicdn.com/t/font_1038733_0xvrvpg9c0r.css">
-  <link rel="stylesheet" href="/css/style.css?v=1565793201648">
+  <link rel="stylesheet" href="/css/style.css?v=1565794300971">
 </head>
 
 <body class="mdui-drawer-body-left">
@@ -148,7 +148,7 @@
     </div>
   <div class="nexmoe-post-meta">
     <a><i class="nexmoefont icon-calendar-fill"></i>2018年04月28日</a>
-    <a><i class="nexmoefont icon-areachart"></i>1.2k 字</a>
+    <a><i class="nexmoefont icon-areachart"></i>1.1k 字</a>
     <a><i class="nexmoefont icon-time-circle-fill"></i>大概 5 分钟</a>
     
       <a class="nexmoefont icon-appstore-fill -link" href="/categories/技术/">技术</a>
@@ -165,10 +165,93 @@
 <p><code>conn.setRequestProperty(&quot;Range&quot;, &quot;bytes=&quot; + start + &quot;-&quot; + end);</code></p>
 <p>其中start就是数据的开始字节，end是数据的结束字节。</p>
 <h2 id="2-RandomAccessFile"><a href="#2-RandomAccessFile" class="headerlink" title="2.RandomAccessFile"></a>2.RandomAccessFile</h2><p>第二个问题是，怎么将这些分段的数据拼接起来。<br>这里我们需要用到java随机访问文件RandomAccessFile，它指定文件并通过seek方法跳转到该文件的任意字节处进行读写操作。于是我们的java代码可以这么写：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">raf = new RandomAccessFile(file, &quot;rw&quot;);</span><br><span class="line">raf.seek(start);</span><br><span class="line">byte[] bytes = new byte[1024];</span><br><span class="line">int len;</span><br><span class="line">while ((len = is.read(bytes)) != -1) &#123;</span><br><span class="line">	raf.write(bytes, 0, len);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>为了方便测试，我写了一个java demo，代码如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre></td><td class="code"><pre><span class="line">public class Main &#123;</span><br><span class="line">	</span><br><span class="line">	private static final String PICTURE_URL = &quot;http://d1.music.126.net/dmusic/CloudMusic_official_5.1.0.573520.apk&quot;;</span><br><span class="line">	private static final String FILE_NAME = &quot;cloudmusic.apk&quot;;</span><br><span class="line">	private static final int THREAD_NUM = 10;</span><br><span class="line">	private static long startTime;</span><br><span class="line">	private static long endTime;</span><br><span class="line">	private static double usetime;</span><br><span class="line">	private static int count = 0;</span><br><span class="line">	</span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		startTime = System.currentTimeMillis();</span><br><span class="line">		try &#123;</span><br><span class="line">			File file = new File(&quot;C:/cdt/&quot;, FILE_NAME);</span><br><span class="line">			URL url = new URL(PICTURE_URL);</span><br><span class="line">			HttpURLConnection conn = (HttpURLConnection) url.openConnection();</span><br><span class="line">			int size = conn.getContentLength();</span><br><span class="line">			int piece = size % THREAD_NUM == 0 ? size / THREAD_NUM : (size / THREAD_NUM + 1);</span><br><span class="line">			for (int j = 0; j &lt; THREAD_NUM; j++) &#123;</span><br><span class="line">				int start = j * piece;</span><br><span class="line">				int end = (j + 1) * piece - 1;</span><br><span class="line">				if (j == THREAD_NUM - 1) end = size;</span><br><span class="line">				new DownloadThread(file, url, start, end).start();</span><br><span class="line">			&#125;</span><br><span class="line">		&#125; catch (Exception e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	private static class DownloadThread extends Thread &#123;</span><br><span class="line">		private File file;</span><br><span class="line">		private URL url;</span><br><span class="line">		private int start;</span><br><span class="line">		private int end;</span><br><span class="line">		</span><br><span class="line">		public DownloadThread(File file, URL url, int start, int end) &#123;</span><br><span class="line">			this.file = file;</span><br><span class="line">			this.url = url;</span><br><span class="line">			this.start = start;</span><br><span class="line">			this.end = end;</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		public void run() &#123;</span><br><span class="line">			InputStream is = null;</span><br><span class="line">			RandomAccessFile raf = null;</span><br><span class="line">			try &#123;</span><br><span class="line">				HttpURLConnection conn = (HttpURLConnection) url.openConnection();</span><br><span class="line">				conn.setRequestProperty(&quot;Range&quot;, &quot;bytes=&quot; + start + &quot;-&quot; + end);</span><br><span class="line">				is = conn.getInputStream();</span><br><span class="line">				raf = new RandomAccessFile(file, &quot;rw&quot;);</span><br><span class="line">				raf.seek(start);</span><br><span class="line">				byte[] bytes = new byte[1024];</span><br><span class="line">				int len;</span><br><span class="line">				while ((len = is.read(bytes)) != -1) &#123;</span><br><span class="line">					raf.write(bytes, 0, len);</span><br><span class="line">				&#125;</span><br><span class="line">			&#125; catch (IOException e) &#123;</span><br><span class="line">				e.printStackTrace();</span><br><span class="line">			&#125; finally &#123;</span><br><span class="line">				try &#123;</span><br><span class="line">					raf.close();</span><br><span class="line">					is.close();</span><br><span class="line">				&#125; catch (IOException e) &#123;</span><br><span class="line">					e.printStackTrace();</span><br><span class="line">				&#125;</span><br><span class="line">				checkFinish(++count);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		public void checkFinish(int count) &#123;</span><br><span class="line">			if (count == THREAD_NUM) &#123;</span><br><span class="line">				endTime = System.currentTimeMillis();</span><br><span class="line">				usetime = (endTime - startTime) / 1000.0;</span><br><span class="line">				System.out.println(&quot;下载用时为：&quot; + usetime + &quot;s&quot;);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>事不宜迟，我们赶紧把demo跑起来，先尝试一下用单线程下载网易云音乐apk文件的用时。</p>
+<pre><code>                raf = new RandomAccessFile(file, &quot;rw&quot;);
+                raf.seek(start);
+                byte[] bytes = new byte[1024];
+                int len;
+                while ((len = is.read(bytes)) != -1) {
+                    raf.write(bytes, 0, len);
+                }
+</code></pre><p>为了方便测试，我写了一个java demo，代码如下：</p>
+<pre><code>public class Main {
+
+    private static final String PICTURE_URL = &quot;http://d1.music.126.net/dmusic/CloudMusic_official_5.1.0.573520.apk&quot;;
+    private static final String FILE_NAME = &quot;cloudmusic.apk&quot;;
+    private static final int THREAD_NUM = 10;
+    private static long startTime;
+    private static long endTime;
+    private static double usetime;
+    private static int count = 0;
+
+    public static void main(String[] args) {
+        startTime = System.currentTimeMillis();
+        try {
+            File file = new File(&quot;C:/cdt/&quot;, FILE_NAME);
+            URL url = new URL(PICTURE_URL);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            int size = conn.getContentLength();
+            int piece = size % THREAD_NUM == 0 ? size / THREAD_NUM : (size / THREAD_NUM + 1);
+            for (int j = 0; j &lt; THREAD_NUM; j++) {
+                int start = j * piece;
+                int end = (j + 1) * piece - 1;
+                if (j == THREAD_NUM - 1) end = size;
+                new DownloadThread(file, url, start, end).start();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static class DownloadThread extends Thread {
+        private File file;
+        private URL url;
+        private int start;
+        private int end;
+
+        public DownloadThread(File file, URL url, int start, int end) {
+            this.file = file;
+            this.url = url;
+            this.start = start;
+            this.end = end;
+        }
+
+        public void run() {
+            InputStream is = null;
+            RandomAccessFile raf = null;
+            try {
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.setRequestProperty(&quot;Range&quot;, &quot;bytes=&quot; + start + &quot;-&quot; + end);
+                is = conn.getInputStream();
+                raf = new RandomAccessFile(file, &quot;rw&quot;);
+                raf.seek(start);
+                byte[] bytes = new byte[1024];
+                int len;
+                while ((len = is.read(bytes)) != -1) {
+                    raf.write(bytes, 0, len);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    raf.close();
+                    is.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                checkFinish(++count);
+            }
+        }
+
+        public void checkFinish(int count) {
+            if (count == THREAD_NUM) {
+                endTime = System.currentTimeMillis();
+                usetime = (endTime - startTime) / 1000.0;
+                System.out.println(&quot;下载用时为：&quot; + usetime + &quot;s&quot;);
+            }
+        }
+    }
+}
+</code></pre><p>事不宜迟，我们赶紧把demo跑起来，先尝试一下用单线程下载网易云音乐apk文件的用时。</p>
 <p><img src="/images/7/usetime1.png" alt="usetime"></p>
 <p>接着用3个线程来下载看看。</p>
 <p><img src="/images/7/usetime2.png" alt="usetime"></p>
@@ -177,8 +260,9 @@
 <p><img src="/images/7/usetime3.png" alt="usetime"></p>
 <p>速度仍有提升，但是提升已经不大了。</p>
 <hr>
-<h1 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h1><p>接下来我们就用多线程下载来下载一下服务器上的图片文件，看看速度是否有所提升，我们把url换成图片url。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">private static final String PICTURE_URL = &quot;http://101.132.185.255:8080/resource/fightpicture/gallery/QQ%E5%9B%BE%E7%89%8720180330214156.gif&quot;;</span><br></pre></td></tr></table></figure></p>
-<p>demo运行结果：</p>
+<h1 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h1><p>接下来我们就用多线程下载来下载一下服务器上的图片文件，看看速度是否有所提升，我们把url换成图片url。</p>
+<pre><code>private static final String PICTURE_URL = &quot;http://101.132.185.255:8080/resource/fightpicture/gallery/QQ%E5%9B%BE%E7%89%8720180330214156.gif&quot;;
+</code></pre><p>demo运行结果：</p>
 <p><img src="/images/7/usetime4.png" alt="usetime"></p>
 <p>结果显示，1.8M的gif图片，仍然下载了约13秒，与之前单线程下载如出一辙。</p>
 <hr>
@@ -234,7 +318,7 @@
 <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.15.8/build/highlight.min.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>
 
-<script src="/js/app.js?v=1565793201657"></script>
+<script src="/js/app.js?v=1565794300979"></script>
 <script src="https://cdn.jsdelivr.net/npm/lazysizes@5.1.0/lazysizes.min.js"></script>
 
   

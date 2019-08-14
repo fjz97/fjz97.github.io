@@ -11,25 +11,25 @@
   
 
   <link rel="shortcut icon" href="/favicon.ico" type="image/png" />
-  <meta name="description" content="2. 123456789101112131415public static void main(String[] args) &amp;#123;	ReentrantLock myLock = new ReentrantLock();	withLock(myLock, ()-&amp;gt;&amp;#123;		System.out.println(&amp;quot;running&amp;quot;);	&amp;#125;);&amp;#125">
+  <meta name="description" content="2.     public static void main(String[] args) {         ReentrantLock myLock = new ReentrantLock();         withLock(myLock, ()-&amp;gt;{             System.out.println(&amp;quot;running&amp;quot;);         });">
 <meta name="keywords" content="java">
 <meta property="og:type" content="article">
 <meta property="og:title" content="《Java SE 8 for the really impatient》第三章习题笔记">
 <meta property="og:url" content="http://www.fengjingzhe.com/2017/02/22/《Java SE 8 for the really impatient》第三章习题笔记/index.html">
 <meta property="og:site_name" content="冯京哲的狗窝">
-<meta property="og:description" content="2. 123456789101112131415public static void main(String[] args) &amp;#123;	ReentrantLock myLock = new ReentrantLock();	withLock(myLock, ()-&amp;gt;&amp;#123;		System.out.println(&amp;quot;running&amp;quot;);	&amp;#125;);&amp;#125">
+<meta property="og:description" content="2.     public static void main(String[] args) {         ReentrantLock myLock = new ReentrantLock();         withLock(myLock, ()-&amp;gt;{             System.out.println(&amp;quot;running&amp;quot;);         });">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2018-05-09T13:30:36.349Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《Java SE 8 for the really impatient》第三章习题笔记">
-<meta name="twitter:description" content="2. 123456789101112131415public static void main(String[] args) &amp;#123;	ReentrantLock myLock = new ReentrantLock();	withLock(myLock, ()-&amp;gt;&amp;#123;		System.out.println(&amp;quot;running&amp;quot;);	&amp;#125;);&amp;#125">
+<meta name="twitter:description" content="2.     public static void main(String[] args) {         ReentrantLock myLock = new ReentrantLock();         withLock(myLock, ()-&amp;gt;{             System.out.println(&amp;quot;running&amp;quot;);         });">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mdui@0.4.3/dist/css/mdui.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.15.8/styles/atom-one-dark.css">
    
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
   
   <link rel="stylesheet" href="//at.alicdn.com/t/font_1038733_0xvrvpg9c0r.css">
-  <link rel="stylesheet" href="/css/style.css?v=1565793202424">
+  <link rel="stylesheet" href="/css/style.css?v=1565794301153">
 </head>
 
 <body class="mdui-drawer-body-left">
@@ -142,7 +142,7 @@
     </div>
   <div class="nexmoe-post-meta">
     <a><i class="nexmoefont icon-calendar-fill"></i>2017年02月22日</a>
-    <a><i class="nexmoefont icon-areachart"></i>166 字</a>
+    <a><i class="nexmoefont icon-areachart"></i>142 字</a>
     <a><i class="nexmoefont icon-time-circle-fill"></i>大概 1 分钟</a>
     
       <a class="nexmoefont icon-appstore-fill -link" href="/categories/技术/">技术</a>
@@ -153,11 +153,46 @@
   </div>
   <article>
     <p>2.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">public static void main(String[] args) &#123;</span><br><span class="line">	ReentrantLock myLock = new ReentrantLock();</span><br><span class="line">	withLock(myLock, ()-&gt;&#123;</span><br><span class="line">		System.out.println(&quot;running&quot;);</span><br><span class="line">	&#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public static void withLock(ReentrantLock myLock, Runnable runnable) &#123;</span><br><span class="line">	myLock.lock();</span><br><span class="line">	try &#123;</span><br><span class="line">		runnable.run();</span><br><span class="line">	&#125; finally &#123;</span><br><span class="line">		myLock.unlock();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<hr>
-<p>5.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">public static void main(String[] args) &#123;</span><br><span class="line">	Image image = new Image(&quot;C:/Users/Administrator/Desktop/1.jpg&quot;);</span><br><span class="line">	Image newImage = transform(image, (x, y, colorAtXY) -&gt; &#123;</span><br><span class="line">		if(x&lt;10||x&gt;image.getWidth()-10||y&lt;10||y&gt;image.getHeight()-10) &#123;</span><br><span class="line">			return Color.GREY;</span><br><span class="line">		&#125; else &#123;</span><br><span class="line">			return colorAtXY;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public static Image transform(Image in, ColorTransformer cf) &#123;</span><br><span class="line">	int width = (int) in.getWidth();</span><br><span class="line">	int height = (int) in.getHeight();</span><br><span class="line">	WritableImage out = new WritableImage(width, height);</span><br><span class="line">	for(int x = 0; x &lt; width; x++) &#123;</span><br><span class="line">		for(int y = 0; y &lt; height; y++) &#123;</span><br><span class="line">			out.getPixelWriter().setColor(x, y, cf.apply(x, y, in.getPixelReader().getColor(x, y)));</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	return out;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code>    public static void main(String[] args) {
+        ReentrantLock myLock = new ReentrantLock();
+        withLock(myLock, ()-&gt;{
+            System.out.println(&quot;running&quot;);
+        });
+    }
 
+    public static void withLock(ReentrantLock myLock, Runnable runnable) {
+        myLock.lock();
+        try {
+            runnable.run();
+        } finally {
+            myLock.unlock();
+        }
+    }
+</code></pre><hr>
+<p>5.</p>
+<pre><code>    public static void main(String[] args) {
+        Image image = new Image(&quot;C:/Users/Administrator/Desktop/1.jpg&quot;);
+        Image newImage = transform(image, (x, y, colorAtXY) -&gt; {
+            if(x&lt;10||x&gt;image.getWidth()-10||y&lt;10||y&gt;image.getHeight()-10) {
+                return Color.GREY;
+            } else {
+                return colorAtXY;
+            }
+        });
+    }
+
+    public static Image transform(Image in, ColorTransformer cf) {
+        int width = (int) in.getWidth();
+        int height = (int) in.getHeight();
+        WritableImage out = new WritableImage(width, height);
+        for(int x = 0; x &lt; width; x++) {
+            for(int y = 0; y &lt; height; y++) {
+                out.getPixelWriter().setColor(x, y, cf.apply(x, y, in.getPixelReader().getColor(x, y)));
+            }
+        }
+        return out;
+    }
+</code></pre>
   </article>
   
     
@@ -204,7 +239,7 @@
 <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.15.8/build/highlight.min.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>
 
-<script src="/js/app.js?v=1565793202432"></script>
+<script src="/js/app.js?v=1565794301161"></script>
 <script src="https://cdn.jsdelivr.net/npm/lazysizes@5.1.0/lazysizes.min.js"></script>
 
   

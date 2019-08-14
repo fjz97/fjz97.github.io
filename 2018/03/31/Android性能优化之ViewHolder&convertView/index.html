@@ -11,13 +11,13 @@
   
 
   <link rel="shortcut icon" href="/favicon.ico" type="image/png" />
-  <meta name="description" content="查阅了许多博客，对ViewHolder的优化原理仍然不明白，今天深入研究了一下，总算是理解了。先贴上项目里使用的一个图片GridView的Adapter代码： 12345678910111213141516171819202122232425262728293031323334353637383940414243444546public class MyAdapter extends BaseAd">
+  <meta name="description" content="查阅了许多博客，对ViewHolder的优化原理仍然不明白，今天深入研究了一下，总算是理解了。先贴上项目里使用的一个图片GridView的Adapter代码： public class MyAdapter extends BaseAdapter {      private LayoutInflater mInflater;     private Context context;     pri">
 <meta name="keywords" content="android">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Android性能优化之ViewHolder&amp;convertView">
 <meta property="og:url" content="http://www.fengjingzhe.com/2018/03/31/Android性能优化之ViewHolder&convertView/index.html">
 <meta property="og:site_name" content="冯京哲的狗窝">
-<meta property="og:description" content="查阅了许多博客，对ViewHolder的优化原理仍然不明白，今天深入研究了一下，总算是理解了。先贴上项目里使用的一个图片GridView的Adapter代码： 12345678910111213141516171819202122232425262728293031323334353637383940414243444546public class MyAdapter extends BaseAd">
+<meta property="og:description" content="查阅了许多博客，对ViewHolder的优化原理仍然不明白，今天深入研究了一下，总算是理解了。先贴上项目里使用的一个图片GridView的Adapter代码： public class MyAdapter extends BaseAdapter {      private LayoutInflater mInflater;     private Context context;     pri">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://www.fengjingzhe.com/images/5/Recycler.jpg">
 <meta property="og:image" content="http://www.fengjingzhe.com/images/5/before.png">
@@ -25,7 +25,7 @@
 <meta property="og:updated_time" content="2019-03-24T07:42:42.776Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android性能优化之ViewHolder&amp;convertView">
-<meta name="twitter:description" content="查阅了许多博客，对ViewHolder的优化原理仍然不明白，今天深入研究了一下，总算是理解了。先贴上项目里使用的一个图片GridView的Adapter代码： 12345678910111213141516171819202122232425262728293031323334353637383940414243444546public class MyAdapter extends BaseAd">
+<meta name="twitter:description" content="查阅了许多博客，对ViewHolder的优化原理仍然不明白，今天深入研究了一下，总算是理解了。先贴上项目里使用的一个图片GridView的Adapter代码： public class MyAdapter extends BaseAdapter {      private LayoutInflater mInflater;     private Context context;     pri">
 <meta name="twitter:image" content="http://www.fengjingzhe.com/images/5/Recycler.jpg">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mdui@0.4.3/dist/css/mdui.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.15.8/styles/atom-one-dark.css">
@@ -33,7 +33,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
   
   <link rel="stylesheet" href="//at.alicdn.com/t/font_1038733_0xvrvpg9c0r.css">
-  <link rel="stylesheet" href="/css/style.css?v=1565793202229">
+  <link rel="stylesheet" href="/css/style.css?v=1565794300997">
 </head>
 
 <body class="mdui-drawer-body-left">
@@ -146,7 +146,7 @@
     </div>
   <div class="nexmoe-post-meta">
     <a><i class="nexmoefont icon-calendar-fill"></i>2018年03月31日</a>
-    <a><i class="nexmoefont icon-areachart"></i>1.1k 字</a>
+    <a><i class="nexmoefont icon-areachart"></i>1k 字</a>
     <a><i class="nexmoefont icon-time-circle-fill"></i>大概 4 分钟</a>
     
       <a class="nexmoefont icon-appstore-fill -link" href="/categories/技术/">技术</a>
@@ -157,8 +157,53 @@
   </div>
   <article>
     <p>查阅了许多博客，对ViewHolder的优化原理仍然不明白，今天深入研究了一下，总算是理解了。<br>先贴上项目里使用的一个图片GridView的Adapter代码：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">public class MyAdapter extends BaseAdapter &#123;</span><br><span class="line"></span><br><span class="line">    private LayoutInflater mInflater;</span><br><span class="line">    private Context context;</span><br><span class="line">    private List&lt;String&gt; pictureUrls;</span><br><span class="line"></span><br><span class="line">    public MyAdapter(Context context, List&lt;String&gt; pictures) &#123;</span><br><span class="line">        mInflater = LayoutInflater.from(context);</span><br><span class="line">        this.context = context;</span><br><span class="line">        this.pictureUrls = pictures;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public View getView(int position, View convertView, ViewGroup parent) &#123;</span><br><span class="line">        ViewHolder viewHolder = null;</span><br><span class="line">        if (convertView == null) &#123;</span><br><span class="line">            convertView = mInflater.inflate(R.layout.picture_item_layout, parent, false);</span><br><span class="line">            viewHolder = new ViewHolder();</span><br><span class="line">            viewHolder.picture = convertView.findViewById(R.id.picture);</span><br><span class="line">            convertView.setTag(viewHolder);</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            viewHolder = (ViewHolder) convertView.getTag();</span><br><span class="line">        &#125;</span><br><span class="line">        viewHolder.picture.setImageURI(getItem(position));</span><br><span class="line">        return convertView;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public int getCount() &#123;</span><br><span class="line">        return pictureUrls.size();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public String getItem(int position) &#123;</span><br><span class="line">        return pictureUrls.get(position);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public long getItemId(int position) &#123;</span><br><span class="line">        return position;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private final class ViewHolder &#123;</span><br><span class="line">        SimpleDraweeView picture;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>其他三个方法不用多说，关键在于getView方法。<br>getView方法用于返回item的View，我们看方法的参数convertView，通过查阅博客，我知道了convertView是android中Recycler构件缓存的View，当有item移出屏幕的时候，获取下一个item时调用的getView方法的convertView参数就是被移除的item的View，如下图：</p>
+<pre><code>public class MyAdapter extends BaseAdapter {
+
+    private LayoutInflater mInflater;
+    private Context context;
+    private List&lt;String&gt; pictureUrls;
+
+    public MyAdapter(Context context, List&lt;String&gt; pictures) {
+        mInflater = LayoutInflater.from(context);
+        this.context = context;
+        this.pictureUrls = pictures;
+    }
+
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        ViewHolder viewHolder = null;
+        if (convertView == null) {
+            convertView = mInflater.inflate(R.layout.picture_item_layout, parent, false);
+            viewHolder = new ViewHolder();
+            viewHolder.picture = convertView.findViewById(R.id.picture);
+            convertView.setTag(viewHolder);
+        } else {
+            viewHolder = (ViewHolder) convertView.getTag();
+        }
+        viewHolder.picture.setImageURI(getItem(position));
+        return convertView;
+    }
+
+    @Override
+    public int getCount() {
+        return pictureUrls.size();
+    }
+
+    @Override
+    public String getItem(int position) {
+        return pictureUrls.get(position);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    private final class ViewHolder {
+        SimpleDraweeView picture;
+    }
+}
+</code></pre><p>其他三个方法不用多说，关键在于getView方法。<br>getView方法用于返回item的View，我们看方法的参数convertView，通过查阅博客，我知道了convertView是android中Recycler构件缓存的View，当有item移出屏幕的时候，获取下一个item时调用的getView方法的convertView参数就是被移除的item的View，如下图：</p>
 <p><img src="/images/5/Recycler.jpg" alt="Recycler"></p>
 <p>至此都不难理解，这些预备知识我早先就知道了，却仍然不明白如何实现的性能优化。</p>
 <p>苦思冥想后，恍然大悟，我不过是进入了一次思维误区：<br>从来没见过ViewHolder这种复用机制的我感觉太新鲜了，认为ViewHolder才是主角，convertView不过是个参数，小小配角而已，殊不知android如此大费周章编写的构件，怎么可能会给一个甚至没有加入SDK的自定义类抢去风头！实现性能优化的恰恰是convertView，ViewHolder不过是个添头。</p>
@@ -220,7 +265,7 @@
 <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.15.8/build/highlight.min.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>
 
-<script src="/js/app.js?v=1565793202236"></script>
+<script src="/js/app.js?v=1565794301005"></script>
 <script src="https://cdn.jsdelivr.net/npm/lazysizes@5.1.0/lazysizes.min.js"></script>
 
   

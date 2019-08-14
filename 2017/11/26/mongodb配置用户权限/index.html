@@ -11,25 +11,25 @@
   
 
   <link rel="shortcut icon" href="/favicon.ico" type="image/png" />
-  <meta name="description" content="开启mongod服务后，进入mongo shell 1mongo --port=### 切换到myblog数据库 123&amp;gt; use myblogswitched to db myblog&amp;gt; 创建用户 12345678910111213db.createUser(&amp;#123;	user: &amp;apos;###&amp;apos;,	pwd: &amp;apos;###&amp;apos;,    roles:">
+  <meta name="description" content="开启mongod服务后，进入mongo shell mongo --port=### 切换到myblog数据库 &amp;gt; use myblog switched to db myblog &amp;gt; 创建用户 db.createUser( {     user: &amp;#39;###&amp;#39;,     pwd: &amp;#39;###&amp;#39;,     roles:     [       {">
 <meta name="keywords" content="mongodb">
 <meta property="og:type" content="article">
 <meta property="og:title" content="mongodb配置用户权限">
 <meta property="og:url" content="http://www.fengjingzhe.com/2017/11/26/mongodb配置用户权限/index.html">
 <meta property="og:site_name" content="冯京哲的狗窝">
-<meta property="og:description" content="开启mongod服务后，进入mongo shell 1mongo --port=### 切换到myblog数据库 123&amp;gt; use myblogswitched to db myblog&amp;gt; 创建用户 12345678910111213db.createUser(&amp;#123;	user: &amp;apos;###&amp;apos;,	pwd: &amp;apos;###&amp;apos;,    roles:">
+<meta property="og:description" content="开启mongod服务后，进入mongo shell mongo --port=### 切换到myblog数据库 &amp;gt; use myblog switched to db myblog &amp;gt; 创建用户 db.createUser( {     user: &amp;#39;###&amp;#39;,     pwd: &amp;#39;###&amp;#39;,     roles:     [       {">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2018-04-27T12:38:17.152Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="mongodb配置用户权限">
-<meta name="twitter:description" content="开启mongod服务后，进入mongo shell 1mongo --port=### 切换到myblog数据库 123&amp;gt; use myblogswitched to db myblog&amp;gt; 创建用户 12345678910111213db.createUser(&amp;#123;	user: &amp;apos;###&amp;apos;,	pwd: &amp;apos;###&amp;apos;,    roles:">
+<meta name="twitter:description" content="开启mongod服务后，进入mongo shell mongo --port=### 切换到myblog数据库 &amp;gt; use myblog switched to db myblog &amp;gt; 创建用户 db.createUser( {     user: &amp;#39;###&amp;#39;,     pwd: &amp;#39;###&amp;#39;,     roles:     [       {">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mdui@0.4.3/dist/css/mdui.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.15.8/styles/atom-one-dark.css">
    
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
   
   <link rel="stylesheet" href="//at.alicdn.com/t/font_1038733_0xvrvpg9c0r.css">
-  <link rel="stylesheet" href="/css/style.css?v=1565793202272">
+  <link rel="stylesheet" href="/css/style.css?v=1565794301041">
 </head>
 
 <body class="mdui-drawer-body-left">
@@ -142,7 +142,7 @@
     </div>
   <div class="nexmoe-post-meta">
     <a><i class="nexmoefont icon-calendar-fill"></i>2017年11月26日</a>
-    <a><i class="nexmoefont icon-areachart"></i>210 字</a>
+    <a><i class="nexmoefont icon-areachart"></i>205 字</a>
     <a><i class="nexmoefont icon-time-circle-fill"></i>大概 1 分钟</a>
     
       <a class="nexmoefont icon-appstore-fill -link" href="/categories/配置/">配置</a>
@@ -153,22 +153,40 @@
   </div>
   <article>
     <p>开启mongod服务后，进入mongo shell</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mongo --port=###</span><br></pre></td></tr></table></figure>
-<p>切换到myblog数据库</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt; use myblog</span><br><span class="line">switched to db myblog</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
-<p>创建用户</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">db.createUser(</span><br><span class="line">&#123;</span><br><span class="line">	user: &apos;###&apos;,</span><br><span class="line">	pwd: &apos;###&apos;,</span><br><span class="line">    roles:</span><br><span class="line">    [</span><br><span class="line">      &#123;</span><br><span class="line">        role: &apos;dbOwner&apos;,</span><br><span class="line">        db: &apos;myblog&apos;</span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
-<p>mongoose连接</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mongodb: &apos;mongodb://name:pwd@ip:port/myblog&apos;</span><br></pre></td></tr></table></figure>
-<p>添加用户权限</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.grantRolesToUser(&quot;&lt;username&gt;&quot;, [&#123; role: &quot;&lt;role-name&gt;&quot;, db: &quot;&lt;db-name&gt;&quot; &#125;])</span><br></pre></td></tr></table></figure>
-<p>撤销用户权限</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.revokeRolesFromUser(&quot;&lt;username&gt;&quot;, [&#123; role: &quot;&lt;role-name&gt;&quot;, db: &quot;&lt;db-name&gt;&quot;&#125;])</span><br></pre></td></tr></table></figure>
-<p>编辑批处理命令</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">start mongod -f mongodb.conf</span><br></pre></td></tr></table></figure>
-<p>运行自定义配置项</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">dbpath=C:\mongodb\data\db</span><br><span class="line">logpath=C:\mongodb\log\mongodb.log</span><br><span class="line">bind_ip=127.0.0.1</span><br><span class="line">port=###</span><br><span class="line">auth=true</span><br></pre></td></tr></table></figure>
-<p>总结一下：auth=true即可为mongodb设定权限访问，每个数据库有自己的用户，我们需要做的就是在该数据库下创建用户并为用户配置权限。</p>
+<pre><code>mongo --port=###
+</code></pre><p>切换到myblog数据库</p>
+<pre><code>&gt; use myblog
+switched to db myblog
+&gt;
+</code></pre><p>创建用户</p>
+<pre><code>db.createUser(
+{
+    user: &#39;###&#39;,
+    pwd: &#39;###&#39;,
+    roles:
+    [
+      {
+        role: &#39;dbOwner&#39;,
+        db: &#39;myblog&#39;
+      }
+    ]
+  }
+)
+</code></pre><p>mongoose连接</p>
+<pre><code>mongodb: &#39;mongodb://name:pwd@ip:port/myblog&#39;
+</code></pre><p>添加用户权限</p>
+<pre><code>db.grantRolesToUser(&quot;&lt;username&gt;&quot;, [{ role: &quot;&lt;role-name&gt;&quot;, db: &quot;&lt;db-name&gt;&quot; }]) 
+</code></pre><p>撤销用户权限</p>
+<pre><code>db.revokeRolesFromUser(&quot;&lt;username&gt;&quot;, [{ role: &quot;&lt;role-name&gt;&quot;, db: &quot;&lt;db-name&gt;&quot;}])  
+</code></pre><p>编辑批处理命令</p>
+<pre><code>start mongod -f mongodb.conf
+</code></pre><p>运行自定义配置项</p>
+<pre><code>dbpath=C:\mongodb\data\db
+logpath=C:\mongodb\log\mongodb.log
+bind_ip=127.0.0.1
+port=###
+auth=true
+</code></pre><p>总结一下：auth=true即可为mongodb设定权限访问，每个数据库有自己的用户，我们需要做的就是在该数据库下创建用户并为用户配置权限。</p>
 
   </article>
   
@@ -216,7 +234,7 @@
 <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.15.8/build/highlight.min.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>
 
-<script src="/js/app.js?v=1565793202281"></script>
+<script src="/js/app.js?v=1565794301049"></script>
 <script src="https://cdn.jsdelivr.net/npm/lazysizes@5.1.0/lazysizes.min.js"></script>
 
   
