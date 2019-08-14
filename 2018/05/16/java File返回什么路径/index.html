@@ -31,7 +31,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
   
   <link rel="stylesheet" href="//at.alicdn.com/t/font_1038733_0xvrvpg9c0r.css">
-  <link rel="stylesheet" href="/css/style.css?v=1565794300960">
+  <link rel="stylesheet" href="/css/style.css?v=1565794710310">
 </head>
 
 <body class="mdui-drawer-body-left">
@@ -144,7 +144,7 @@
     </div>
   <div class="nexmoe-post-meta">
     <a><i class="nexmoefont icon-calendar-fill"></i>2018年05月16日</a>
-    <a><i class="nexmoefont icon-areachart"></i>796 字</a>
+    <a><i class="nexmoefont icon-areachart"></i>802 字</a>
     <a><i class="nexmoefont icon-time-circle-fill"></i>大概 3 分钟</a>
     
       <a class="nexmoefont icon-appstore-fill -link" href="/categories/技术/">技术</a>
@@ -158,11 +158,10 @@
 <p>昨天在做更新app并打开安装包的时候，就报了FileUriExposedException 异常。经过百度，找到了解决的办法——使用FileProvider，<a href="https://www.jianshu.com/p/3f9e3fc38eae" target="_blank" rel="noopener">参考文章在这里</a>。照着文章使用了FileProvider后，却出现了解析程序包时出现问题。</p>
 <p><img src="/images/26/problem.png" alt="解析程序包时出现问题"></p>
 <p>查看log发现了如下的warning：</p>
-<pre><code>Error staging apk from content URI: content://com.fengjingzhe.fightpicture.fileprovider/download/file%3A/storage/emulated/0/Android/data/com.fengjingzhe.fightpicture/files/Download/fightpicture-1.1.2.apk
-                                                     java.io.FileNotFoundException: No such file or directory
-</code></pre><p>也就是说，uri出了错误，系统找不到apk文件了。我赶紧查看生成uri的代码。</p>
-<pre><code>Uri apkUri = FileProvider.getUriForFile(MainActivity.this, &quot;com.fengjingzhe.fightpicture.fileprovider&quot;, file);
-</code></pre><p>这个uri是通过官方的api生成的，网上也都是使用了这个方法，理应不会有错猜对啊！！！真是百思不得其解！！！</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Error staging apk from content URI: content://com.fengjingzhe.fightpicture.fileprovider/download/file%3A/storage/emulated/0/Android/data/com.fengjingzhe.fightpicture/files/Download/fightpicture-1.1.2.apk</span><br><span class="line">                                                     java.io.FileNotFoundException: No such file or directory</span><br></pre></td></tr></table></figure>
+<p>也就是说，uri出了错误，系统找不到apk文件了。我赶紧查看生成uri的代码。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Uri apkUri = FileProvider.getUriForFile(MainActivity.this, &quot;com.fengjingzhe.fightpicture.fileprovider&quot;, file);</span><br></pre></td></tr></table></figure>
+<p>这个uri是通过官方的api生成的，网上也都是使用了这个方法，理应不会有错猜对啊！！！真是百思不得其解！！！</p>
 <p>反复观察了这个生成的uri，我猜测问题出在了中间的<code>file%3A</code>上。抱着试一试的心态，我自己拼接了一下uri：</p>
 <p><code>content://com.fengjingzhe.fightpicture.fileprovider/download/storage/emulated/0/Android/data/com.fengjingzhe.fightpicture/files/Download/fightpicture-1.1.2.apk</code></p>
 <p>运行程序，居然成功了！成功打开了这个apk，进入安装界面。</p>
@@ -172,23 +171,11 @@
 <p>而一张图片文件返回了这样一个路径：</p>
 <p><code>/storage/emulated/0/fightpicture/1526470886506.jpg</code></p>
 <p>抱着疑问，我打开了File的源码，这里贴出关键部分：</p>
-<pre><code>    public File(String pathname) {
-        if (pathname == null) {
-            throw new NullPointerException();
-        }
-        //nomalize方法去除了头尾多余的斜杠
-        this.path = fs.normalize(pathname);
-        this.prefixLength = fs.prefixLength(this.path);
-    }
-
-    public String getPath() {
-        return path;
-    }
-</code></pre><p>也就是说，你的构造方法传什么样的路径，getPath()方法就会返回给你什么样的路径，而构造方法恰恰接受file:///和/开头的两种类型路径。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">   public File(String pathname) &#123;</span><br><span class="line">       if (pathname == null) &#123;</span><br><span class="line">           throw new NullPointerException();</span><br><span class="line">       &#125;</span><br><span class="line">       //nomalize方法去除了头尾多余的斜杠</span><br><span class="line">       this.path = fs.normalize(pathname);</span><br><span class="line">       this.prefixLength = fs.prefixLength(this.path);</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">public String getPath() &#123;</span><br><span class="line">       return path;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<p>也就是说，你的构造方法传什么样的路径，getPath()方法就会返回给你什么样的路径，而构造方法恰恰接受file:///和/开头的两种类型路径。</p>
 <p>回到getUriForFile方法上来，之所以返回的uri多了一点东西，就是因为我们的apk文件的getPath方法返回的路径多了file:///的前缀。那么，我们在getUriForFile方法中给它传一个/前缀的文件，返回的uri是不是就正常了呢？我们改动代码：</p>
-<pre><code>File file = new File(Uri.parse(filename).getEncodedPath());
-                    Uri apkUri = FileProvider.getUriForFile(MainActivity.this, &quot;com.fengjingzhe.fightpicture.fileprovider&quot;, file);
-</code></pre><p>果然，成功打开了apk文件，进入了安装界面。问题成功解决了。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">File file = new File(Uri.parse(filename).getEncodedPath());</span><br><span class="line">                    Uri apkUri = FileProvider.getUriForFile(MainActivity.this, &quot;com.fengjingzhe.fightpicture.fileprovider&quot;, file);</span><br></pre></td></tr></table></figure>
+<p>果然，成功打开了apk文件，进入了安装界面。问题成功解决了。</p>
 
   </article>
   
@@ -236,7 +223,7 @@
 <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.15.8/build/highlight.min.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>
 
-<script src="/js/app.js?v=1565794300968"></script>
+<script src="/js/app.js?v=1565794710318"></script>
 <script src="https://cdn.jsdelivr.net/npm/lazysizes@5.1.0/lazysizes.min.js"></script>
 
   

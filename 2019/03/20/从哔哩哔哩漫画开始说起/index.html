@@ -31,7 +31,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
   
   <link rel="stylesheet" href="//at.alicdn.com/t/font_1038733_0xvrvpg9c0r.css">
-  <link rel="stylesheet" href="/css/style.css?v=1565794300932">
+  <link rel="stylesheet" href="/css/style.css?v=1565794710279">
 </head>
 
 <body class="mdui-drawer-body-left">
@@ -155,10 +155,8 @@
   </div>
   <article>
     <p>下了个哔哩哔哩漫画用来追五等分的花嫁。今早躺在床上，无意间点到了评分按钮，直接跳转到了锤子应用商店，把我吓了一跳。<br>出于职业病，我琢磨了一下实现原理。这并不难，我们知道Android存在隐式Intent机制，通过设置Action、Data、Category属性，可以选择合适的Activity打开。以打开浏览器为例，下面的代码可以打开浏览器，如果系统中存在多个可被第三方程序打开的浏览器，那么选择权会被移交给用户。</p>
-<pre><code>Intent intent = new Intent();
-intent.setAction(Intent.ACTION_VIEW);
-startActivity(intent);
-</code></pre><p>根据这个原理，一定存在一个和应用商店相关的Action，它就是通过这个Action打开了我的应用商店，由于我系统里只有默认的锤子应用商店，所以它被直接打开了。为了验证我的猜想，我安装了豌豆荚，再次回到哔哩哔哩漫画，点击评分按钮，果然出现了选择应用选项。<br><img src="/images/29/choose_app.png" alt="choose_app"><br>到此为止，除了再一次感叹隐式Intent这种过滤思想的精妙之外，没有任何问题。问题在于，即使应用商店声明了自己接收这种隐式意图，处于非活动状态的它又是怎么知道有应用发出了这种意图的呢？<br>我的第一个想法是通过Service，监听这种意图，这条思路很清晰，但是很快就被我否决了。且不说Service占用资源且容易被杀死，就从实现原理来讲可能性也不大，我可没听说过startActivity方法被调用以后，会发出什么可以被监听到的广播或者其它什么的信息，就算有，它应该也是处于底层的，不是留给开发者处理的，而且就我自己的回忆，当初学习隐式Intent的时候似乎写过类似功能的Demo，并没有涉及到Service，只是在intent-filter里声明了相关的Action，就可以被其它的应用打开。<br>基于上面的考量，选择合适的应用打开，应该是系统完成的事，那么第一个问题被解决了，不是应用主动获知有自己监听的Intent，而是Android系统通知它并唤醒它的。其实通过另外一点也可以推出这个结论：选择应用的对话框，明显不属于打开和被打开的两方应用，肯定是系统层级的。<br>那么第二个问题出来了：Android系统是如何知道哪些应用监听了这些Intent呢？这个问题解决起来思路就极其明确了，Activity通过intent-filter声明自己监听的Intent，而这些内容全被注册在了Manifest.xml文件里了，Android系统手握所有应用的Manifest.xml，自然可以查出哪个应用哪个Activity监听了哪个Intent，就可以轻易的调出相关应用了。<br>查阅了官方文档关于Manifest.xml的解释，官方文档说的清清楚楚，甚至把Intent过滤器拿出来做了个小标题。<a href="https://developer.android.google.cn/guide/topics/manifest/manifest-intro.html" target="_blank" rel="noopener">应用清单 | Android Developers</a></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Intent intent = new Intent();</span><br><span class="line">intent.setAction(Intent.ACTION_VIEW);</span><br><span class="line">startActivity(intent);</span><br></pre></td></tr></table></figure>
+<p>根据这个原理，一定存在一个和应用商店相关的Action，它就是通过这个Action打开了我的应用商店，由于我系统里只有默认的锤子应用商店，所以它被直接打开了。为了验证我的猜想，我安装了豌豆荚，再次回到哔哩哔哩漫画，点击评分按钮，果然出现了选择应用选项。<br><img src="/images/29/choose_app.png" alt="choose_app"><br>到此为止，除了再一次感叹隐式Intent这种过滤思想的精妙之外，没有任何问题。问题在于，即使应用商店声明了自己接收这种隐式意图，处于非活动状态的它又是怎么知道有应用发出了这种意图的呢？<br>我的第一个想法是通过Service，监听这种意图，这条思路很清晰，但是很快就被我否决了。且不说Service占用资源且容易被杀死，就从实现原理来讲可能性也不大，我可没听说过startActivity方法被调用以后，会发出什么可以被监听到的广播或者其它什么的信息，就算有，它应该也是处于底层的，不是留给开发者处理的，而且就我自己的回忆，当初学习隐式Intent的时候似乎写过类似功能的Demo，并没有涉及到Service，只是在intent-filter里声明了相关的Action，就可以被其它的应用打开。<br>基于上面的考量，选择合适的应用打开，应该是系统完成的事，那么第一个问题被解决了，不是应用主动获知有自己监听的Intent，而是Android系统通知它并唤醒它的。其实通过另外一点也可以推出这个结论：选择应用的对话框，明显不属于打开和被打开的两方应用，肯定是系统层级的。<br>那么第二个问题出来了：Android系统是如何知道哪些应用监听了这些Intent呢？这个问题解决起来思路就极其明确了，Activity通过intent-filter声明自己监听的Intent，而这些内容全被注册在了Manifest.xml文件里了，Android系统手握所有应用的Manifest.xml，自然可以查出哪个应用哪个Activity监听了哪个Intent，就可以轻易的调出相关应用了。<br>查阅了官方文档关于Manifest.xml的解释，官方文档说的清清楚楚，甚至把Intent过滤器拿出来做了个小标题。<a href="https://developer.android.google.cn/guide/topics/manifest/manifest-intro.html" target="_blank" rel="noopener">应用清单 | Android Developers</a></p>
 <p>脸红~ 还是滚去学习了~</p>
 
   </article>
@@ -207,7 +205,7 @@ startActivity(intent);
 <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.15.8/build/highlight.min.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>
 
-<script src="/js/app.js?v=1565794300941"></script>
+<script src="/js/app.js?v=1565794710293"></script>
 <script src="https://cdn.jsdelivr.net/npm/lazysizes@5.1.0/lazysizes.min.js"></script>
 
   

@@ -27,7 +27,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
   
   <link rel="stylesheet" href="//at.alicdn.com/t/font_1038733_0xvrvpg9c0r.css">
-  <link rel="stylesheet" href="/css/style.css?v=1565794301803">
+  <link rel="stylesheet" href="/css/style.css?v=1565794710802">
 </head>
 
 <body class="mdui-drawer-body-left">
@@ -144,7 +144,7 @@
         </a>
         <div class="nexmoe-post-meta">
             <a><i class="nexmoefont icon-calendar-fill"></i>2017年05月19日</a>
-            <a><i class="nexmoefont icon-areachart"></i>250 字</a>
+            <a><i class="nexmoefont icon-areachart"></i>249 字</a>
             <a><i class="nexmoefont icon-time-circle-fill"></i>大概 1 分钟</a>
             
                 <a class="nexmoefont icon-appstore-fill -link" href="/categories/技术/">技术</a>
@@ -157,12 +157,8 @@
             
             <p>今天数据库上机学习了sql server的五种约束：NOT NULL,UNIQUE,PRIMARY KEY,FOREIGN KEY,CHECK。其中前四个约束在MySQL中都有直接体现，NOT NULL和主键外键自不用说，UNIQUE对应了UNIQUE索引。然而MySQL却不支持CHECK约束，OMG，这点还是微软做得好啊~</p>
 <p>解决之道何在？？在MySQL里，就要用trigger来取代CHECK约束了（sql server里也有）。就以数据库课设为例，我们有一张员工表，里面有字段“性别”，性别当然只有男女两个选项，考虑到在插入前就要对性别字段做检查，我们选择BEFORE，插入，定义如下（navicat环境）：</p>
-<pre><code>begin
-if (NEW.性别 != &#39;男&#39; &amp;&amp; NEW.性别 != &#39;女&#39;)
-then delete from employee;
-end if;
-end
-</code></pre><p>是不是很像函数？？它的本质就是在指定条件下自动触发的函数（虽然我没用过函数233）。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">begin</span><br><span class="line">if (NEW.性别 != &apos;男&apos; &amp;&amp; NEW.性别 != &apos;女&apos;)</span><br><span class="line">then delete from employee;</span><br><span class="line">end if;</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+<p>是不是很像函数？？它的本质就是在指定条件下自动触发的函数（虽然我没用过函数233）。</p>
 <p>现在，添加性别为“秀吉”的数据后，服务器出错返回错误了！</p>
 
             
@@ -196,32 +192,12 @@ end
 <hr>
 <p>刚开始看poi-statics的源码，因为我知道它是用的Bootstrap，以为仿照了写就可以实现一样的效果，结果一看代码密密麻麻，不由感叹：连写wiki的人水平™怎么都这么高？？再一看CSS引入，Bootstrap-table.css？？瞬间发现猫腻~加入了Bootstrap-table的js、css的CDN，当然，引入Bootstrap也是必要的（此外还需要jQuery），之后对table启用插件就可以使用了，代码全由插件生成，就很舒服了~</p>
 <p>启用插件有两种方式，文档里写的很清楚，一是通过js启动，好处是维护性和扩展性比较好，也就是解耦了。第二张比较low的方法是直接通过设置table的属性启用，我这种菜鸟当然选择第二种啦！要配置表格属性我们就得熟悉它的属性，我直接贴一段Demo中的代码看看我使用了哪些属性：</p>
-<pre><code>&lt;table id=&quot;tableSal&quot; data-toggle=&quot;table&quot; data-url=&quot;sale&quot; data-method=&quot;post&quot;
-                data-toolbar=&quot;#toolbarSal&quot;
-                 data-pagination=&quot;true&quot;
-                 data-search=&quot;true&quot;
-                 data-show-refresh=&quot;true&quot;
-                 data-show-toggle=&quot;true&quot;
-                 data-show-columns=&quot;true&quot;
-                 data-page-size=&quot;10&quot;&gt;
-                &lt;thead&gt;&lt;tr&gt;
-                &lt;th data-checkbox=&quot;true&quot;&gt;&lt;/th&gt;
-                &lt;th data-field=&quot;id&quot; data-sortable=&quot;true&quot;&gt;订单号&lt;/th&gt;
-                &lt;th data-field=&quot;date&quot; data-sortable=&quot;true&quot;&gt;销售日期&lt;/th&gt;
-                &lt;th data-field=&quot;type&quot;&gt;轿车型号&lt;/th&gt;
-                &lt;th data-field=&quot;color&quot;&gt;颜色&lt;/th&gt;
-                &lt;th data-field=&quot;number&quot; data-sortable=&quot;true&quot;&gt;数量&lt;/th&gt;
-                &lt;th data-field=&quot;customer&quot;&gt;客户&lt;/th&gt;
-                &lt;th data-field=&quot;employee&quot;&gt;负责人&lt;/th&gt;
-                &lt;/tr&gt;&lt;/thead&gt;
-&lt;/table&gt;
-</code></pre><p><code>data-toggle=&quot;table&quot;</code> 不用写 JavaScript 直接启用表格。想要用属性配置必须得设置这个。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;table id=&quot;tableSal&quot; data-toggle=&quot;table&quot; data-url=&quot;sale&quot; data-method=&quot;post&quot;</span><br><span class="line">    			data-toolbar=&quot;#toolbarSal&quot;</span><br><span class="line"> 				data-pagination=&quot;true&quot;</span><br><span class="line"> 				data-search=&quot;true&quot;</span><br><span class="line"> 				data-show-refresh=&quot;true&quot;</span><br><span class="line"> 				data-show-toggle=&quot;true&quot;</span><br><span class="line"> 				data-show-columns=&quot;true&quot;</span><br><span class="line"> 				data-page-size=&quot;10&quot;&gt;</span><br><span class="line">    			&lt;thead&gt;&lt;tr&gt;</span><br><span class="line">    			&lt;th data-checkbox=&quot;true&quot;&gt;&lt;/th&gt;</span><br><span class="line">    			&lt;th data-field=&quot;id&quot; data-sortable=&quot;true&quot;&gt;订单号&lt;/th&gt;</span><br><span class="line">    			&lt;th data-field=&quot;date&quot; data-sortable=&quot;true&quot;&gt;销售日期&lt;/th&gt;</span><br><span class="line">    			&lt;th data-field=&quot;type&quot;&gt;轿车型号&lt;/th&gt;</span><br><span class="line">    			&lt;th data-field=&quot;color&quot;&gt;颜色&lt;/th&gt;</span><br><span class="line">    			&lt;th data-field=&quot;number&quot; data-sortable=&quot;true&quot;&gt;数量&lt;/th&gt;</span><br><span class="line">    			&lt;th data-field=&quot;customer&quot;&gt;客户&lt;/th&gt;</span><br><span class="line">    			&lt;th data-field=&quot;employee&quot;&gt;负责人&lt;/th&gt;</span><br><span class="line">    			&lt;/tr&gt;&lt;/thead&gt;</span><br><span class="line">&lt;/table&gt;</span><br></pre></td></tr></table></figure>
+<p><code>data-toggle=&quot;table&quot;</code> 不用写 JavaScript 直接启用表格。想要用属性配置必须得设置这个。</p>
 <p><code>data-url=&quot;sale&quot;</code> 服务器数据的加载地址。服务器返回必须是json。</p>
 <p>顺便看下我servlet是怎么写的：</p>
-<pre><code>        response.setContentType(&quot;text/javascript;charset=utf-8&quot;);
-        response.setCharacterEncoding(&quot;UTF-8&quot;);
-        response.getWriter().write(array.toString());
-</code></pre><p><code>data-toolbar=&quot;#toolbarSal&quot;</code> 一个jQuery 选择器，指明自定义的toolbar。toolbar会出现在表格的左上方，另外我试过用class来选择，没有效果。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">response.setContentType(&quot;text/javascript;charset=utf-8&quot;);</span><br><span class="line">response.setCharacterEncoding(&quot;UTF-8&quot;);</span><br><span class="line">response.getWriter().write(array.toString());</span><br></pre></td></tr></table></figure>
+<p><code>data-toolbar=&quot;#toolbarSal&quot;</code> 一个jQuery 选择器，指明自定义的toolbar。toolbar会出现在表格的左上方，另外我试过用class来选择，没有效果。</p>
 <p><code>data-pagination=&quot;true&quot;</code> 设置为true会在表格底部显示分页条。</p>
 <p><code>data-search=&quot;true&quot;</code> / <code>data-show-refresh=&quot;true&quot;</code> / <code>data-show-toggle=&quot;true&quot;</code> / <code>data-show-columns=&quot;true&quot;</code> 分别对应了右上方的搜索栏和刷新、切换显示模式、隐藏列按钮。</p>
 <p><code>data-page-size=&quot;10&quot;</code> 设置一页显示的数据。</p>
@@ -232,12 +208,8 @@ end
 <hr>
 <p>接下来看下它的方法，使用方法的语法：<code>$(&#39;#table&#39;).bootstrapTable(&#39;method&#39;, parameter)</code>。</p>
 <p>我们以删除为例。</p>
-<pre><code>var id = $.map($(&quot;#tableSal&quot;).bootstrapTable(&#39;getSelections&#39;), function(row){ return row.id; });
-$(&quot;#tableSal&quot;).bootstrapTable(&#39;remove&#39;, {
-                    field: &#39;id&#39;,
-                    values: id
-                });
-</code></pre><p>getSelections方法得到选中的行对象数组，我们用jQuery的map方法得到它们的id。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">var id = $.map($(&quot;#tableSal&quot;).bootstrapTable(&apos;getSelections&apos;), function(row)&#123; return row.id; &#125;);</span><br><span class="line">$(&quot;#tableSal&quot;).bootstrapTable(&apos;remove&apos;, &#123;</span><br><span class="line">					field: &apos;id&apos;,</span><br><span class="line">					values: id</span><br><span class="line">				&#125;);</span><br></pre></td></tr></table></figure>
+<p>getSelections方法得到选中的行对象数组，我们用jQuery的map方法得到它们的id。</p>
 <p>remove方法删除表中的数据，它接受两个参数，field: 需要删除的行的 field 名称。values: 需要删除的行的值，类型为数组。这里的删除当然只是对表格的数据进行删除，对后端是没有影响的，刷新一下数据又回来了，所以方法叫remove不叫delete~如果想操作后端的话，用ajax就行了。</p>
 <p>暂时我就只用到了这些属性和方法，除此以外，Bootstrap-table还具有事件监听，如行点击事件等，另外，我看到poi-statics上还有展开数据等功能，真的是非常全面强大！我用到的只是冰山一角，以后再有用到的机会再做记录吧~</p>
 
@@ -262,7 +234,7 @@ $(&quot;#tableSal&quot;).bootstrapTable(&#39;remove&#39;, {
 <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.15.8/build/highlight.min.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>
 
-<script src="/js/app.js?v=1565794301813"></script>
+<script src="/js/app.js?v=1565794710808"></script>
 <script src="https://cdn.jsdelivr.net/npm/lazysizes@5.1.0/lazysizes.min.js"></script>
 
   

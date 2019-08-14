@@ -11,25 +11,25 @@
   
 
   <link rel="shortcut icon" href="/favicon.ico" type="image/png" />
-  <meta name="description" content="2. lambda表达式：     public static File[] getChildDirectory(File file) {         return file.listFiles(pathname -&amp;gt; {             if(pathname.isDirectory()) {                 return true;             }">
+  <meta name="description" content="2. lambda表达式： public static File[] getChildDirectory(File file) &amp;#123;	return file.listFiles(pathname -&amp;gt; &amp;#123;		if(pathname.isDirectory()) &amp;#123;			return true;		&amp;#125;		else &amp;#123;			return false">
 <meta name="keywords" content="java">
 <meta property="og:type" content="article">
 <meta property="og:title" content="《Java SE 8 for the really impatient》第一章习题笔记">
 <meta property="og:url" content="http://www.fengjingzhe.com/2017/02/09/《Java SE 8 for the really impatient》第一章习题笔记/index.html">
 <meta property="og:site_name" content="冯京哲的狗窝">
-<meta property="og:description" content="2. lambda表达式：     public static File[] getChildDirectory(File file) {         return file.listFiles(pathname -&amp;gt; {             if(pathname.isDirectory()) {                 return true;             }">
+<meta property="og:description" content="2. lambda表达式： public static File[] getChildDirectory(File file) &amp;#123;	return file.listFiles(pathname -&amp;gt; &amp;#123;		if(pathname.isDirectory()) &amp;#123;			return true;		&amp;#125;		else &amp;#123;			return false">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2018-05-09T13:21:26.864Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《Java SE 8 for the really impatient》第一章习题笔记">
-<meta name="twitter:description" content="2. lambda表达式：     public static File[] getChildDirectory(File file) {         return file.listFiles(pathname -&amp;gt; {             if(pathname.isDirectory()) {                 return true;             }">
+<meta name="twitter:description" content="2. lambda表达式： public static File[] getChildDirectory(File file) &amp;#123;	return file.listFiles(pathname -&amp;gt; &amp;#123;		if(pathname.isDirectory()) &amp;#123;			return true;		&amp;#125;		else &amp;#123;			return false">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mdui@0.4.3/dist/css/mdui.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.15.8/styles/atom-one-dark.css">
    
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
   
   <link rel="stylesheet" href="//at.alicdn.com/t/font_1038733_0xvrvpg9c0r.css">
-  <link rel="stylesheet" href="/css/style.css?v=1565794301634">
+  <link rel="stylesheet" href="/css/style.css?v=1565794710570">
 </head>
 
 <body class="mdui-drawer-body-left">
@@ -142,7 +142,7 @@
     </div>
   <div class="nexmoe-post-meta">
     <a><i class="nexmoefont icon-calendar-fill"></i>2017年02月09日</a>
-    <a><i class="nexmoefont icon-areachart"></i>390 字</a>
+    <a><i class="nexmoefont icon-areachart"></i>439 字</a>
     <a><i class="nexmoefont icon-time-circle-fill"></i>大概 2 分钟</a>
     
       <a class="nexmoefont icon-appstore-fill -link" href="/categories/技术/">技术</a>
@@ -154,89 +154,25 @@
   <article>
     <p>2.</p>
 <p>lambda表达式：</p>
-<pre><code>    public static File[] getChildDirectory(File file) {
-        return file.listFiles(pathname -&gt; {
-            if(pathname.isDirectory()) {
-                return true;
-            }
-            else {
-                return false;
-            }
-        });
-</code></pre><p>方法引用：</p>
-<pre><code>    public static File[] getChildDirectory(File file) {
-        return file.listFiles(File::isDirectory);
-    }
-</code></pre><hr>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public static File[] getChildDirectory(File file) &#123;</span><br><span class="line">	return file.listFiles(pathname -&gt; &#123;</span><br><span class="line">		if(pathname.isDirectory()) &#123;</span><br><span class="line">			return true;</span><br><span class="line">		&#125;</span><br><span class="line">		else &#123;</span><br><span class="line">			return false;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;);</span><br></pre></td></tr></table></figure>
+<p>方法引用：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public static File[] getChildDirectory(File file) &#123;</span><br><span class="line">	return file.listFiles(File::isDirectory);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
 <p>3.</p>
-<pre><code>    public static File[] getChildFilesByExt(File file, String ext) {
-        return file.listFiles((dir, name) -&gt; {
-            if (name.substring(name.lastIndexOf(&quot;.&quot;) + 1).equals(ext)) {
-                return true;
-            } else {
-                return false;
-            }
-        });
-    }
-</code></pre><p>捕获file以及ext。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public static File[] getChildFilesByExt(File file, String ext) &#123;</span><br><span class="line">	return file.listFiles((dir, name) -&gt; &#123;</span><br><span class="line">		if (name.substring(name.lastIndexOf(&quot;.&quot;) + 1).equals(ext)) &#123;</span><br><span class="line">			return true;</span><br><span class="line">		&#125; else &#123;</span><br><span class="line">			return false;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>捕获file以及ext。</p>
 <hr>
 <p>6.</p>
-<pre><code>public class Test {
-    public static void main(String[] args) {
-
-        new Thread(uncheck(() -&gt; {
-            System.out.println(&quot;start&quot;);
-            Thread.sleep(1000);
-            System.out.println(&quot;end&quot;);
-        })).start();
-    }
-
-    public static Runnable uncheck(RunnableEx runnableEx) {
-        return new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    runnableEx.run();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        };
-    }
-}
-
-interface RunnableEx {
-    public void run() throws Exception;
-}
-</code></pre><p> uncheck实际上做的事就是，封装了一个Runnable并返回，其中Runnable的run方法调用了lambda表达式的代码段并检查了代码段。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public class Test &#123;</span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		</span><br><span class="line">		new Thread(uncheck(() -&gt; &#123;</span><br><span class="line">			System.out.println(&quot;start&quot;);</span><br><span class="line">			Thread.sleep(1000);</span><br><span class="line">			System.out.println(&quot;end&quot;);</span><br><span class="line">		&#125;)).start();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public static Runnable uncheck(RunnableEx runnableEx) &#123;</span><br><span class="line">		return new Runnable() &#123;</span><br><span class="line">			@Override</span><br><span class="line">			public void run() &#123;</span><br><span class="line">				try &#123;</span><br><span class="line">					runnableEx.run();</span><br><span class="line">				&#125; catch (Exception e) &#123;</span><br><span class="line">					e.printStackTrace();</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">interface RunnableEx &#123;</span><br><span class="line">	public void run() throws Exception;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p> uncheck实际上做的事就是，封装了一个Runnable并返回，其中Runnable的run方法调用了lambda表达式的代码段并检查了代码段。</p>
 <p>我感觉是可以用<code>Callable&lt;Void&gt;</code>的，在代码段最后加上<code>return null</code>就可以了，确实可以跑起来。</p>
 <hr>
 <p>7.</p>
-<pre><code>    public static void main(String[] args) {
-
-        andThen(()-&gt;{System.out.println(&quot;1&quot;);}, ()-&gt;{System.out.println(&quot;2&quot;);});
-
-    }
-
-    public static Thread[] andThen(Runnable a, Runnable b) {
-        Thread thread1 = new Thread(a);
-        thread1.start();
-        Thread thread2 = new Thread(b);
-        thread2.start();
-        Thread[] threads = new Thread[2];
-        return threads;
-    }
-</code></pre><hr>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public static void main(String[] args) &#123;</span><br><span class="line">	</span><br><span class="line">	andThen(()-&gt;&#123;System.out.println(&quot;1&quot;);&#125;, ()-&gt;&#123;System.out.println(&quot;2&quot;);&#125;);</span><br><span class="line">	</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public static Thread[] andThen(Runnable a, Runnable b) &#123;</span><br><span class="line">	Thread thread1 = new Thread(a);</span><br><span class="line">	thread1.start();</span><br><span class="line">	Thread thread2 = new Thread(b);</span><br><span class="line">	thread2.start();</span><br><span class="line">	Thread[] threads = new Thread[2];</span><br><span class="line">	return threads;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
 <p>8.</p>
-<pre><code>    String[] names = { &quot;Peter&quot;, &quot;Paul&quot;, &quot;Merry&quot; };
-    List&lt;Runnable&gt; runners = new ArrayList&lt;Runnable&gt;();
-    for(String name : names) {
-        runners.add(() -&gt; System.out.println(name));
-    }
-    for(Runnable r : runners) {
-        new Thread(r).start();
-    }
-</code></pre><p>合法</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">String[] names = &#123; &quot;Peter&quot;, &quot;Paul&quot;, &quot;Merry&quot; &#125;;</span><br><span class="line">List&lt;Runnable&gt; runners = new ArrayList&lt;Runnable&gt;();</span><br><span class="line">for(String name : names) &#123;</span><br><span class="line"> runners.add(() -&gt; System.out.println(name));</span><br><span class="line">&#125;</span><br><span class="line">for(Runnable r : runners) &#123;</span><br><span class="line"> new Thread(r).start();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>合法</p>
 <p>如果使用传统的for循环，不合法，编译器报错Local variable i defined in an enclosing scope must be final or effectively final。捕获的i值发生了变化，即为非法。与内部类相同，JDK1.8开始可以在内部类和lambda表达式中使用非final局部变量，前提是值不发生改变（本质上还是final的）。</p>
 
   </article>
@@ -285,7 +221,7 @@ interface RunnableEx {
 <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.15.8/build/highlight.min.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>
 
-<script src="/js/app.js?v=1565794301645"></script>
+<script src="/js/app.js?v=1565794710582"></script>
 <script src="https://cdn.jsdelivr.net/npm/lazysizes@5.1.0/lazysizes.min.js"></script>
 
   

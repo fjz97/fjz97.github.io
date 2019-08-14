@@ -33,7 +33,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
   
   <link rel="stylesheet" href="//at.alicdn.com/t/font_1038733_0xvrvpg9c0r.css">
-  <link rel="stylesheet" href="/css/style.css?v=1565794301133">
+  <link rel="stylesheet" href="/css/style.css?v=1565794710514">
 </head>
 
 <body class="mdui-drawer-body-left">
@@ -146,7 +146,7 @@
     </div>
   <div class="nexmoe-post-meta">
     <a><i class="nexmoefont icon-calendar-fill"></i>2017年03月25日</a>
-    <a><i class="nexmoefont icon-areachart"></i>511 字</a>
+    <a><i class="nexmoefont icon-areachart"></i>515 字</a>
     <a><i class="nexmoefont icon-time-circle-fill"></i>大概 2 分钟</a>
     
       <a class="nexmoefont icon-appstore-fill -link" href="/categories/技术/">技术</a>
@@ -157,10 +157,10 @@
   </div>
   <article>
     <h2 id="获取LayoutInflater"><a href="#获取LayoutInflater" class="headerlink" title="获取LayoutInflater"></a>获取LayoutInflater</h2><p>有三种方法获取LayoutInflater，分别是：</p>
-<pre><code>LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-</code></pre><pre><code>LayoutInflater inflater = LayoutInflater.from(context);
-</code></pre><pre><code>LayoutInflater inflater = getLayoutInflater();//在activity中使用
-</code></pre><p>而后两种方法实际也是调用第一种方法，得到的是LayoutInflater的实现类PhoneLayoutInflater。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">LayoutInflater inflater = LayoutInflater.from(context);</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">LayoutInflater inflater = getLayoutInflater();//在activity中使用</span><br></pre></td></tr></table></figure>
+<p>而后两种方法实际也是调用第一种方法，得到的是LayoutInflater的实现类PhoneLayoutInflater。</p>
 <h2 id="inflate方法"><a href="#inflate方法" class="headerlink" title="inflate方法"></a>inflate方法</h2><p>在生成view的时候常常要使用inflate方法，在fragment的onCreateView方法中我习惯写</p>
 <p><code>View view = inflater.inflate(R.layout.xxx, container, false);</code></p>
 <p>在listview adapter的getView方法中我又习惯写</p>
@@ -169,37 +169,11 @@
 <p><img src="/images/19/inflate.png" alt="inflate"></p>
 <p>那么回到上面的两个例子，它们究竟有什么不同呢。通过下面这个例子解释一下。</p>
 <p>布局文件</p>
-<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
-&lt;TextView xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
-    android:layout_width=&quot;match_parent&quot;
-    android:layout_height=&quot;match_parent&quot;
-    android:text=&quot;hello world&quot;
-    android:background=&quot;@android:color/darker_gray&quot;
-    android:gravity=&quot;center&quot;/&gt;
-</code></pre><pre><code>    &lt;Button
-        android:id=&quot;@+id/btn&quot;
-        android:layout_width=&quot;wrap_content&quot;
-        android:layout_height=&quot;wrap_content&quot;
-        android:text=&quot;加载布局&quot;/&gt;
-
-    &lt;LinearLayout
-        android:id=&quot;@+id/root&quot;
-        android:orientation=&quot;vertical&quot;
-        android:layout_width=&quot;300dp&quot;
-        android:layout_height=&quot;300dp&quot;&gt;
-    &lt;/LinearLayout&gt;
-</code></pre><p>MainActivity</p>
-<pre><code>final LinearLayout root = (LinearLayout) findViewById(R.id.root);
-        Button btn = (Button) findViewById(R.id.btn);
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LayoutInflater inflater = getLayoutInflater();
-                View view = inflater.inflate(R.layout.item, null);
-                root.addView(view);
-            }
-        });
-</code></pre><p>我们给ViewGroup传null，运行结果如下</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span><br><span class="line">&lt;TextView xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;</span><br><span class="line">    android:layout_width=&quot;match_parent&quot;</span><br><span class="line">    android:layout_height=&quot;match_parent&quot;</span><br><span class="line">    android:text=&quot;hello world&quot;</span><br><span class="line">    android:background=&quot;@android:color/darker_gray&quot;</span><br><span class="line">    android:gravity=&quot;center&quot;/&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;Button</span><br><span class="line">       android:id=&quot;@+id/btn&quot;</span><br><span class="line">       android:layout_width=&quot;wrap_content&quot;</span><br><span class="line">       android:layout_height=&quot;wrap_content&quot;</span><br><span class="line">       android:text=&quot;加载布局&quot;/&gt;</span><br><span class="line"></span><br><span class="line">   &lt;LinearLayout</span><br><span class="line">       android:id=&quot;@+id/root&quot;</span><br><span class="line">       android:orientation=&quot;vertical&quot;</span><br><span class="line">       android:layout_width=&quot;300dp&quot;</span><br><span class="line">       android:layout_height=&quot;300dp&quot;&gt;</span><br><span class="line">   &lt;/LinearLayout&gt;</span><br></pre></td></tr></table></figure>
+<p>MainActivity</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">final LinearLayout root = (LinearLayout) findViewById(R.id.root);</span><br><span class="line">        Button btn = (Button) findViewById(R.id.btn);</span><br><span class="line">        btn.setOnClickListener(new View.OnClickListener() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public void onClick(View v) &#123;</span><br><span class="line">                LayoutInflater inflater = getLayoutInflater();</span><br><span class="line">                View view = inflater.inflate(R.layout.item, null);</span><br><span class="line">                root.addView(view);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br></pre></td></tr></table></figure>
+<p>我们给ViewGroup传null，运行结果如下</p>
 <p><img src="/images/19/ViewGroup_null.png" alt="ViewGroup_null"></p>
 <p>发现我们给textview设定的match_parent属性并没有生效（毕竟它没有parent）。这就是第二个参数的作用所在，给生成的view限定一个parent，修改代码如下</p>
 <p><code>View view = inflater.inflate(R.layout.item, root, true);</code></p>
@@ -253,7 +227,7 @@
 <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.15.8/build/highlight.min.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>
 
-<script src="/js/app.js?v=1565794301141"></script>
+<script src="/js/app.js?v=1565794710521"></script>
 <script src="https://cdn.jsdelivr.net/npm/lazysizes@5.1.0/lazysizes.min.js"></script>
 
   

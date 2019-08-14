@@ -27,7 +27,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
   
   <link rel="stylesheet" href="//at.alicdn.com/t/font_1038733_0xvrvpg9c0r.css">
-  <link rel="stylesheet" href="/css/style.css?v=1565794301724">
+  <link rel="stylesheet" href="/css/style.css?v=1565794710727">
 </head>
 
 <body class="mdui-drawer-body-left">
@@ -158,14 +158,12 @@
             <p>总结一下博客实现过程中的几个重要思路和bug解决。</p>
 <hr>
 <h1 id="1-修改文章的时候如何让标题文章重新载入input和textarea"><a href="#1-修改文章的时候如何让标题文章重新载入input和textarea" class="headerlink" title="1.修改文章的时候如何让标题文章重新载入input和textarea"></a>1.修改文章的时候如何让标题文章重新载入input和textarea</h1><p>首先的想法是用js DOM来直接操作input和textarea的value属性（淦，突然发现ckeditor standard版居然没有改变颜色的功能……），这就首先要求js能获取到servlet或者说是jsp中的attribute，想到用el表达式可以，大概这么个想法：</p>
-<pre><code>var title = document.getElementById(&quot;title&quot;);
-title.value = ${modifyArticle.getTitle()};
-</code></pre><p>但el表达式只是在html上进行简单的文本替换，也就是说，要想让${modifyArticle.getTitle()}成为字符串，得加上双引号，这样就有一个问题，如果el表达式中存在引号，那么字符串的生成就会出错。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">var title = document.getElementById(&quot;title&quot;);</span><br><span class="line">title.value = $&#123;modifyArticle.getTitle()&#125;;</span><br></pre></td></tr></table></figure>
+<p>但el表达式只是在html上进行简单的文本替换，也就是说，要想让${modifyArticle.getTitle()}成为字符串，得加上双引号，这样就有一个问题，如果el表达式中存在引号，那么字符串的生成就会出错。</p>
 <p>后来仔细一想，直接在html的value属性里面加上不就可以了吗？因为html属性后面可以不加引号，就像这样：</p>
-<pre><code>&lt;input class=&quot;form-control&quot; id=&quot;title&quot; name=&quot;title&quot; placeholder=&quot;标题&quot; type=&quot;text&quot; value=&quot;${modifyArticle.getTitle()&quot; /&gt;
-</code></pre><p>再仔细想，可以这样：</p>
-<pre><code>&lt;textarea id=&quot;ckeditor&quot; name=&quot;content&quot;&gt;${modifyArticle.getContent() }&lt;/textarea&gt;
-</code></pre>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;input class=&quot;form-control&quot; id=&quot;title&quot; name=&quot;title&quot; placeholder=&quot;标题&quot; type=&quot;text&quot; value=&quot;$&#123;modifyArticle.getTitle()&quot; /&gt;</span><br></pre></td></tr></table></figure>
+<p>再仔细想，可以这样：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;textarea id=&quot;ckeditor&quot; name=&quot;content&quot;&gt;$&#123;modifyArticle.getContent() &#125;&lt;/textarea&gt;</span><br></pre></td></tr></table></figure>
             
         </article>
     </div>
@@ -191,7 +189,7 @@ title.value = ${modifyArticle.getTitle()};
 <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.15.8/build/highlight.min.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>
 
-<script src="/js/app.js?v=1565794301735"></script>
+<script src="/js/app.js?v=1565794710734"></script>
 <script src="https://cdn.jsdelivr.net/npm/lazysizes@5.1.0/lazysizes.min.js"></script>
 
   

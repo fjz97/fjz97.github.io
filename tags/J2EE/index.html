@@ -27,7 +27,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
   
   <link rel="stylesheet" href="//at.alicdn.com/t/font_1038733_0xvrvpg9c0r.css">
-  <link rel="stylesheet" href="/css/style.css?v=1565794302108">
+  <link rel="stylesheet" href="/css/style.css?v=1565794711007">
 </head>
 
 <body class="mdui-drawer-body-left">
@@ -144,7 +144,7 @@
         </a>
         <div class="nexmoe-post-meta">
             <a><i class="nexmoefont icon-calendar-fill"></i>2018年03月27日</a>
-            <a><i class="nexmoefont icon-areachart"></i>303 字</a>
+            <a><i class="nexmoefont icon-areachart"></i>315 字</a>
             <a><i class="nexmoefont icon-time-circle-fill"></i>大概 1 分钟</a>
             
                 <a class="nexmoefont icon-appstore-fill -link" href="/categories/技术/">技术</a>
@@ -163,47 +163,15 @@
 <li>使用注解@MultipartConfig将一个Servlet标识为支持文件上传，否则会报Unable to process parts as no multi-part configuration has been provided错误，这里使用了Servlet3.0的注解特性。</li>
 <li>HttpServletRequest提供了getPart和getParts两个方法获取到表单的内容。</li>
 </ol>
-<pre><code>        //getPart方法
-        Part image = null;
-        InputStream imageInputStream = null;
-        try {
-            image = request.getPart(&quot;image&quot;);
-            if (image != null &amp;&amp; image.getSize() != 0)
-                imageInputStream = image.getInputStream();
-            FileUtils.copyInputStreamToFile(imageInputStream, new File(targetFile));//common-io包提供的写文件API
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-</code></pre><p>getPart方法根据表单的name属性获取表单内容。</p>
-<pre><code>        //getParts方法
-        ArrayList&lt;Part&gt; images;
-        try {
-            images = (ArrayList&lt;Part&gt;) request.getParts();
-            count = images.size();
-            for (Part image : images) {
-                InputStream imageInputStream = null;
-                imageInputStream = image.getInputStream();
-                FileUtils.copyInputStreamToFile(imageInputStream, new File(targetFile));
-            }
-        } catch (IOException e1) {
-            e1.printStackTrace();
-        }
-</code></pre><p>getParts则获取到表单中的全部内容。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">//getPart方法</span><br><span class="line">Part image = null;</span><br><span class="line">      InputStream imageInputStream = null;</span><br><span class="line">      try &#123;</span><br><span class="line">          image = request.getPart(&quot;image&quot;);</span><br><span class="line">          if (image != null &amp;&amp; image.getSize() != 0)</span><br><span class="line">              imageInputStream = image.getInputStream();</span><br><span class="line">       FileUtils.copyInputStreamToFile(imageInputStream, new File(targetFile));//common-io包提供的写文件API</span><br><span class="line">      &#125; catch (Exception e) &#123;</span><br><span class="line">          e.printStackTrace();</span><br><span class="line">      &#125;</span><br></pre></td></tr></table></figure>
+<p>getPart方法根据表单的name属性获取表单内容。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">//getParts方法</span><br><span class="line">ArrayList&lt;Part&gt; images;</span><br><span class="line">      try &#123;</span><br><span class="line">          images = (ArrayList&lt;Part&gt;) request.getParts();</span><br><span class="line">          count = images.size();</span><br><span class="line">          for (Part image : images) &#123;</span><br><span class="line">              InputStream imageInputStream = null;</span><br><span class="line">              imageInputStream = image.getInputStream();</span><br><span class="line">		FileUtils.copyInputStreamToFile(imageInputStream, new File(targetFile));</span><br><span class="line">	&#125;</span><br><span class="line">      &#125; catch (IOException e1) &#123;</span><br><span class="line">          e1.printStackTrace();</span><br><span class="line">      &#125;</span><br></pre></td></tr></table></figure>
+<p>getParts则获取到表单中的全部内容。</p>
 <ul>
 <li>前端</li>
 </ul>
 <p>创建一个FormData对象，由于参数为表单的DOM对象，所以用JQuery选择器获取后应转换为DOM对象。</p>
-<pre><code>            $.ajax({
-                type: &#39;post&#39;,
-                url: &#39;updateAvatar.action&#39;,
-                data: new FormData($(&#39;#form&#39;)[0]),
-                processData: false,
-                contentType: false,
-                success: function(data) {
-
-                }
-            });
-</code></pre>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$.ajax(&#123;</span><br><span class="line">             type: &apos;post&apos;,</span><br><span class="line">             url: &apos;updateAvatar.action&apos;,</span><br><span class="line">             data: new FormData($(&apos;#form&apos;)[0]),</span><br><span class="line">             processData: false,</span><br><span class="line">             contentType: false,</span><br><span class="line">             success: function(data) &#123;</span><br><span class="line">                 </span><br><span class="line">             &#125;</span><br><span class="line">         &#125;);</span><br></pre></td></tr></table></figure>
             
         </article>
     </div>
@@ -264,14 +232,12 @@
             <p>总结一下博客实现过程中的几个重要思路和bug解决。</p>
 <hr>
 <h1 id="1-修改文章的时候如何让标题文章重新载入input和textarea"><a href="#1-修改文章的时候如何让标题文章重新载入input和textarea" class="headerlink" title="1.修改文章的时候如何让标题文章重新载入input和textarea"></a>1.修改文章的时候如何让标题文章重新载入input和textarea</h1><p>首先的想法是用js DOM来直接操作input和textarea的value属性（淦，突然发现ckeditor standard版居然没有改变颜色的功能……），这就首先要求js能获取到servlet或者说是jsp中的attribute，想到用el表达式可以，大概这么个想法：</p>
-<pre><code>var title = document.getElementById(&quot;title&quot;);
-title.value = ${modifyArticle.getTitle()};
-</code></pre><p>但el表达式只是在html上进行简单的文本替换，也就是说，要想让${modifyArticle.getTitle()}成为字符串，得加上双引号，这样就有一个问题，如果el表达式中存在引号，那么字符串的生成就会出错。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">var title = document.getElementById(&quot;title&quot;);</span><br><span class="line">title.value = $&#123;modifyArticle.getTitle()&#125;;</span><br></pre></td></tr></table></figure>
+<p>但el表达式只是在html上进行简单的文本替换，也就是说，要想让${modifyArticle.getTitle()}成为字符串，得加上双引号，这样就有一个问题，如果el表达式中存在引号，那么字符串的生成就会出错。</p>
 <p>后来仔细一想，直接在html的value属性里面加上不就可以了吗？因为html属性后面可以不加引号，就像这样：</p>
-<pre><code>&lt;input class=&quot;form-control&quot; id=&quot;title&quot; name=&quot;title&quot; placeholder=&quot;标题&quot; type=&quot;text&quot; value=&quot;${modifyArticle.getTitle()&quot; /&gt;
-</code></pre><p>再仔细想，可以这样：</p>
-<pre><code>&lt;textarea id=&quot;ckeditor&quot; name=&quot;content&quot;&gt;${modifyArticle.getContent() }&lt;/textarea&gt;
-</code></pre>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;input class=&quot;form-control&quot; id=&quot;title&quot; name=&quot;title&quot; placeholder=&quot;标题&quot; type=&quot;text&quot; value=&quot;$&#123;modifyArticle.getTitle()&quot; /&gt;</span><br></pre></td></tr></table></figure>
+<p>再仔细想，可以这样：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;textarea id=&quot;ckeditor&quot; name=&quot;content&quot;&gt;$&#123;modifyArticle.getContent() &#125;&lt;/textarea&gt;</span><br></pre></td></tr></table></figure>
             
         </article>
     </div>
@@ -293,7 +259,7 @@ title.value = ${modifyArticle.getTitle()};
 <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.15.8/build/highlight.min.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>
 
-<script src="/js/app.js?v=1565794302118"></script>
+<script src="/js/app.js?v=1565794711017"></script>
 <script src="https://cdn.jsdelivr.net/npm/lazysizes@5.1.0/lazysizes.min.js"></script>
 
   

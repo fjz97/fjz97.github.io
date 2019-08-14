@@ -29,7 +29,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
   
   <link rel="stylesheet" href="//at.alicdn.com/t/font_1038733_0xvrvpg9c0r.css">
-  <link rel="stylesheet" href="/css/style.css?v=1565794301011">
+  <link rel="stylesheet" href="/css/style.css?v=1565794710363">
 </head>
 
 <body class="mdui-drawer-body-left">
@@ -142,7 +142,7 @@
     </div>
   <div class="nexmoe-post-meta">
     <a><i class="nexmoefont icon-calendar-fill"></i>2018年03月27日</a>
-    <a><i class="nexmoefont icon-areachart"></i>303 字</a>
+    <a><i class="nexmoefont icon-areachart"></i>315 字</a>
     <a><i class="nexmoefont icon-time-circle-fill"></i>大概 1 分钟</a>
     
       <a class="nexmoefont icon-appstore-fill -link" href="/categories/技术/">技术</a>
@@ -160,47 +160,15 @@
 <li>使用注解@MultipartConfig将一个Servlet标识为支持文件上传，否则会报Unable to process parts as no multi-part configuration has been provided错误，这里使用了Servlet3.0的注解特性。</li>
 <li>HttpServletRequest提供了getPart和getParts两个方法获取到表单的内容。</li>
 </ol>
-<pre><code>        //getPart方法
-        Part image = null;
-        InputStream imageInputStream = null;
-        try {
-            image = request.getPart(&quot;image&quot;);
-            if (image != null &amp;&amp; image.getSize() != 0)
-                imageInputStream = image.getInputStream();
-            FileUtils.copyInputStreamToFile(imageInputStream, new File(targetFile));//common-io包提供的写文件API
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-</code></pre><p>getPart方法根据表单的name属性获取表单内容。</p>
-<pre><code>        //getParts方法
-        ArrayList&lt;Part&gt; images;
-        try {
-            images = (ArrayList&lt;Part&gt;) request.getParts();
-            count = images.size();
-            for (Part image : images) {
-                InputStream imageInputStream = null;
-                imageInputStream = image.getInputStream();
-                FileUtils.copyInputStreamToFile(imageInputStream, new File(targetFile));
-            }
-        } catch (IOException e1) {
-            e1.printStackTrace();
-        }
-</code></pre><p>getParts则获取到表单中的全部内容。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">//getPart方法</span><br><span class="line">Part image = null;</span><br><span class="line">      InputStream imageInputStream = null;</span><br><span class="line">      try &#123;</span><br><span class="line">          image = request.getPart(&quot;image&quot;);</span><br><span class="line">          if (image != null &amp;&amp; image.getSize() != 0)</span><br><span class="line">              imageInputStream = image.getInputStream();</span><br><span class="line">       FileUtils.copyInputStreamToFile(imageInputStream, new File(targetFile));//common-io包提供的写文件API</span><br><span class="line">      &#125; catch (Exception e) &#123;</span><br><span class="line">          e.printStackTrace();</span><br><span class="line">      &#125;</span><br></pre></td></tr></table></figure>
+<p>getPart方法根据表单的name属性获取表单内容。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">//getParts方法</span><br><span class="line">ArrayList&lt;Part&gt; images;</span><br><span class="line">      try &#123;</span><br><span class="line">          images = (ArrayList&lt;Part&gt;) request.getParts();</span><br><span class="line">          count = images.size();</span><br><span class="line">          for (Part image : images) &#123;</span><br><span class="line">              InputStream imageInputStream = null;</span><br><span class="line">              imageInputStream = image.getInputStream();</span><br><span class="line">		FileUtils.copyInputStreamToFile(imageInputStream, new File(targetFile));</span><br><span class="line">	&#125;</span><br><span class="line">      &#125; catch (IOException e1) &#123;</span><br><span class="line">          e1.printStackTrace();</span><br><span class="line">      &#125;</span><br></pre></td></tr></table></figure>
+<p>getParts则获取到表单中的全部内容。</p>
 <ul>
 <li>前端</li>
 </ul>
 <p>创建一个FormData对象，由于参数为表单的DOM对象，所以用JQuery选择器获取后应转换为DOM对象。</p>
-<pre><code>            $.ajax({
-                type: &#39;post&#39;,
-                url: &#39;updateAvatar.action&#39;,
-                data: new FormData($(&#39;#form&#39;)[0]),
-                processData: false,
-                contentType: false,
-                success: function(data) {
-
-                }
-            });
-</code></pre>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$.ajax(&#123;</span><br><span class="line">             type: &apos;post&apos;,</span><br><span class="line">             url: &apos;updateAvatar.action&apos;,</span><br><span class="line">             data: new FormData($(&apos;#form&apos;)[0]),</span><br><span class="line">             processData: false,</span><br><span class="line">             contentType: false,</span><br><span class="line">             success: function(data) &#123;</span><br><span class="line">                 </span><br><span class="line">             &#125;</span><br><span class="line">         &#125;);</span><br></pre></td></tr></table></figure>
   </article>
   
     
@@ -247,7 +215,7 @@
 <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.15.8/build/highlight.min.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>
 
-<script src="/js/app.js?v=1565794301019"></script>
+<script src="/js/app.js?v=1565794710370"></script>
 <script src="https://cdn.jsdelivr.net/npm/lazysizes@5.1.0/lazysizes.min.js"></script>
 
   

@@ -37,7 +37,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
   
   <link rel="stylesheet" href="//at.alicdn.com/t/font_1038733_0xvrvpg9c0r.css">
-  <link rel="stylesheet" href="/css/style.css?v=1565794301088">
+  <link rel="stylesheet" href="/css/style.css?v=1565794710446">
 </head>
 
 <body class="mdui-drawer-body-left">
@@ -150,7 +150,7 @@
     </div>
   <div class="nexmoe-post-meta">
     <a><i class="nexmoefont icon-calendar-fill"></i>2017年04月07日</a>
-    <a><i class="nexmoefont icon-areachart"></i>1.3k 字</a>
+    <a><i class="nexmoefont icon-areachart"></i>1.4k 字</a>
     <a><i class="nexmoefont icon-time-circle-fill"></i>大概 6 分钟</a>
     
       <a class="nexmoefont icon-appstore-fill -link" href="/categories/技术/">技术</a>
@@ -166,159 +166,47 @@
 <a id="more"></a>
 <hr>
 <h1 id="1-基本使用"><a href="#1-基本使用" class="headerlink" title="1.基本使用"></a>1.基本使用</h1><p>引入RecyclerView后，设置LayoutManager和Adapter就可以使用了。</p>
-<pre><code>        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerView.setAdapter(new RecyclerViewAdapter(this.getContext()));
-</code></pre><p>Adapter的设置和ListView不太一样。</p>
-<pre><code>//Adapter必须继承自RecyclerView.Adapter，MyViewHolder必须继承自RecyclerView.ViewHolder
-public class RecyclerViewAdapter extends RecyclerView.Adapter&lt;RecyclerViewAdapter.MyViewHolder&gt; {
-    public RecyclerViewAdapter(Context context) {
-        titles = new String[20];
-        mInflater = LayoutInflater.from(context);
-        for (int i = 0; i &lt; 20; i++) {
-            titles[i] = &quot;item&quot; + i;
-        }
-    }
-
-    @Override
-    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = mInflater.inflate(R.layout.item_recycler, parent, false);
-        MyViewHolder viewHolder = new MyViewHolder(view);
-        return viewHolder;
-    }
-
-    @Override
-    public void onBindViewHolder(MyViewHolder holder, int position) {
-        holder.textView.setText(titles[position]);
-    }
-
-    @Override
-    public int getItemCount() {
-        return titles.length;
-    }
-
-    public class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView textView;
-        public MyViewHolder(View view) {
-            super(view);
-            textView = (TextView) view.findViewById(R.id.text_view);
-        }
-    }
-
-    private String[] titles;
-    private LayoutInflater mInflater;
-}
-</code></pre><p>这里不做太多的解释，仿照着写就可以，值得注意的地方是泛型中的ViewHolder类型必须与onCreateViewHolder的返回类型保持一致。可以看出Google官方对ViewHolder的使用官方化了，正好以前看不懂，这下我也不用管它的内部实现了233。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);</span><br><span class="line">LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());</span><br><span class="line">linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);</span><br><span class="line">recyclerView.setLayoutManager(linearLayoutManager);</span><br><span class="line">recyclerView.setAdapter(new RecyclerViewAdapter(this.getContext()));</span><br></pre></td></tr></table></figure>
+<p>Adapter的设置和ListView不太一样。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">//Adapter必须继承自RecyclerView.Adapter，MyViewHolder必须继承自RecyclerView.ViewHolder</span><br><span class="line">public class RecyclerViewAdapter extends RecyclerView.Adapter&lt;RecyclerViewAdapter.MyViewHolder&gt; &#123;</span><br><span class="line">    public RecyclerViewAdapter(Context context) &#123;</span><br><span class="line">        titles = new String[20];</span><br><span class="line">        mInflater = LayoutInflater.from(context);</span><br><span class="line">        for (int i = 0; i &lt; 20; i++) &#123;</span><br><span class="line">            titles[i] = &quot;item&quot; + i;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) &#123;</span><br><span class="line">        View view = mInflater.inflate(R.layout.item_recycler, parent, false);</span><br><span class="line">        MyViewHolder viewHolder = new MyViewHolder(view);</span><br><span class="line">        return viewHolder;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void onBindViewHolder(MyViewHolder holder, int position) &#123;</span><br><span class="line">        holder.textView.setText(titles[position]);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public int getItemCount() &#123;</span><br><span class="line">        return titles.length;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public class MyViewHolder extends RecyclerView.ViewHolder &#123;</span><br><span class="line">        TextView textView;</span><br><span class="line">        public MyViewHolder(View view) &#123;</span><br><span class="line">            super(view);</span><br><span class="line">            textView = (TextView) view.findViewById(R.id.text_view);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private String[] titles;</span><br><span class="line">    private LayoutInflater mInflater;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里不做太多的解释，仿照着写就可以，值得注意的地方是泛型中的ViewHolder类型必须与onCreateViewHolder的返回类型保持一致。可以看出Google官方对ViewHolder的使用官方化了，正好以前看不懂，这下我也不用管它的内部实现了233。</p>
 <p><img src="/images/22/recyclerview.gif" width="30%" height="30%"></p>
 <p>和ListView没什么区别~通过改变LayoutManager的设置，我们还可以实现GridView的效果。</p>
-<pre><code>GridLayoutManager girdLayoutManager=new GridLayoutManager(getContext(),4);  
-recyclerView.setLayoutManager(girdLayoutManager);  
-</code></pre><p><img src="/images/22/recyclerview_gridview.gif" width="30%" height="30%"></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">GridLayoutManager girdLayoutManager=new GridLayoutManager(getContext(),4);  </span><br><span class="line">recyclerView.setLayoutManager(girdLayoutManager);</span><br></pre></td></tr></table></figure>
+<p><img src="/images/22/recyclerview_gridview.gif" width="30%" height="30%"></p>
 <h2 id="2-点击事件监听"><a href="#2-点击事件监听" class="headerlink" title="2.点击事件监听"></a>2.点击事件监听</h2><p>遗憾的是，RecyclerView并没有给我们提供点击事件的回调，我们需要自己实现回调的监听。</p>
 <p>具体的思路就是在Adapter内添加一个监听点击事件的接口，开放一个set方法让外部重写这个函数式接口，在onBindViewHolder方法中获取到View对每个View添加OnClickListener，在里面调用接口的方法。</p>
 <p>//接口</p>
-<pre><code>    public interface OnRecyclerItemClickListener {
-        void onItemClick(View view, int position);
-    }
-</code></pre><p>//onBindViewHolder </p>
-<pre><code>    public void onBindViewHolder(MyViewHolder holder, int position) {
-        holder.textView.setText(titles[position]);
-        if (onRecyclerItemClickListener != null)
-            holder.itemView.setOnClickListener(v-&gt;onRecyclerItemClickListener.onItemClick(v, position));
-    }
-</code></pre><p>//外部调用 </p>
-<pre><code>        adapter.setOnItemClickListener((v, position) -&gt;
-            Snackbar.make(v, position + &quot;&quot;, Snackbar.LENGTH_SHORT).show());
-</code></pre><p><img src="/images/22/click.png" alt="click"></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public interface OnRecyclerItemClickListener &#123;</span><br><span class="line">    void onItemClick(View view, int position);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>//onBindViewHolder </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public void onBindViewHolder(MyViewHolder holder, int position) &#123;</span><br><span class="line">    holder.textView.setText(titles[position]);</span><br><span class="line">    if (onRecyclerItemClickListener != null)</span><br><span class="line">        holder.itemView.setOnClickListener(v-&gt;onRecyclerItemClickListener.onItemClick(v, position));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>//外部调用 </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">adapter.setOnItemClickListener((v, position) -&gt;</span><br><span class="line">    Snackbar.make(v, position + &quot;&quot;, Snackbar.LENGTH_SHORT).show());</span><br></pre></td></tr></table></figure>
+<p><img src="/images/22/click.png" alt="click"></p>
 <h2 id="3-添加-删除item"><a href="#3-添加-删除item" class="headerlink" title="3.添加/删除item"></a>3.添加/删除item</h2><p>回想使用Listview的时候，我们对适配器内数据进行更改以后，使用notifyDatasetChange方法来刷新界面，在RecyclerView中，我们也可以使用notifyDatasetChange方法来刷新界面，但在这里，我们尝试使用更加高级的notifyItemInserted(position)和notifyItemDeleted(position)方法，这两个方法可以在任何位置添加或删除元素，并提供了动画效果。</p>
 <p>先看个简单的删除例子</p>
 <p>//main</p>
-<pre><code>        adapter.setOnItemClickListener((v, position) -&gt;
-            adapter.deleteItem(position));
-</code></pre><p>//Adapter </p>
-<pre><code>    public void deleteItem(int position) {
-        titles.remove(position);
-        notifyItemRemoved(position);
-    }
-</code></pre><p>//onBindViewHolder</p>
-<pre><code>        holder.itemView.setOnClickListener( v -&gt; {
-            int pos = holder.getLayoutPosition();
-            onRecyclerItemClickListener.onItemClick(v, pos);
-        });
-</code></pre><p>在进行了添加删除操作后，由于Adapter更新不及时，position值就不一定准确了，所以应该使用ViewHolder.getLayoutPosition方法得到正确的pos值。（坑爹）</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">adapter.setOnItemClickListener((v, position) -&gt;</span><br><span class="line">    adapter.deleteItem(position));</span><br></pre></td></tr></table></figure>
+<p>//Adapter </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public void deleteItem(int position) &#123;</span><br><span class="line">    titles.remove(position);</span><br><span class="line">    notifyItemRemoved(position);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>//onBindViewHolder</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">holder.itemView.setOnClickListener( v -&gt; &#123;</span><br><span class="line">    int pos = holder.getLayoutPosition();</span><br><span class="line">    onRecyclerItemClickListener.onItemClick(v, pos);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>在进行了添加删除操作后，由于Adapter更新不及时，position值就不一定准确了，所以应该使用ViewHolder.getLayoutPosition方法得到正确的pos值。（坑爹）</p>
 <p><img src="/images/22/remove.gif" width="30%" height="30%"></p>
 <p>添加操作我们放到上拉刷新里一起说。</p>
 <h2 id="4-上拉刷新"><a href="#4-上拉刷新" class="headerlink" title="4.上拉刷新"></a>4.上拉刷新</h2><p>上拉刷新效果非常简单，只需要在RecyclerView外层嵌套一层SwipeRefreshLayout，然后在java代码中获取到它进行设置就行了。在我们完成刷新后记得要调用setRefreshing(false)使刷新动画结束。</p>
-<pre><code>        SwipeRefreshLayout swipeRefreshLayout findViewById(R.id.swipe_refresh_layout);
-        swipeRefreshLayout.setOnRefreshListener(() -&gt; {
-            for (int i = 0; i &lt; 5; i++) {
-                adapter.addItem(&quot;new item&quot; + i, 0);
-            }
-            swipeRefreshLayout.setRefreshing(false);
-        });
-</code></pre><pre><code>    public void addItem(String title, int position) {
-        titles.add(position, title);
-        notifyItemInserted(position);
-    }
-</code></pre><p><img src="/images/22/insert.gif" width="30%" height="30%"></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">SwipeRefreshLayout swipeRefreshLayout findViewById(R.id.swipe_refresh_layout);</span><br><span class="line">      swipeRefreshLayout.setOnRefreshListener(() -&gt; &#123;</span><br><span class="line">          for (int i = 0; i &lt; 5; i++) &#123;</span><br><span class="line">              adapter.addItem(&quot;new item&quot; + i, 0);</span><br><span class="line">          &#125;</span><br><span class="line">          swipeRefreshLayout.setRefreshing(false);</span><br><span class="line">      &#125;);</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public void addItem(String title, int position) &#123;</span><br><span class="line">       titles.add(position, title);</span><br><span class="line">       notifyItemInserted(position);</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<p><img src="/images/22/insert.gif" width="30%" height="30%"></p>
 <h2 id="5-下拉加载"><a href="#5-下拉加载" class="headerlink" title="5.下拉加载"></a>5.下拉加载</h2><p>下拉刷新效果则是设置RecyclerView.setOnScrollListener，这里用到了LayoutManager.findLastVisibleItemPosition方法。</p>
-<pre><code>        recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
-            private boolean isDown;
-            private int lastVisibleItem;
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-                if (newState == RecyclerView.SCROLL_STATE_IDLE &amp;&amp; adapter.getItemCount() == lastVisibleItem + 1 &amp;&amp; isDown) {
-                    new Handler().postDelayed(()-&gt; {
-                        List&lt;String&gt; newTitles = new ArrayList&lt;&gt;();
-                        for (int i = 0; i &lt; 5; i++) {
-                            newTitles.add(&quot;new item&quot; + i);
-                        }
-                        adapter.addMoreItem(newTitles);
-                    }, 2000);
-                }
-            }
-
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                if (dy &gt; 0) {
-                    isDown = true;
-                } else {
-                    isDown = false;
-                }
-                lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition();
-            }
-        });
-</code></pre><p>和上拉刷新一样，这样写并没有让新增的数据显示出来，用户甚至不知道自己进行了刷新操作。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() &#123;</span><br><span class="line">    private boolean isDown;</span><br><span class="line">    private int lastVisibleItem;</span><br><span class="line">    @Override</span><br><span class="line">    public void onScrollStateChanged(RecyclerView recyclerView, int newState) &#123;</span><br><span class="line">        super.onScrollStateChanged(recyclerView, newState);</span><br><span class="line">        if (newState == RecyclerView.SCROLL_STATE_IDLE &amp;&amp; adapter.getItemCount() == lastVisibleItem + 1 &amp;&amp; isDown) &#123;</span><br><span class="line">            new Handler().postDelayed(()-&gt; &#123;</span><br><span class="line">                List&lt;String&gt; newTitles = new ArrayList&lt;&gt;();</span><br><span class="line">                for (int i = 0; i &lt; 5; i++) &#123;</span><br><span class="line">                    newTitles.add(&quot;new item&quot; + i);</span><br><span class="line">                &#125;</span><br><span class="line">                adapter.addMoreItem(newTitles);</span><br><span class="line">            &#125;, 2000);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void onScrolled(RecyclerView recyclerView, int dx, int dy) &#123;</span><br><span class="line">        super.onScrolled(recyclerView, dx, dy);</span><br><span class="line">        if (dy &gt; 0) &#123;</span><br><span class="line">            isDown = true;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            isDown = false;</span><br><span class="line">        &#125;</span><br><span class="line">        lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>和上拉刷新一样，这样写并没有让新增的数据显示出来，用户甚至不知道自己进行了刷新操作。</p>
 <p><img src="/images/22/pull.gif" width="30%" height="30%"></p>
 <p>观察RecyclerView.Adapter.onCreateViewHolder方法，第二个参数是viewType，再看RecyclerView.Adapter的可重载方法，我们发现了getItemViewType方法，实际上在调用onCreateViewHolder方法前，会调用getItemViewType方法确定View的种类，onCreateViewHolder方法第二个参数是viewType就是这个方法的返回值。如果我们不重写这个方法，它会默认返回0。我们可以通过重写这个方法控制onCreateViewHolder方法生成不同的View。</p>
-<pre><code>    @Override
-    public int getItemCount() {
-        return titles.size() + 1;
-    }
-</code></pre><pre><code>    @Override
-    public int getItemViewType(int position) {
-        if (position + 1 == getItemCount()) {
-            return TYPE_FOOTER;
-        } else {
-            return TYPE_ITEM;
-        }
-    }
-</code></pre><pre><code>    @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        if (viewType == TYPE_ITEM) {
-            View view = mInflater.inflate(R.layout.item_recycler, parent, false);
-            return new MyViewHolder(view);
-        } else if (viewType == TYPE_FOOTER) {
-            View view = mInflater.inflate(R.layout.item_footer, parent, false);
-           return new FooterViewHolder(view);
-        }
-        return null;
-    }
-</code></pre><p>当item为最后一个元素的时候，我们返回TYPE_FOOTER，生成footer view给用户提示数据正在加载。注意，当item过少而不满一页时，我们需要隐藏footer view。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">@Override</span><br><span class="line">public int getItemCount() &#123;</span><br><span class="line">    return titles.size() + 1;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">@Override</span><br><span class="line">public int getItemViewType(int position) &#123;</span><br><span class="line">    if (position + 1 == getItemCount()) &#123;</span><br><span class="line">        return TYPE_FOOTER;</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        return TYPE_ITEM;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">@Override</span><br><span class="line">public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) &#123;</span><br><span class="line">    if (viewType == TYPE_ITEM) &#123;</span><br><span class="line">        View view = mInflater.inflate(R.layout.item_recycler, parent, false);</span><br><span class="line">        return new MyViewHolder(view);</span><br><span class="line">    &#125; else if (viewType == TYPE_FOOTER) &#123;</span><br><span class="line">        View view = mInflater.inflate(R.layout.item_footer, parent, false);</span><br><span class="line">       return new FooterViewHolder(view);</span><br><span class="line">    &#125;</span><br><span class="line">    return null;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当item为最后一个元素的时候，我们返回TYPE_FOOTER，生成footer view给用户提示数据正在加载。注意，当item过少而不满一页时，我们需要隐藏footer view。</p>
 <p><img src="/images/22/pull_footer.gif" width="30%" height="30%"></p>
 
   </article>
@@ -367,7 +255,7 @@ recyclerView.setLayoutManager(girdLayoutManager);
 <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.15.8/build/highlight.min.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>
 
-<script src="/js/app.js?v=1565794301097"></script>
+<script src="/js/app.js?v=1565794710452"></script>
 <script src="https://cdn.jsdelivr.net/npm/lazysizes@5.1.0/lazysizes.min.js"></script>
 
   

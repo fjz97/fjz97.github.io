@@ -32,7 +32,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
   
   <link rel="stylesheet" href="//at.alicdn.com/t/font_1038733_0xvrvpg9c0r.css">
-  <link rel="stylesheet" href="/css/style.css?v=1565794300899">
+  <link rel="stylesheet" href="/css/style.css?v=1565794710247">
 </head>
 
 <body class="mdui-drawer-body-left">
@@ -162,79 +162,10 @@
 <h3 id="开始之前"><a href="#开始之前" class="headerlink" title="开始之前"></a>开始之前</h3><p>在着手代码前，我有必要先讲一下RxJava。这是我第一次使用RxJava，其实直到现在，我对于它还是一知半解，我希望用通俗的语言介绍一下它，尽管很可能不正确。<br>首先，要知道的是，RxJava最核心的思想是异步，实现的方式是观察者模式，Observable类对应了被观察者，Observer类对应了观察者。当被观察者和观察者被创建后，调用Observable.subscribe(Observer)即完成订阅，订阅即触发，Observable开始执行耗时操作，当操作完成后，通知Observer进行回调。这是最基本的异步使用方法，即使不用RxJava，我们也可以用Message-Handler去实现。但我不想用这种角度去看待Observable和Observer，在我看来，Observable是数据源，Observer是数据消费者。<br>接下来，要说的是Subject类，Subject有点特殊，它既是Observable，又是Observer，也就是说，它既可以生产数据，又可以消费数据。<br>最后再简单提一下CompositeDisposable这个类，Observable在调用subscribe方法后，会返回一个Disposable类，用于取消订阅，CompositeDisposable顾名思义可以对Disposable进行统一管理，当想要取消订阅的时候，调用CompositeDisposable.clear()就可以了。<br>以上就是项目中用到的所有RxJava提供的类。</p>
 <hr>
 <h3 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h3><p>直接上手代码，本文代码完全参考了<a href="https://github.com/onlynight/V2EX" target="_blank" rel="noopener">这个项目</a>，为了使代码更加简洁，我只创建了三个类，分别对应了View、ViewModel、Model，并省去了一些生命周期方法，在实际的开发中，需要做一定的封装，并做好生命周期控制。</p>
-<p>先看Model类，Model类比较简单，主要负责从网络或数据库获取数据，这里模拟一下从网络获取数据，返回一个Observable类。</p>
-<pre><code>public class Model {
-    //模拟从服务器获取数据
-    public Observable&lt;List&lt;String&gt;&gt; getData() {
-        return Observable.create((emitter) -&gt; {
-            Thread.sleep(2000);
-            List&lt;String&gt; list = new ArrayList&lt;&gt;();
-            list.add(String.valueOf(System.currentTimeMillis()));
-            emitter.onNext(list);
-        });
-    }
-}
-</code></pre><p>接下来是ViewModel类，ViewModel类持有一个Subject，作为数据消费者，通过bindData方法，将其与Model获取到的数据进行绑定。</p>
-<pre><code>public class ViewModel {
-
-    private CompositeDisposable compositeDisposable = new CompositeDisposable();
-
-    private Model model = new Model();
-
-    private PublishSubject&lt;List&lt;String&gt;&gt; data = PublishSubject.create();
-
-    private &lt;T&gt; void bindData(Observable&lt;List&lt;T&gt;&gt; observable, PublishSubject&lt;List&lt;T&gt;&gt; subject) {
-        compositeDisposable.add(observable.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(subject::onNext));
-    }
-
-    public void getUpdateData() {
-        bindData(model.getData(), data);
-    }
-
-    public PublishSubject&lt;List&lt;String&gt;&gt; getData() {
-        return data;
-    }
-}
-</code></pre><p>最后是View，View也有bindData方法，它将ViewModel中获得到的Subject（这里成为了数据源）与一个消费方法绑定，这样，每当数据源发生改变了后，消费方法就会被调用。这里值得一提的是，View和ViewModel都有bindData方法，它们在实现上是一样的，具体的效果却有所不同，View的bindData方法确实如同名字一样，将生产者和消费者进行了绑定，但是ViewModel的bindData只是让Subject获取了数据，并没有进行绑定，因为Model每次生产的数据源引用的不是同一个对象。</p>
-<pre><code>public class MainActivity extends AppCompatActivity {
-
-    private ListViewAdapter adapter;
-
-    private CompositeDisposable compositeDisposable = new CompositeDisposable();
-
-    private ViewModel viewModel = new ViewModel();
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        Button button = findViewById(R.id.button);
-        ListView listView = findViewById(R.id.list_view);
-
-        adapter = new ListViewAdapter(this);
-        listView.setAdapter(adapter);
-
-        bindData(viewModel.getData(), this::updateData);
-        button.setOnClickListener((v) -&gt; {
-            viewModel.getUpdateData();
-        });
-    }
-
-    private &lt;T&gt; void bindData(Subject&lt;T&gt; subject, Consumer&lt;? super T&gt; consumer) {
-        compositeDisposable.add(subject.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(consumer));
-    }
-
-    private void updateData(List&lt;String&gt; data) {
-        swipeRefreshLayout.setRefreshing(false);
-        adapter.setData(data);
-        adapter.notifyDataSetChanged();
-    }
-}
-</code></pre><p>综上，我们是通过这种观察者模式实现的View与ViewModel解耦，实现的关键在于Subject，它可以同时作为数据的生产者和消费者，它存在于ViewModel中，一方面从Model中获取数据，一方面当数据变化时通知View进行操作。<br><a href="https://github.com/fjz97/MVVMDemo" target="_blank" rel="noopener">源码</a></p>
+<p>先看Model类，Model类比较简单，主要负责从网络或数据库获取数据，这里模拟一下从网络获取数据，返回一个Observable类。<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public class Model &#123;</span><br><span class="line">    //模拟从服务器获取数据</span><br><span class="line">    public Observable&lt;List&lt;String&gt;&gt; getData() &#123;</span><br><span class="line">        return Observable.create((emitter) -&gt; &#123;</span><br><span class="line">            Thread.sleep(2000);</span><br><span class="line">            List&lt;String&gt; list = new ArrayList&lt;&gt;();</span><br><span class="line">            list.add(String.valueOf(System.currentTimeMillis()));</span><br><span class="line">            emitter.onNext(list);</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>接下来是ViewModel类，ViewModel类持有一个Subject，作为数据消费者，通过bindData方法，将其与Model获取到的数据进行绑定。<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public class ViewModel &#123;</span><br><span class="line"></span><br><span class="line">    private CompositeDisposable compositeDisposable = new CompositeDisposable();</span><br><span class="line"></span><br><span class="line">    private Model model = new Model();</span><br><span class="line"></span><br><span class="line">    private PublishSubject&lt;List&lt;String&gt;&gt; data = PublishSubject.create();</span><br><span class="line"></span><br><span class="line">    private &lt;T&gt; void bindData(Observable&lt;List&lt;T&gt;&gt; observable, PublishSubject&lt;List&lt;T&gt;&gt; subject) &#123;</span><br><span class="line">        compositeDisposable.add(observable.subscribeOn(Schedulers.io())</span><br><span class="line">                .observeOn(AndroidSchedulers.mainThread())</span><br><span class="line">                .subscribe(subject::onNext));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void getUpdateData() &#123;</span><br><span class="line">        bindData(model.getData(), data);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public PublishSubject&lt;List&lt;String&gt;&gt; getData() &#123;</span><br><span class="line">        return data;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>最后是View，View也有bindData方法，它将ViewModel中获得到的Subject（这里成为了数据源）与一个消费方法绑定，这样，每当数据源发生改变了后，消费方法就会被调用。这里值得一提的是，View和ViewModel都有bindData方法，它们在实现上是一样的，具体的效果却有所不同，View的bindData方法确实如同名字一样，将生产者和消费者进行了绑定，但是ViewModel的bindData只是让Subject获取了数据，并没有进行绑定，因为Model每次生产的数据源引用的不是同一个对象。<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public class MainActivity extends AppCompatActivity &#123;</span><br><span class="line"></span><br><span class="line">    private ListViewAdapter adapter;</span><br><span class="line"></span><br><span class="line">    private CompositeDisposable compositeDisposable = new CompositeDisposable();</span><br><span class="line"></span><br><span class="line">    private ViewModel viewModel = new ViewModel();</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    protected void onCreate(Bundle savedInstanceState) &#123;</span><br><span class="line">        super.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line">        Button button = findViewById(R.id.button);</span><br><span class="line">        ListView listView = findViewById(R.id.list_view);</span><br><span class="line"></span><br><span class="line">        adapter = new ListViewAdapter(this);</span><br><span class="line">        listView.setAdapter(adapter);</span><br><span class="line"></span><br><span class="line">        bindData(viewModel.getData(), this::updateData);</span><br><span class="line">        button.setOnClickListener((v) -&gt; &#123;</span><br><span class="line">            viewModel.getUpdateData();</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private &lt;T&gt; void bindData(Subject&lt;T&gt; subject, Consumer&lt;? super T&gt; consumer) &#123;</span><br><span class="line">        compositeDisposable.add(subject.subscribeOn(Schedulers.io())</span><br><span class="line">                .observeOn(AndroidSchedulers.mainThread())</span><br><span class="line">                .subscribe(consumer));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void updateData(List&lt;String&gt; data) &#123;</span><br><span class="line">        swipeRefreshLayout.setRefreshing(false);</span><br><span class="line">        adapter.setData(data);</span><br><span class="line">        adapter.notifyDataSetChanged();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>综上，我们是通过这种观察者模式实现的View与ViewModel解耦，实现的关键在于Subject，它可以同时作为数据的生产者和消费者，它存在于ViewModel中，一方面从Model中获取数据，一方面当数据变化时通知View进行操作。<br><a href="https://github.com/fjz97/MVVMDemo" target="_blank" rel="noopener">源码</a></p>
 
   </article>
   
@@ -282,7 +213,7 @@
 <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.15.8/build/highlight.min.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>
 
-<script src="/js/app.js?v=1565794300915"></script>
+<script src="/js/app.js?v=1565794710263"></script>
 <script src="https://cdn.jsdelivr.net/npm/lazysizes@5.1.0/lazysizes.min.js"></script>
 
   

@@ -29,7 +29,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
   
   <link rel="stylesheet" href="//at.alicdn.com/t/font_1038733_0xvrvpg9c0r.css">
-  <link rel="stylesheet" href="/css/style.css?v=1565794301679">
+  <link rel="stylesheet" href="/css/style.css?v=1565794710631">
 </head>
 
 <body class="mdui-drawer-body-left">
@@ -155,102 +155,25 @@
     <p>总结一下博客实现过程中的几个重要思路和bug解决。</p>
 <hr>
 <h1 id="1-修改文章的时候如何让标题文章重新载入input和textarea"><a href="#1-修改文章的时候如何让标题文章重新载入input和textarea" class="headerlink" title="1.修改文章的时候如何让标题文章重新载入input和textarea"></a>1.修改文章的时候如何让标题文章重新载入input和textarea</h1><p>首先的想法是用js DOM来直接操作input和textarea的value属性（淦，突然发现ckeditor standard版居然没有改变颜色的功能……），这就首先要求js能获取到servlet或者说是jsp中的attribute，想到用el表达式可以，大概这么个想法：</p>
-<pre><code>var title = document.getElementById(&quot;title&quot;);
-title.value = ${modifyArticle.getTitle()};
-</code></pre><p>但el表达式只是在html上进行简单的文本替换，也就是说，要想让${modifyArticle.getTitle()}成为字符串，得加上双引号，这样就有一个问题，如果el表达式中存在引号，那么字符串的生成就会出错。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">var title = document.getElementById(&quot;title&quot;);</span><br><span class="line">title.value = $&#123;modifyArticle.getTitle()&#125;;</span><br></pre></td></tr></table></figure>
+<p>但el表达式只是在html上进行简单的文本替换，也就是说，要想让${modifyArticle.getTitle()}成为字符串，得加上双引号，这样就有一个问题，如果el表达式中存在引号，那么字符串的生成就会出错。</p>
 <p>后来仔细一想，直接在html的value属性里面加上不就可以了吗？因为html属性后面可以不加引号，就像这样：</p>
-<pre><code>&lt;input class=&quot;form-control&quot; id=&quot;title&quot; name=&quot;title&quot; placeholder=&quot;标题&quot; type=&quot;text&quot; value=&quot;${modifyArticle.getTitle()&quot; /&gt;
-</code></pre><p>再仔细想，可以这样：</p>
-<pre><code>&lt;textarea id=&quot;ckeditor&quot; name=&quot;content&quot;&gt;${modifyArticle.getContent() }&lt;/textarea&gt;
-</code></pre><a id="more"></a>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;input class=&quot;form-control&quot; id=&quot;title&quot; name=&quot;title&quot; placeholder=&quot;标题&quot; type=&quot;text&quot; value=&quot;$&#123;modifyArticle.getTitle()&quot; /&gt;</span><br></pre></td></tr></table></figure>
+<p>再仔细想，可以这样：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;textarea id=&quot;ckeditor&quot; name=&quot;content&quot;&gt;$&#123;modifyArticle.getContent() &#125;&lt;/textarea&gt;</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
 <h1 id="2-实现二维码弹出小窗的效果"><a href="#2-实现二维码弹出小窗的效果" class="headerlink" title="2.实现二维码弹出小窗的效果"></a>2.实现二维码弹出小窗的效果</h1><p>这里用到了一个重要的css属性：z-index，表示元素的堆叠顺序。</p>
 <p>在html中先占位两个div元素，分别表示二维码的区域和黑色关闭二维码区域。</p>
-<pre><code>&lt;div id=&quot;light&quot; class=&quot;white_content&quot;&gt;
-      &lt;img src=&quot;img/qrcode.jpg&quot; class=&quot;qrcode&quot; /&gt;
-    &lt;/div&gt;
-    &lt;div id=&quot;fade&quot; class=&quot;black_overlay&quot; onclick=&quot;closeWindow()&quot;&gt;&lt;/div&gt;
-</code></pre><p>关键看css属性：</p>
-<pre><code>.black_overlay {
-    display: none;
-    position: absolute;
-    top: 0%;
-    left: 0%;
-    width: 100%;
-    height: 100%;
-    background-color: black;
-    z-index: 1001;
-}
-
-.white_content {
-    display: none;
-    position: absolute;
-    height:500px;
-    left: 37%;
-    background-color: white;
-    z-index: 1002;
-}
-</code></pre><p>删去了一些无关紧要的大概就是以上样式。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;div id=&quot;light&quot; class=&quot;white_content&quot;&gt;</span><br><span class="line">      &lt;img src=&quot;img/qrcode.jpg&quot; class=&quot;qrcode&quot; /&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">    &lt;div id=&quot;fade&quot; class=&quot;black_overlay&quot; onclick=&quot;closeWindow()&quot;&gt;&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+<p>关键看css属性：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">.black_overlay &#123;</span><br><span class="line">	display: none;</span><br><span class="line">	position: absolute;</span><br><span class="line">	top: 0%;</span><br><span class="line">	left: 0%;</span><br><span class="line">	width: 100%;</span><br><span class="line">	height: 100%;</span><br><span class="line">	background-color: black;</span><br><span class="line">	z-index: 1001;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">.white_content &#123;</span><br><span class="line">	display: none;</span><br><span class="line">	position: absolute;</span><br><span class="line">	height:500px;</span><br><span class="line">	left: 37%;</span><br><span class="line">	background-color: white;</span><br><span class="line">	z-index: 1002;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>删去了一些无关紧要的大概就是以上样式。</p>
 <p>两部分的display属性都是none，不做显示，而二维码部分的z-index属性要高，所以它在上面。</p>
 <p>当点击了二维码的图标后，js函数将两部分的display属性全换成block块级显示，又因为黑色部分的四项属性决定了它占满全屏，就显示出了想要的效果。</p>
 <h1 id="3-ckeditor配置"><a href="#3-ckeditor配置" class="headerlink" title="3.ckeditor配置"></a>3.ckeditor配置</h1><h2 id="1-上传图片"><a href="#1-上传图片" class="headerlink" title="1.上传图片"></a>1.上传图片</h2><p>ckeditor上传图片原理就是提交html form。大致流程为提交表单→服务器后端保存图片→js回调到编辑图片页。</p>
 <p>先贴上服务器端代码：</p>
-<pre><code>private String realPath = &quot;D:/resource/blog/images&quot;;
-    private String urlPath = &quot;/resource/blog/images&quot;;
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        // TODO Auto-generated method stub
-        FileItemFactory factory = new DiskFileItemFactory();
-        ServletFileUpload upload = new ServletFileUpload(factory);
-        String fileUrl = null;
-        try {
-            List items = upload.parseRequest(request);
-            Map fields = new HashMap();
-            Iterator iter = items.iterator();
-            while (iter.hasNext()) {
-                FileItem item = (FileItem) iter.next();
-                if (item.isFormField()) {
-                    fields.put(item.getFieldName(), item.getString());
-                } else {
-                    fields.put(item.getFieldName(), item);
-                }
-            }
-
-            FileItem upFile = (FileItem) fields.get(&quot;upload&quot;);
-
-            //得到图片扩展名
-            String fileNameLong = upFile.getName();
-            fileNameLong = fileNameLong.replace(&#39;\\&#39;, &#39;/&#39;);
-            String[] pathParts = fileNameLong.split(&quot;/&quot;);
-            String fileName = pathParts[pathParts.length - 1];
-            String ext = getExtension(fileName);
-
-            //将图片以保存时间命名
-            SimpleDateFormat fileFormatter = new SimpleDateFormat(&quot;yyyyMMddHHmmssSSS&quot;);
-            Date dNow = new Date();
-            fileName = fileFormatter.format(dNow) + &quot;.&quot; + ext;
-
-            //创建图片文件
-            File pathToSave = new File(realPath, fileName);
-            pathToSave.createNewFile();
-
-            //得到图片url
-            fileUrl = urlPath + &quot;/&quot; + fileName;
-
-            //写入图片文件
-            upFile.write(pathToSave);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        PrintWriter out = response.getWriter();
-        String callback = request.getParameter(&quot;CKEditorFuncNum&quot;);
-        out.println(&quot;&lt;script type=\&quot;text/javascript\&quot;&gt;&quot;);
-        out.println(&quot;window.parent.CKEDITOR.tools.callFunction(&quot; + callback + &quot;,&#39;&quot; + fileUrl + &quot;&#39;,&#39;&#39;&quot; + &quot;)&quot;);
-        out.println(&quot;&lt;/script&gt;&quot;);
-        out.flush();
-        out.close();
-    }
-</code></pre><p>这里用到了apache fileupload，要添加两个jar包。大致意思就是把提交的图片抽象成一个FileItem类。通过form中的name=”upload”，取到图片。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">private String realPath = &quot;D:/resource/blog/images&quot;;</span><br><span class="line">	private String urlPath = &quot;/resource/blog/images&quot;;</span><br><span class="line">    protected void doGet(HttpServletRequest request, HttpServletResponse response)</span><br><span class="line">			throws ServletException, IOException &#123;</span><br><span class="line">		// TODO Auto-generated method stub</span><br><span class="line">		FileItemFactory factory = new DiskFileItemFactory();</span><br><span class="line">		ServletFileUpload upload = new ServletFileUpload(factory);</span><br><span class="line">		String fileUrl = null;</span><br><span class="line">		try &#123;</span><br><span class="line">			List items = upload.parseRequest(request);</span><br><span class="line">			Map fields = new HashMap();</span><br><span class="line">			Iterator iter = items.iterator();</span><br><span class="line">			while (iter.hasNext()) &#123;</span><br><span class="line">				FileItem item = (FileItem) iter.next();</span><br><span class="line">				if (item.isFormField()) &#123;</span><br><span class="line">					fields.put(item.getFieldName(), item.getString());</span><br><span class="line">				&#125; else &#123;</span><br><span class="line">					fields.put(item.getFieldName(), item);</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">			</span><br><span class="line">			FileItem upFile = (FileItem) fields.get(&quot;upload&quot;);</span><br><span class="line">			</span><br><span class="line">			//得到图片扩展名</span><br><span class="line">			String fileNameLong = upFile.getName();</span><br><span class="line">			fileNameLong = fileNameLong.replace(&apos;\\&apos;, &apos;/&apos;);</span><br><span class="line">			String[] pathParts = fileNameLong.split(&quot;/&quot;);</span><br><span class="line">			String fileName = pathParts[pathParts.length - 1];</span><br><span class="line">			String ext = getExtension(fileName);</span><br><span class="line">			</span><br><span class="line">			//将图片以保存时间命名</span><br><span class="line">			SimpleDateFormat fileFormatter = new SimpleDateFormat(&quot;yyyyMMddHHmmssSSS&quot;);</span><br><span class="line">			Date dNow = new Date();</span><br><span class="line">			fileName = fileFormatter.format(dNow) + &quot;.&quot; + ext;</span><br><span class="line">			</span><br><span class="line">			//创建图片文件</span><br><span class="line">			File pathToSave = new File(realPath, fileName);</span><br><span class="line">			pathToSave.createNewFile();</span><br><span class="line">			</span><br><span class="line">			//得到图片url</span><br><span class="line">			fileUrl = urlPath + &quot;/&quot; + fileName;</span><br><span class="line">			</span><br><span class="line">			//写入图片文件</span><br><span class="line">			upFile.write(pathToSave);</span><br><span class="line">			</span><br><span class="line">		&#125; catch (Exception e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;</span><br><span class="line">		PrintWriter out = response.getWriter();</span><br><span class="line">		String callback = request.getParameter(&quot;CKEditorFuncNum&quot;);</span><br><span class="line">		out.println(&quot;&lt;script type=\&quot;text/javascript\&quot;&gt;&quot;);</span><br><span class="line">		out.println(&quot;window.parent.CKEDITOR.tools.callFunction(&quot; + callback + &quot;,&apos;&quot; + fileUrl + &quot;&apos;,&apos;&apos;&quot; + &quot;)&quot;);</span><br><span class="line">		out.println(&quot;&lt;/script&gt;&quot;);</span><br><span class="line">		out.flush();</span><br><span class="line">		out.close();</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+<p>这里用到了apache fileupload，要添加两个jar包。大致意思就是把提交的图片抽象成一个FileItem类。通过form中的name=”upload”，取到图片。</p>
 <p>关键在于保存图片的路径，必须是绝对路径，相对路径根本创建不了文件，这里使用了两个路径，一个是图片的在服务器上的真实路径，另一个是图片在web服务器上的虚拟路径，前者用于创建并保存图片，后者用于回调和url访问。</p>
 <p>最后通过一个ckeditor自带的js回调跳转到图片编辑页。</p>
 <h2 id="2-编辑html源码"><a href="#2-编辑html源码" class="headerlink" title="2.编辑html源码"></a>2.编辑html源码</h2><p>二次编辑的时候，如果存在html源码，由于不明原因，会被ckeditor自动屏蔽，解决方法参考了<a href="https://usolved.net/blog/post/ckeditor-converts-html-entities-to-angled-brackets，这里把原文贴上来：" target="_blank" rel="noopener">https://usolved.net/blog/post/ckeditor-converts-html-entities-to-angled-brackets，这里把原文贴上来：</a></p>
@@ -261,13 +184,10 @@ title.value = ${modifyArticle.getTitle()};
 <p>CKEditor handles angled brackets the right way when you create a new post and automatically converts them to their corresponding HTML entities &lt; and &gt;. But when you save the post to a database and load the content from a database (or JSON, etc.) back to CKEditor, all HTML entities for angled brackets (&lt; and &gt;) are converted back to &lt; and &gt;. So when you like to edit a post all the HTML examples are suddenly empty. </p>
 </blockquote>
 <blockquote>
-<p>But there’s a workaround for this problem. Convert &amp; to &amp; in your backend before handing over the string to the textarea of CKEditor.</p>
-<pre><code>//PHP example
-$string = strtr($string, array(
-&#39;&amp;lt;&#39; =&gt; &#39;&amp;amp;lt;&#39;,
-&#39;&amp;gt;&#39; =&gt; &#39;&amp;amp;gt;&#39;,
-));
-</code></pre><p>This bug exists for a while in CKEditor and is still not fixed (by the date of this blog post).</p>
+<p>But there’s a workaround for this problem. Convert &amp; to &amp; in your backend before handing over the string to the textarea of CKEditor.<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">//PHP example</span><br><span class="line">$string = strtr($string, array(</span><br><span class="line">&apos;&amp;lt;&apos; =&gt; &apos;&amp;amp;lt;&apos;,</span><br><span class="line">&apos;&amp;gt;&apos; =&gt; &apos;&amp;amp;gt;&apos;,</span><br><span class="line">));</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<blockquote>
+<p>This bug exists for a while in CKEditor and is still not fixed (by the date of this blog post).</p>
 </blockquote>
 <h1 id="4-修改文章的思路"><a href="#4-修改文章的思路" class="headerlink" title="4.修改文章的思路"></a>4.修改文章的思路</h1><p>从article.jsp到ModifyServlet到insert.jsp到ModifyExecServlet</p>
 <p>article.jsp通过URL参数传一个blog的id值，ModifyServlet获取到值后在数据库中查找这篇博客，获取到博客后，我在这里保存了五个值，前四个为ismodify(boolean),modifyTitle(String),modifyDate(String),modifyContent(String)，存在request对象中；最后一个为modifyId(int)，存在session对象中。</p>
@@ -321,7 +241,7 @@ $string = strtr($string, array(
 <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.15.8/build/highlight.min.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>
 
-<script src="/js/app.js?v=1565794301685"></script>
+<script src="/js/app.js?v=1565794710638"></script>
 <script src="https://cdn.jsdelivr.net/npm/lazysizes@5.1.0/lazysizes.min.js"></script>
 
   
