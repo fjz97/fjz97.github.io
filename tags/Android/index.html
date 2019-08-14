@@ -27,7 +27,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
   
   <link rel="stylesheet" href="//at.alicdn.com/t/font_1038733_0xvrvpg9c0r.css">
-  <link rel="stylesheet" href="/css/style.css?v=1565792778947">
+  <link rel="stylesheet" href="/css/style.css?v=1565793202945">
 </head>
 
 <body class="mdui-drawer-body-left">
@@ -188,7 +188,7 @@
 <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.15.8/build/highlight.min.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>
 
-<script src="/js/app.js?v=1565792778953"></script>
+<script src="/js/app.js?v=1565793202961"></script>
 <script src="https://cdn.jsdelivr.net/npm/lazysizes@5.1.0/lazysizes.min.js"></script>
 
   
@@ -200,7 +200,7 @@
 </body>
 
 </html>
-ss="line">        return pictureUrls.size();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public String getItem(int position) &#123;</span><br><span class="line">        return pictureUrls.get(position);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public long getItemId(int position) &#123;</span><br><span class="line">        return position;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private final class ViewHolder &#123;</span><br><span class="line">        SimpleDraweeView picture;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+">        return pictureUrls.size();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public String getItem(int position) &#123;</span><br><span class="line">        return pictureUrls.get(position);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public long getItemId(int position) &#123;</span><br><span class="line">        return position;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private final class ViewHolder &#123;</span><br><span class="line">        SimpleDraweeView picture;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>其他三个方法不用多说，关键在于getView方法。<br>getView方法用于返回item的View，我们看方法的参数convertView，通过查阅博客，我知道了convertView是android中Recycler构件缓存的View，当有item移出屏幕的时候，获取下一个item时调用的getView方法的convertView参数就是被移除的item的View，如下图：</p>
 <p><img src="/images/5/Recycler.jpg" alt="Recycler"></p>
 <p>至此都不难理解，这些预备知识我早先就知道了，却仍然不明白如何实现的性能优化。</p>
@@ -476,7 +476,7 @@ ss="line">        return pictureUrls.size();</span><br><span class="line">    &#
 <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.15.8/build/highlight.min.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>
 
-<script src="/js/app.js?v=1565792778898"></script>
+<script src="/js/app.js?v=1565793202856"></script>
 <script src="https://cdn.jsdelivr.net/npm/lazysizes@5.1.0/lazysizes.min.js"></script>
 
   
