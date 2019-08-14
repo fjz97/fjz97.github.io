@@ -27,7 +27,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
   
   <link rel="stylesheet" href="//at.alicdn.com/t/font_1038733_0xvrvpg9c0r.css">
-  <link rel="stylesheet" href="/css/style.css?v=1565794710919">
+  <link rel="stylesheet" href="/css/style.css?v=1565795014244">
 </head>
 
 <body class="mdui-drawer-body-left">
@@ -144,7 +144,7 @@
         </a>
         <div class="nexmoe-post-meta">
             <a><i class="nexmoefont icon-calendar-fill"></i>2018年05月16日</a>
-            <a><i class="nexmoefont icon-areachart"></i>802 字</a>
+            <a><i class="nexmoefont icon-areachart"></i>796 字</a>
             <a><i class="nexmoefont icon-time-circle-fill"></i>大概 3 分钟</a>
             
                 <a class="nexmoefont icon-appstore-fill -link" href="/categories/技术/">技术</a>
@@ -159,10 +159,11 @@
 <p>昨天在做更新app并打开安装包的时候，就报了FileUriExposedException 异常。经过百度，找到了解决的办法——使用FileProvider，<a href="https://www.jianshu.com/p/3f9e3fc38eae" target="_blank" rel="noopener">参考文章在这里</a>。照着文章使用了FileProvider后，却出现了解析程序包时出现问题。</p>
 <p><img src="/images/26/problem.png" alt="解析程序包时出现问题"></p>
 <p>查看log发现了如下的warning：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Error staging apk from content URI: content://com.fengjingzhe.fightpicture.fileprovider/download/file%3A/storage/emulated/0/Android/data/com.fengjingzhe.fightpicture/files/Download/fightpicture-1.1.2.apk</span><br><span class="line">                                                     java.io.FileNotFoundException: No such file or directory</span><br></pre></td></tr></table></figure>
-<p>也就是说，uri出了错误，系统找不到apk文件了。我赶紧查看生成uri的代码。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Uri apkUri = FileProvider.getUriForFile(MainActivity.this, &quot;com.fengjingzhe.fightpicture.fileprovider&quot;, file);</span><br></pre></td></tr></table></figure>
-<p>这个uri是通过官方的api生成的，网上也都是使用了这个方法，理应不会有错猜对啊！！！真是百思不得其解！！！</p>
+<pre><code>Error staging apk from content URI: content://com.fengjingzhe.fightpicture.fileprovider/download/file%3A/storage/emulated/0/Android/data/com.fengjingzhe.fightpicture/files/Download/fightpicture-1.1.2.apk
+                                                     java.io.FileNotFoundException: No such file or directory
+</code></pre><p>也就是说，uri出了错误，系统找不到apk文件了。我赶紧查看生成uri的代码。</p>
+<pre><code>Uri apkUri = FileProvider.getUriForFile(MainActivity.this, &quot;com.fengjingzhe.fightpicture.fileprovider&quot;, file);
+</code></pre><p>这个uri是通过官方的api生成的，网上也都是使用了这个方法，理应不会有错猜对啊！！！真是百思不得其解！！！</p>
 <p>反复观察了这个生成的uri，我猜测问题出在了中间的<code>file%3A</code>上。抱着试一试的心态，我自己拼接了一下uri：</p>
 <p><code>content://com.fengjingzhe.fightpicture.fileprovider/download/storage/emulated/0/Android/data/com.fengjingzhe.fightpicture/files/Download/fightpicture-1.1.2.apk</code></p>
 <p>运行程序，居然成功了！成功打开了这个apk，进入安装界面。</p>
@@ -172,11 +173,23 @@
 <p>而一张图片文件返回了这样一个路径：</p>
 <p><code>/storage/emulated/0/fightpicture/1526470886506.jpg</code></p>
 <p>抱着疑问，我打开了File的源码，这里贴出关键部分：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">   public File(String pathname) &#123;</span><br><span class="line">       if (pathname == null) &#123;</span><br><span class="line">           throw new NullPointerException();</span><br><span class="line">       &#125;</span><br><span class="line">       //nomalize方法去除了头尾多余的斜杠</span><br><span class="line">       this.path = fs.normalize(pathname);</span><br><span class="line">       this.prefixLength = fs.prefixLength(this.path);</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">public String getPath() &#123;</span><br><span class="line">       return path;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
-<p>也就是说，你的构造方法传什么样的路径，getPath()方法就会返回给你什么样的路径，而构造方法恰恰接受file:///和/开头的两种类型路径。</p>
+<pre><code>    public File(String pathname) {
+        if (pathname == null) {
+            throw new NullPointerException();
+        }
+        //nomalize方法去除了头尾多余的斜杠
+        this.path = fs.normalize(pathname);
+        this.prefixLength = fs.prefixLength(this.path);
+    }
+
+    public String getPath() {
+        return path;
+    }
+</code></pre><p>也就是说，你的构造方法传什么样的路径，getPath()方法就会返回给你什么样的路径，而构造方法恰恰接受file:///和/开头的两种类型路径。</p>
 <p>回到getUriForFile方法上来，之所以返回的uri多了一点东西，就是因为我们的apk文件的getPath方法返回的路径多了file:///的前缀。那么，我们在getUriForFile方法中给它传一个/前缀的文件，返回的uri是不是就正常了呢？我们改动代码：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">File file = new File(Uri.parse(filename).getEncodedPath());</span><br><span class="line">                    Uri apkUri = FileProvider.getUriForFile(MainActivity.this, &quot;com.fengjingzhe.fightpicture.fileprovider&quot;, file);</span><br></pre></td></tr></table></figure>
-<p>果然，成功打开了apk文件，进入了安装界面。问题成功解决了。</p>
+<pre><code>File file = new File(Uri.parse(filename).getEncodedPath());
+                    Uri apkUri = FileProvider.getUriForFile(MainActivity.this, &quot;com.fengjingzhe.fightpicture.fileprovider&quot;, file);
+</code></pre><p>果然，成功打开了apk文件，进入了安装界面。问题成功解决了。</p>
 
             
         </article>
@@ -193,7 +206,7 @@
         </a>
         <div class="nexmoe-post-meta">
             <a><i class="nexmoefont icon-calendar-fill"></i>2018年04月28日</a>
-            <a><i class="nexmoefont icon-areachart"></i>1.2k 字</a>
+            <a><i class="nexmoefont icon-areachart"></i>1.1k 字</a>
             <a><i class="nexmoefont icon-time-circle-fill"></i>大概 5 分钟</a>
             
                 <a class="nexmoefont icon-appstore-fill -link" href="/categories/技术/">技术</a>
@@ -211,10 +224,93 @@
 <p><code>conn.setRequestProperty(&quot;Range&quot;, &quot;bytes=&quot; + start + &quot;-&quot; + end);</code></p>
 <p>其中start就是数据的开始字节，end是数据的结束字节。</p>
 <h2 id="2-RandomAccessFile"><a href="#2-RandomAccessFile" class="headerlink" title="2.RandomAccessFile"></a>2.RandomAccessFile</h2><p>第二个问题是，怎么将这些分段的数据拼接起来。<br>这里我们需要用到java随机访问文件RandomAccessFile，它指定文件并通过seek方法跳转到该文件的任意字节处进行读写操作。于是我们的java代码可以这么写：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">raf = new RandomAccessFile(file, &quot;rw&quot;);</span><br><span class="line">raf.seek(start);</span><br><span class="line">byte[] bytes = new byte[1024];</span><br><span class="line">int len;</span><br><span class="line">while ((len = is.read(bytes)) != -1) &#123;</span><br><span class="line">	raf.write(bytes, 0, len);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>为了方便测试，我写了一个java demo，代码如下：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public class Main &#123;</span><br><span class="line">	</span><br><span class="line">	private static final String PICTURE_URL = &quot;http://d1.music.126.net/dmusic/CloudMusic_official_5.1.0.573520.apk&quot;;</span><br><span class="line">	private static final String FILE_NAME = &quot;cloudmusic.apk&quot;;</span><br><span class="line">	private static final int THREAD_NUM = 10;</span><br><span class="line">	private static long startTime;</span><br><span class="line">	private static long endTime;</span><br><span class="line">	private static double usetime;</span><br><span class="line">	private static int count = 0;</span><br><span class="line">	</span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		startTime = System.currentTimeMillis();</span><br><span class="line">		try &#123;</span><br><span class="line">			File file = new File(&quot;C:/cdt/&quot;, FILE_NAME);</span><br><span class="line">			URL url = new URL(PICTURE_URL);</span><br><span class="line">			HttpURLConnection conn = (HttpURLConnection) url.openConnection();</span><br><span class="line">			int size = conn.getContentLength();</span><br><span class="line">			int piece = size % THREAD_NUM == 0 ? size / THREAD_NUM : (size / THREAD_NUM + 1);</span><br><span class="line">			for (int j = 0; j &lt; THREAD_NUM; j++) &#123;</span><br><span class="line">				int start = j * piece;</span><br><span class="line">				int end = (j + 1) * piece - 1;</span><br><span class="line">				if (j == THREAD_NUM - 1) end = size;</span><br><span class="line">				new DownloadThread(file, url, start, end).start();</span><br><span class="line">			&#125;</span><br><span class="line">		&#125; catch (Exception e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	private static class DownloadThread extends Thread &#123;</span><br><span class="line">		private File file;</span><br><span class="line">		private URL url;</span><br><span class="line">		private int start;</span><br><span class="line">		private int end;</span><br><span class="line">		</span><br><span class="line">		public DownloadThread(File file, URL url, int start, int end) &#123;</span><br><span class="line">			this.file = file;</span><br><span class="line">			this.url = url;</span><br><span class="line">			this.start = start;</span><br><span class="line">			this.end = end;</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		public void run() &#123;</span><br><span class="line">			InputStream is = null;</span><br><span class="line">			RandomAccessFile raf = null;</span><br><span class="line">			try &#123;</span><br><span class="line">				HttpURLConnection conn = (HttpURLConnection) url.openConnection();</span><br><span class="line">				conn.setRequestProperty(&quot;Range&quot;, &quot;bytes=&quot; + start + &quot;-&quot; + end);</span><br><span class="line">				is = conn.getInputStream();</span><br><span class="line">				raf = new RandomAccessFile(file, &quot;rw&quot;);</span><br><span class="line">				raf.seek(start);</span><br><span class="line">				byte[] bytes = new byte[1024];</span><br><span class="line">				int len;</span><br><span class="line">				while ((len = is.read(bytes)) != -1) &#123;</span><br><span class="line">					raf.write(bytes, 0, len);</span><br><span class="line">				&#125;</span><br><span class="line">			&#125; catch (IOException e) &#123;</span><br><span class="line">				e.printStackTrace();</span><br><span class="line">			&#125; finally &#123;</span><br><span class="line">				try &#123;</span><br><span class="line">					raf.close();</span><br><span class="line">					is.close();</span><br><span class="line">				&#125; catch (IOException e) &#123;</span><br><span class="line">					e.printStackTrace();</span><br><span class="line">				&#125;</span><br><span class="line">				checkFinish(++count);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		public void checkFinish(int count) &#123;</span><br><span class="line">			if (count == THREAD_NUM) &#123;</span><br><span class="line">				endTime = System.currentTimeMillis();</span><br><span class="line">				usetime = (endTime - startTime) / 1000.0;</span><br><span class="line">				System.out.println(&quot;下载用时为：&quot; + usetime + &quot;s&quot;);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>事不宜迟，我们赶紧把demo跑起来，先尝试一下用单线程下载网易云音乐apk文件的用时。</p>
+<pre><code>                raf = new RandomAccessFile(file, &quot;rw&quot;);
+                raf.seek(start);
+                byte[] bytes = new byte[1024];
+                int len;
+                while ((len = is.read(bytes)) != -1) {
+                    raf.write(bytes, 0, len);
+                }
+</code></pre><p>为了方便测试，我写了一个java demo，代码如下：</p>
+<pre><code>public class Main {
+
+    private static final String PICTURE_URL = &quot;http://d1.music.126.net/dmusic/CloudMusic_official_5.1.0.573520.apk&quot;;
+    private static final String FILE_NAME = &quot;cloudmusic.apk&quot;;
+    private static final int THREAD_NUM = 10;
+    private static long startTime;
+    private static long endTime;
+    private static double usetime;
+    private static int count = 0;
+
+    public static void main(String[] args) {
+        startTime = System.currentTimeMillis();
+        try {
+            File file = new File(&quot;C:/cdt/&quot;, FILE_NAME);
+            URL url = new URL(PICTURE_URL);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            int size = conn.getContentLength();
+            int piece = size % THREAD_NUM == 0 ? size / THREAD_NUM : (size / THREAD_NUM + 1);
+            for (int j = 0; j &lt; THREAD_NUM; j++) {
+                int start = j * piece;
+                int end = (j + 1) * piece - 1;
+                if (j == THREAD_NUM - 1) end = size;
+                new DownloadThread(file, url, start, end).start();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static class DownloadThread extends Thread {
+        private File file;
+        private URL url;
+        private int start;
+        private int end;
+
+        public DownloadThread(File file, URL url, int start, int end) {
+            this.file = file;
+            this.url = url;
+            this.start = start;
+            this.end = end;
+        }
+
+        public void run() {
+            InputStream is = null;
+            RandomAccessFile raf = null;
+            try {
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.setRequestProperty(&quot;Range&quot;, &quot;bytes=&quot; + start + &quot;-&quot; + end);
+                is = conn.getInputStream();
+                raf = new RandomAccessFile(file, &quot;rw&quot;);
+                raf.seek(start);
+                byte[] bytes = new byte[1024];
+                int len;
+                while ((len = is.read(bytes)) != -1) {
+                    raf.write(bytes, 0, len);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    raf.close();
+                    is.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                checkFinish(++count);
+            }
+        }
+
+        public void checkFinish(int count) {
+            if (count == THREAD_NUM) {
+                endTime = System.currentTimeMillis();
+                usetime = (endTime - startTime) / 1000.0;
+                System.out.println(&quot;下载用时为：&quot; + usetime + &quot;s&quot;);
+            }
+        }
+    }
+}
+</code></pre><p>事不宜迟，我们赶紧把demo跑起来，先尝试一下用单线程下载网易云音乐apk文件的用时。</p>
 <p><img src="/images/7/usetime1.png" alt="usetime"></p>
 <p>接着用3个线程来下载看看。</p>
 <p><img src="/images/7/usetime2.png" alt="usetime"></p>
@@ -223,8 +319,9 @@
 <p><img src="/images/7/usetime3.png" alt="usetime"></p>
 <p>速度仍有提升，但是提升已经不大了。</p>
 <hr>
-<h1 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h1><p>接下来我们就用多线程下载来下载一下服务器上的图片文件，看看速度是否有所提升，我们把url换成图片url。<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">private static final String PICTURE_URL = &quot;http://101.132.185.255:8080/resource/fightpicture/gallery/QQ%E5%9B%BE%E7%89%8720180330214156.gif&quot;;</span><br></pre></td></tr></table></figure></p>
-<p>demo运行结果：</p>
+<h1 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h1><p>接下来我们就用多线程下载来下载一下服务器上的图片文件，看看速度是否有所提升，我们把url换成图片url。</p>
+<pre><code>private static final String PICTURE_URL = &quot;http://101.132.185.255:8080/resource/fightpicture/gallery/QQ%E5%9B%BE%E7%89%8720180330214156.gif&quot;;
+</code></pre><p>demo运行结果：</p>
 <p><img src="/images/7/usetime4.png" alt="usetime"></p>
 <p>结果显示，1.8M的gif图片，仍然下载了约13秒，与之前单线程下载如出一辙。</p>
 <hr>
@@ -261,22 +358,154 @@
         <article>
             
             <p>文章的开始，先从一个案例谈起。<br>最近在做的项目中有图片保存的需求，之前一律按jpg格式处理了，今天想想不妥，于是适配了所有的图片格式。代码如下：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">try &#123;</span><br><span class="line">    FileOutputStream fos = new FileOutputStream(file);</span><br><span class="line">    int length;</span><br><span class="line">    byte[] bytes = new byte[10240];</span><br><span class="line">    while((length = is.read(bytes, 0, 10240)) != -1) &#123;</span><br><span class="line">        fos.write(bytes, 0, length);</span><br><span class="line">    &#125;</span><br><span class="line">    fos.close();</span><br><span class="line">    is.close();</span><br><span class="line">&#125; catch (Exception e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>项目跑起来，试着保存了一张gif图片，显示成功，本以为大功告成，结果切到本地图片gallery一看，图片根本没有保存成功。正愣着呢，图片又突然出现了。我稍微一想，就知道是保存图片的速度过慢。输出看了下缓存图片的耗时。</p>
+<pre><code>        try {
+            FileOutputStream fos = new FileOutputStream(file);
+            int length;
+            byte[] bytes = new byte[10240];
+            while((length = is.read(bytes, 0, 10240)) != -1) {
+                fos.write(bytes, 0, length);
+            }
+            fos.close();
+            is.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+</code></pre><p>项目跑起来，试着保存了一张gif图片，显示成功，本以为大功告成，结果切到本地图片gallery一看，图片根本没有保存成功。正愣着呢，图片又突然出现了。我稍微一想，就知道是保存图片的速度过慢。输出看了下缓存图片的耗时。</p>
 <p><img src="/images/6/usetime.png" alt="usetime"></p>
 <p>2MB的gif图片足足缓存了十几秒，用户体验想必是很差的，那么有没有办法加快缓存速度呢？我的java知识告诉我，有！使用BufferedOutputStream维护一个字节缓冲池以减少IO次数，提升缓存速度。于是我使用了BufferedOutputStream：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">FileOutputStream fos = new FileOutputStream(file);</span><br><span class="line">BufferedOutputStream bos = new BufferedOutputStream(fos);</span><br><span class="line">int length;</span><br><span class="line">byte[] bytes = new byte[10240];</span><br><span class="line">while((length = is.read(bytes, 0, 10240)) != -1) &#123;</span><br><span class="line">    bos.write(bytes, 0, length);</span><br><span class="line">&#125;</span><br><span class="line">bos.flush();</span><br><span class="line">bos.close();</span><br><span class="line">is.close();</span><br></pre></td></tr></table></figure>
-<p>这回跑起来肯定快了吧！结果：</p>
+<pre><code>            FileOutputStream fos = new FileOutputStream(file);
+            BufferedOutputStream bos = new BufferedOutputStream(fos);
+            int length;
+            byte[] bytes = new byte[10240];
+            while((length = is.read(bytes, 0, 10240)) != -1) {
+                bos.write(bytes, 0, length);
+            }
+            bos.flush();
+            bos.close();
+            is.close();
+</code></pre><p>这回跑起来肯定快了吧！结果：</p>
 <p><img src="/images/6/usetime2.png" alt="usetime2"></p>
 <p>根本没有变快嘛！怎么回事？难道我记错了？抱着疑惑，我打开了BufferedOutputStream源码：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public</span><br><span class="line">class BufferedOutputStream extends FilterOutputStream &#123;</span><br><span class="line">    /**</span><br><span class="line">     * The internal buffer where data is stored.</span><br><span class="line">     */</span><br><span class="line">    protected byte buf[];</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * The number of valid bytes in the buffer. This value is always</span><br><span class="line">     * in the range &lt;tt&gt;0&lt;/tt&gt; through &lt;tt&gt;buf.length&lt;/tt&gt;; elements</span><br><span class="line">     * &lt;tt&gt;buf[0]&lt;/tt&gt; through &lt;tt&gt;buf[count-1]&lt;/tt&gt; contain valid</span><br><span class="line">     * byte data.</span><br><span class="line">     */</span><br><span class="line">    protected int count;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * Creates a new buffered output stream to write data to the</span><br><span class="line">     * specified underlying output stream.</span><br><span class="line">     *</span><br><span class="line">     * @param   out   the underlying output stream.</span><br><span class="line">     */</span><br><span class="line">    public BufferedOutputStream(OutputStream out) &#123;</span><br><span class="line">        this(out, 8192);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * Creates a new buffered output stream to write data to the</span><br><span class="line">     * specified underlying output stream with the specified buffer</span><br><span class="line">     * size.</span><br><span class="line">     *</span><br><span class="line">     * @param   out    the underlying output stream.</span><br><span class="line">     * @param   size   the buffer size.</span><br><span class="line">     * @exception IllegalArgumentException if size &amp;lt;= 0.</span><br><span class="line">     */</span><br><span class="line">    public BufferedOutputStream(OutputStream out, int size) &#123;</span><br><span class="line">        super(out);</span><br><span class="line">        if (size &lt;= 0) &#123;</span><br><span class="line">            throw new IllegalArgumentException(&quot;Buffer size &lt;= 0&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">        buf = new byte[size];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /** Flush the internal buffer */</span><br><span class="line">    private void flushBuffer() throws IOException &#123;</span><br><span class="line">        if (count &gt; 0) &#123;</span><br><span class="line">            out.write(buf, 0, count);</span><br><span class="line">            count = 0;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * Writes the specified byte to this buffered output stream.</span><br><span class="line">     *</span><br><span class="line">     * @param      b   the byte to be written.</span><br><span class="line">     * @exception  IOException  if an I/O error occurs.</span><br><span class="line">     */</span><br><span class="line">    public synchronized void write(int b) throws IOException &#123;</span><br><span class="line">        if (count &gt;= buf.length) &#123;</span><br><span class="line">            flushBuffer();</span><br><span class="line">        &#125;</span><br><span class="line">        buf[count++] = (byte)b;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * Writes &lt;code&gt;len&lt;/code&gt; bytes from the specified byte array</span><br><span class="line">     * starting at offset &lt;code&gt;off&lt;/code&gt; to this buffered output stream.</span><br><span class="line">     *</span><br><span class="line">     * &lt;p&gt; Ordinarily this method stores bytes from the given array into this</span><br><span class="line">     * stream&apos;s buffer, flushing the buffer to the underlying output stream as</span><br><span class="line">     * needed.  If the requested length is at least as large as this stream&apos;s</span><br><span class="line">     * buffer, however, then this method will flush the buffer and write the</span><br><span class="line">     * bytes directly to the underlying output stream.  Thus redundant</span><br><span class="line">     * &lt;code&gt;BufferedOutputStream&lt;/code&gt;s will not copy data unnecessarily.</span><br><span class="line">     *</span><br><span class="line">     * @param      b     the data.</span><br><span class="line">     * @param      off   the start offset in the data.</span><br><span class="line">     * @param      len   the number of bytes to write.</span><br><span class="line">     * @exception  IOException  if an I/O error occurs.</span><br><span class="line">     */</span><br><span class="line">    public synchronized void write(byte b[], int off, int len) throws IOException &#123;</span><br><span class="line">        if (len &gt;= buf.length) &#123;</span><br><span class="line">            /* If the request length exceeds the size of the output buffer,</span><br><span class="line">               flush the output buffer and then write the data directly.</span><br><span class="line">               In this way buffered streams will cascade harmlessly. */</span><br><span class="line">            flushBuffer();</span><br><span class="line">            out.write(b, off, len);</span><br><span class="line">            return;</span><br><span class="line">        &#125;</span><br><span class="line">        if (len &gt; buf.length - count) &#123;</span><br><span class="line">            flushBuffer();</span><br><span class="line">        &#125;</span><br><span class="line">        System.arraycopy(b, off, buf, count, len);</span><br><span class="line">        count += len;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * Flushes this buffered output stream. This forces any buffered</span><br><span class="line">     * output bytes to be written out to the underlying output stream.</span><br><span class="line">     *</span><br><span class="line">     * @exception  IOException  if an I/O error occurs.</span><br><span class="line">     * @see        java.io.FilterOutputStream#out</span><br><span class="line">     */</span><br><span class="line">    public synchronized void flush() throws IOException &#123;</span><br><span class="line">        flushBuffer();</span><br><span class="line">        out.flush();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>我没记错，BufferedOutputStream确实维护了一个byte数组，先往byte数组里面填充字节，当byte数组满了，再写出去。但是，如果不设置参数，缓冲池的大小只有8192byte，也就是说，我10240byte一次的写出大小反而增多了IO次数，也难怪速度没有提升。我试着加大了BufferedOutputStream的buffer大小：</p>
+<pre><code>public
+class BufferedOutputStream extends FilterOutputStream {
+    /**
+     * The internal buffer where data is stored.
+     */
+    protected byte buf[];
+
+    /**
+     * The number of valid bytes in the buffer. This value is always
+     * in the range &lt;tt&gt;0&lt;/tt&gt; through &lt;tt&gt;buf.length&lt;/tt&gt;; elements
+     * &lt;tt&gt;buf[0]&lt;/tt&gt; through &lt;tt&gt;buf[count-1]&lt;/tt&gt; contain valid
+     * byte data.
+     */
+    protected int count;
+
+    /**
+     * Creates a new buffered output stream to write data to the
+     * specified underlying output stream.
+     *
+     * @param   out   the underlying output stream.
+     */
+    public BufferedOutputStream(OutputStream out) {
+        this(out, 8192);
+    }
+
+    /**
+     * Creates a new buffered output stream to write data to the
+     * specified underlying output stream with the specified buffer
+     * size.
+     *
+     * @param   out    the underlying output stream.
+     * @param   size   the buffer size.
+     * @exception IllegalArgumentException if size &amp;lt;= 0.
+     */
+    public BufferedOutputStream(OutputStream out, int size) {
+        super(out);
+        if (size &lt;= 0) {
+            throw new IllegalArgumentException(&quot;Buffer size &lt;= 0&quot;);
+        }
+        buf = new byte[size];
+    }
+
+    /** Flush the internal buffer */
+    private void flushBuffer() throws IOException {
+        if (count &gt; 0) {
+            out.write(buf, 0, count);
+            count = 0;
+        }
+    }
+
+    /**
+     * Writes the specified byte to this buffered output stream.
+     *
+     * @param      b   the byte to be written.
+     * @exception  IOException  if an I/O error occurs.
+     */
+    public synchronized void write(int b) throws IOException {
+        if (count &gt;= buf.length) {
+            flushBuffer();
+        }
+        buf[count++] = (byte)b;
+    }
+
+    /**
+     * Writes &lt;code&gt;len&lt;/code&gt; bytes from the specified byte array
+     * starting at offset &lt;code&gt;off&lt;/code&gt; to this buffered output stream.
+     *
+     * &lt;p&gt; Ordinarily this method stores bytes from the given array into this
+     * stream&#39;s buffer, flushing the buffer to the underlying output stream as
+     * needed.  If the requested length is at least as large as this stream&#39;s
+     * buffer, however, then this method will flush the buffer and write the
+     * bytes directly to the underlying output stream.  Thus redundant
+     * &lt;code&gt;BufferedOutputStream&lt;/code&gt;s will not copy data unnecessarily.
+     *
+     * @param      b     the data.
+     * @param      off   the start offset in the data.
+     * @param      len   the number of bytes to write.
+     * @exception  IOException  if an I/O error occurs.
+     */
+    public synchronized void write(byte b[], int off, int len) throws IOException {
+        if (len &gt;= buf.length) {
+            /* If the request length exceeds the size of the output buffer,
+               flush the output buffer and then write the data directly.
+               In this way buffered streams will cascade harmlessly. */
+            flushBuffer();
+            out.write(b, off, len);
+            return;
+        }
+        if (len &gt; buf.length - count) {
+            flushBuffer();
+        }
+        System.arraycopy(b, off, buf, count, len);
+        count += len;
+    }
+
+    /**
+     * Flushes this buffered output stream. This forces any buffered
+     * output bytes to be written out to the underlying output stream.
+     *
+     * @exception  IOException  if an I/O error occurs.
+     * @see        java.io.FilterOutputStream#out
+     */
+    public synchronized void flush() throws IOException {
+        flushBuffer();
+        out.flush();
+    }
+}
+</code></pre><p>我没记错，BufferedOutputStream确实维护了一个byte数组，先往byte数组里面填充字节，当byte数组满了，再写出去。但是，如果不设置参数，缓冲池的大小只有8192byte，也就是说，我10240byte一次的写出大小反而增多了IO次数，也难怪速度没有提升。我试着加大了BufferedOutputStream的buffer大小：</p>
 <p><code>BufferedOutputStream bos = new BufferedOutputStream(fos, 1000 * 1024);</code></p>
 <p>结果：</p>
 <p><img src="/images/6/usetime3.png" alt="usetime3"></p>
 <p>速度还是没有提升，那么只有一种可能了，IO根本不是影响缓存速度的决定因素。或者说，这么点次数的IO不会是影响缓存速度的决定因素。为了证实我的猜想，我们试试看每次只读入写出1个字节，增多读入写出次数，增大IO开销：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">FileOutputStream fos = new FileOutputStream(file);</span><br><span class="line">int data;</span><br><span class="line">while((data = is.read()) != -1) &#123;</span><br><span class="line">    fos.write(data);</span><br><span class="line">&#125;</span><br><span class="line">fos.close();</span><br><span class="line">is.close();</span><br></pre></td></tr></table></figure>
-<p>结果：</p>
+<pre><code>            FileOutputStream fos = new FileOutputStream(file);
+            int data;
+            while((data = is.read()) != -1) {
+                fos.write(data);
+            }
+            fos.close();
+            is.close();
+</code></pre><p>结果：</p>
 <p><img src="/images/6/usetime4.png" alt="usetime4"></p>
 <p>终于，在这种极端情况下，缓存图片的时间终于增长了！本来是费尽心机想减少缓存时间，现在竟然费尽心机想增长缓存时间！</p>
 <p>既然IO不是影响缓存速度的决定因素，那么，使用BufferedOutputStream的意义似乎就不存在了。</p>
@@ -297,7 +526,7 @@
         </a>
         <div class="nexmoe-post-meta">
             <a><i class="nexmoefont icon-calendar-fill"></i>2018年03月31日</a>
-            <a><i class="nexmoefont icon-areachart"></i>1.1k 字</a>
+            <a><i class="nexmoefont icon-areachart"></i>1k 字</a>
             <a><i class="nexmoefont icon-time-circle-fill"></i>大概 4 分钟</a>
             
                 <a class="nexmoefont icon-appstore-fill -link" href="/categories/技术/">技术</a>
@@ -309,8 +538,53 @@
         <article>
             
             <p>查阅了许多博客，对ViewHolder的优化原理仍然不明白，今天深入研究了一下，总算是理解了。<br>先贴上项目里使用的一个图片GridView的Adapter代码：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public class MyAdapter extends BaseAdapter &#123;</span><br><span class="line"></span><br><span class="line">    private LayoutInflater mInflater;</span><br><span class="line">    private Context context;</span><br><span class="line">    private List&lt;String&gt; pictureUrls;</span><br><span class="line"></span><br><span class="line">    public MyAdapter(Context context, List&lt;String&gt; pictures) &#123;</span><br><span class="line">        mInflater = LayoutInflater.from(context);</span><br><span class="line">        this.context = context;</span><br><span class="line">        this.pictureUrls = pictures;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public View getView(int position, View convertView, ViewGroup parent) &#123;</span><br><span class="line">        ViewHolder viewHolder = null;</span><br><span class="line">        if (convertView == null) &#123;</span><br><span class="line">            convertView = mInflater.inflate(R.layout.picture_item_layout, parent, false);</span><br><span class="line">            viewHolder = new ViewHolder();</span><br><span class="line">            viewHolder.picture = convertView.findViewById(R.id.picture);</span><br><span class="line">            convertView.setTag(viewHolder);</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            viewHolder = (ViewHolder) convertView.getTag();</span><br><span class="line">        &#125;</span><br><span class="line">        viewHolder.picture.setImageURI(getItem(position));</span><br><span class="line">        return convertView;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public int getCount() &#123;</span><br><span class="line">        return pictureUrls.size();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public String getItem(int position) &#123;</span><br><span class="line">        return pictureUrls.get(position);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public long getItemId(int position) &#123;</span><br><span class="line">        return position;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private final class ViewHolder &#123;</span><br><span class="line">        SimpleDraweeView picture;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>其他三个方法不用多说，关键在于getView方法。<br>getView方法用于返回item的View，我们看方法的参数convertView，通过查阅博客，我知道了convertView是android中Recycler构件缓存的View，当有item移出屏幕的时候，获取下一个item时调用的getView方法的convertView参数就是被移除的item的View，如下图：</p>
+<pre><code>public class MyAdapter extends BaseAdapter {
+
+    private LayoutInflater mInflater;
+    private Context context;
+    private List&lt;String&gt; pictureUrls;
+
+    public MyAdapter(Context context, List&lt;String&gt; pictures) {
+        mInflater = LayoutInflater.from(context);
+        this.context = context;
+        this.pictureUrls = pictures;
+    }
+
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        ViewHolder viewHolder = null;
+        if (convertView == null) {
+            convertView = mInflater.inflate(R.layout.picture_item_layout, parent, false);
+            viewHolder = new ViewHolder();
+            viewHolder.picture = convertView.findViewById(R.id.picture);
+            convertView.setTag(viewHolder);
+        } else {
+            viewHolder = (ViewHolder) convertView.getTag();
+        }
+        viewHolder.picture.setImageURI(getItem(position));
+        return convertView;
+    }
+
+    @Override
+    public int getCount() {
+        return pictureUrls.size();
+    }
+
+    @Override
+    public String getItem(int position) {
+        return pictureUrls.get(position);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    private final class ViewHolder {
+        SimpleDraweeView picture;
+    }
+}
+</code></pre><p>其他三个方法不用多说，关键在于getView方法。<br>getView方法用于返回item的View，我们看方法的参数convertView，通过查阅博客，我知道了convertView是android中Recycler构件缓存的View，当有item移出屏幕的时候，获取下一个item时调用的getView方法的convertView参数就是被移除的item的View，如下图：</p>
 <p><img src="/images/5/Recycler.jpg" alt="Recycler"></p>
 <p>至此都不难理解，这些预备知识我早先就知道了，却仍然不明白如何实现的性能优化。</p>
 <p>苦思冥想后，恍然大悟，我不过是进入了一次思维误区：<br>从来没见过ViewHolder这种复用机制的我感觉太新鲜了，认为ViewHolder才是主角，convertView不过是个参数，小小配角而已，殊不知android如此大费周章编写的构件，怎么可能会给一个甚至没有加入SDK的自定义类抢去风头！实现性能优化的恰恰是convertView，ViewHolder不过是个添头。</p>
@@ -341,7 +615,7 @@
         </a>
         <div class="nexmoe-post-meta">
             <a><i class="nexmoefont icon-calendar-fill"></i>2018年03月27日</a>
-            <a><i class="nexmoefont icon-areachart"></i>315 字</a>
+            <a><i class="nexmoefont icon-areachart"></i>303 字</a>
             <a><i class="nexmoefont icon-time-circle-fill"></i>大概 1 分钟</a>
             
                 <a class="nexmoefont icon-appstore-fill -link" href="/categories/技术/">技术</a>
@@ -360,15 +634,47 @@
 <li>使用注解@MultipartConfig将一个Servlet标识为支持文件上传，否则会报Unable to process parts as no multi-part configuration has been provided错误，这里使用了Servlet3.0的注解特性。</li>
 <li>HttpServletRequest提供了getPart和getParts两个方法获取到表单的内容。</li>
 </ol>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">//getPart方法</span><br><span class="line">Part image = null;</span><br><span class="line">      InputStream imageInputStream = null;</span><br><span class="line">      try &#123;</span><br><span class="line">          image = request.getPart(&quot;image&quot;);</span><br><span class="line">          if (image != null &amp;&amp; image.getSize() != 0)</span><br><span class="line">              imageInputStream = image.getInputStream();</span><br><span class="line">       FileUtils.copyInputStreamToFile(imageInputStream, new File(targetFile));//common-io包提供的写文件API</span><br><span class="line">      &#125; catch (Exception e) &#123;</span><br><span class="line">          e.printStackTrace();</span><br><span class="line">      &#125;</span><br></pre></td></tr></table></figure>
-<p>getPart方法根据表单的name属性获取表单内容。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">//getParts方法</span><br><span class="line">ArrayList&lt;Part&gt; images;</span><br><span class="line">      try &#123;</span><br><span class="line">          images = (ArrayList&lt;Part&gt;) request.getParts();</span><br><span class="line">          count = images.size();</span><br><span class="line">          for (Part image : images) &#123;</span><br><span class="line">              InputStream imageInputStream = null;</span><br><span class="line">              imageInputStream = image.getInputStream();</span><br><span class="line">		FileUtils.copyInputStreamToFile(imageInputStream, new File(targetFile));</span><br><span class="line">	&#125;</span><br><span class="line">      &#125; catch (IOException e1) &#123;</span><br><span class="line">          e1.printStackTrace();</span><br><span class="line">      &#125;</span><br></pre></td></tr></table></figure>
-<p>getParts则获取到表单中的全部内容。</p>
+<pre><code>        //getPart方法
+        Part image = null;
+        InputStream imageInputStream = null;
+        try {
+            image = request.getPart(&quot;image&quot;);
+            if (image != null &amp;&amp; image.getSize() != 0)
+                imageInputStream = image.getInputStream();
+            FileUtils.copyInputStreamToFile(imageInputStream, new File(targetFile));//common-io包提供的写文件API
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+</code></pre><p>getPart方法根据表单的name属性获取表单内容。</p>
+<pre><code>        //getParts方法
+        ArrayList&lt;Part&gt; images;
+        try {
+            images = (ArrayList&lt;Part&gt;) request.getParts();
+            count = images.size();
+            for (Part image : images) {
+                InputStream imageInputStream = null;
+                imageInputStream = image.getInputStream();
+                FileUtils.copyInputStreamToFile(imageInputStream, new File(targetFile));
+            }
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        }
+</code></pre><p>getParts则获取到表单中的全部内容。</p>
 <ul>
 <li>前端</li>
 </ul>
 <p>创建一个FormData对象，由于参数为表单的DOM对象，所以用JQuery选择器获取后应转换为DOM对象。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$.ajax(&#123;</span><br><span class="line">             type: &apos;post&apos;,</span><br><span class="line">             url: &apos;updateAvatar.action&apos;,</span><br><span class="line">             data: new FormData($(&apos;#form&apos;)[0]),</span><br><span class="line">             processData: false,</span><br><span class="line">             contentType: false,</span><br><span class="line">             success: function(data) &#123;</span><br><span class="line">                 </span><br><span class="line">             &#125;</span><br><span class="line">         &#125;);</span><br></pre></td></tr></table></figure>
+<pre><code>            $.ajax({
+                type: &#39;post&#39;,
+                url: &#39;updateAvatar.action&#39;,
+                data: new FormData($(&#39;#form&#39;)[0]),
+                processData: false,
+                contentType: false,
+                success: function(data) {
+
+                }
+            });
+</code></pre>
             
         </article>
     </div>
@@ -394,7 +700,7 @@
 <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.15.8/build/highlight.min.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>
 
-<script src="/js/app.js?v=1565794710928"></script>
+<script src="/js/app.js?v=1565795014259"></script>
 <script src="https://cdn.jsdelivr.net/npm/lazysizes@5.1.0/lazysizes.min.js"></script>
 
   

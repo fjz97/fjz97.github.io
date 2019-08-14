@@ -11,25 +11,25 @@
   
 
   <link rel="shortcut icon" href="/favicon.ico" type="image/png" />
-  <meta name="description" content="3.          long startTime = System.nanoTime();long countNotParallel = words.stream().count();long endTime = System.nanoTime();long time = endTime-startTime;System.out.println(&amp;quot;stream方法：&amp;quot; +">
+  <meta name="description" content="3.             long startTime = System.nanoTime();             long countNotParallel = words.stream().count();             long endTime = System.nanoTime();             long time = endTime-startTime;">
 <meta name="keywords" content="java">
 <meta property="og:type" content="article">
 <meta property="og:title" content="《Java SE 8 for the really impatient》第二章习题笔记">
 <meta property="og:url" content="http://www.fengjingzhe.com/2017/02/15/《Java SE 8 for the really impatient》第二章习题笔记/index.html">
 <meta property="og:site_name" content="冯京哲的狗窝">
-<meta property="og:description" content="3.          long startTime = System.nanoTime();long countNotParallel = words.stream().count();long endTime = System.nanoTime();long time = endTime-startTime;System.out.println(&amp;quot;stream方法：&amp;quot; +">
+<meta property="og:description" content="3.             long startTime = System.nanoTime();             long countNotParallel = words.stream().count();             long endTime = System.nanoTime();             long time = endTime-startTime;">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2018-05-09T13:26:40.272Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《Java SE 8 for the really impatient》第二章习题笔记">
-<meta name="twitter:description" content="3.          long startTime = System.nanoTime();long countNotParallel = words.stream().count();long endTime = System.nanoTime();long time = endTime-startTime;System.out.println(&amp;quot;stream方法：&amp;quot; +">
+<meta name="twitter:description" content="3.             long startTime = System.nanoTime();             long countNotParallel = words.stream().count();             long endTime = System.nanoTime();             long time = endTime-startTime;">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mdui@0.4.3/dist/css/mdui.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.15.8/styles/atom-one-dark.css">
    
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
   
   <link rel="stylesheet" href="//at.alicdn.com/t/font_1038733_0xvrvpg9c0r.css">
-  <link rel="stylesheet" href="/css/style.css?v=1565794710550">
+  <link rel="stylesheet" href="/css/style.css?v=1565795013863">
 </head>
 
 <body class="mdui-drawer-body-left">
@@ -142,7 +142,7 @@
     </div>
   <div class="nexmoe-post-meta">
     <a><i class="nexmoefont icon-calendar-fill"></i>2017年02月15日</a>
-    <a><i class="nexmoefont icon-areachart"></i>471 字</a>
+    <a><i class="nexmoefont icon-areachart"></i>451 字</a>
     <a><i class="nexmoefont icon-time-circle-fill"></i>大概 2 分钟</a>
     
       <a class="nexmoefont icon-appstore-fill -link" href="/categories/技术/">技术</a>
@@ -153,22 +153,79 @@
   </div>
   <article>
     <p>3.</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">         long startTime = System.nanoTime();</span><br><span class="line">long countNotParallel = words.stream().count();</span><br><span class="line">long endTime = System.nanoTime();</span><br><span class="line">long time = endTime-startTime;</span><br><span class="line">System.out.println(&quot;stream方法：&quot; + time + &quot; 统计单词数为：&quot; + countNotParallel);</span><br><span class="line"></span><br><span class="line">startTime = System.nanoTime();</span><br><span class="line">long countParallel = words.parallelStream().count();</span><br><span class="line">endTime = System.nanoTime();</span><br><span class="line">time = endTime - startTime;</span><br><span class="line">System.out.println(&quot;streamParallel方法：&quot; + time + &quot; 统计单词数为：&quot; + countParallel);</span><br><span class="line"></span><br><span class="line">startTime = System.nanoTime();</span><br><span class="line">words.parallelStream();</span><br><span class="line">endTime = System.nanoTime();</span><br><span class="line">time = endTime - startTime;</span><br><span class="line">System.out.println(&quot;stream生成耗时：&quot; + time);</span><br></pre></td></tr></table></figure>
-<p>顺便做了个stream生成耗时测试，运行结果可以看出stream是延时操作，只有当聚合方法被调用才会被执行。</p>
+<pre><code>            long startTime = System.nanoTime();
+            long countNotParallel = words.stream().count();
+            long endTime = System.nanoTime();
+            long time = endTime-startTime;
+            System.out.println(&quot;stream方法：&quot; + time + &quot; 统计单词数为：&quot; + countNotParallel);
+
+            startTime = System.nanoTime();
+            long countParallel = words.parallelStream().count();
+            endTime = System.nanoTime();
+            time = endTime - startTime;
+            System.out.println(&quot;streamParallel方法：&quot; + time + &quot; 统计单词数为：&quot; + countParallel);
+
+            startTime = System.nanoTime();
+            words.parallelStream();
+            endTime = System.nanoTime();
+            time = endTime - startTime;
+            System.out.println(&quot;stream生成耗时：&quot; + time);
+</code></pre><p>顺便做了个stream生成耗时测试，运行结果可以看出stream是延时操作，只有当聚合方法被调用才会被执行。</p>
 <hr>
 <p>6.</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public static void main(String[] args) &#123;</span><br><span class="line">	String string = &quot;feng jing zhe da shuai b&quot;;</span><br><span class="line">	characterStream(string).filter(c -&gt; c != &apos; &apos;).forEach(System.out::print);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public static Stream&lt;Character&gt; characterStream(String s) &#123;</span><br><span class="line">	return Stream.iterate(0, n-&gt;n+=1).limit(s.length()).map(s::charAt);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>注意这里是对象的方法引用。</p>
+<pre><code>    public static void main(String[] args) {
+        String string = &quot;feng jing zhe da shuai b&quot;;
+        characterStream(string).filter(c -&gt; c != &#39; &#39;).forEach(System.out::print);
+    }
+
+    public static Stream&lt;Character&gt; characterStream(String s) {
+        return Stream.iterate(0, n-&gt;n+=1).limit(s.length()).map(s::charAt);
+    }
+</code></pre><p>注意这里是对象的方法引用。</p>
 <hr>
 <p>9.</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public static void main(String[] args) &#123;</span><br><span class="line">	String string = &quot;feng jing zhe&quot;;</span><br><span class="line">	ArrayList&lt;String&gt; stringList = new ArrayList&lt;String&gt;(Arrays.asList(string.split(&quot; &quot;)));</span><br><span class="line">	Stream&lt;ArrayList&lt;String&gt;&gt; stream = Stream.of(stringList, stringList, stringList, stringList);</span><br><span class="line">	ArrayList&lt;String&gt; concatList = concat(stream);</span><br><span class="line">	concatList.forEach(System.out::print);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public static &lt;T&gt; ArrayList&lt;T&gt; concat(Stream&lt;ArrayList&lt;T&gt;&gt; stream) &#123;</span><br><span class="line">	Optional&lt;ArrayList&lt;T&gt;&gt; optional = stream.reduce(Test::arrayListConcat);</span><br><span class="line">	return optional.get();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public static &lt;T&gt; ArrayList&lt;T&gt; arrayListConcat(ArrayList&lt;T&gt; prev, ArrayList&lt;T&gt; next) &#123;</span><br><span class="line">	ArrayList&lt;T&gt; temp = (ArrayList&lt;T&gt;) prev.clone();</span><br><span class="line">	temp.addAll(next);</span><br><span class="line">	return temp;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>注意reduce（聚合）和collect（收集）的区别，就是让Stream&lt;ArrayList<t>&gt;转换成ArrayList<t>和ArrayList&lt;ArrayList<t>&gt;的区别。</t></t></t></p>
+<pre><code>    public static void main(String[] args) {
+        String string = &quot;feng jing zhe&quot;;
+        ArrayList&lt;String&gt; stringList = new ArrayList&lt;String&gt;(Arrays.asList(string.split(&quot; &quot;)));
+        Stream&lt;ArrayList&lt;String&gt;&gt; stream = Stream.of(stringList, stringList, stringList, stringList);
+        ArrayList&lt;String&gt; concatList = concat(stream);
+        concatList.forEach(System.out::print);
+    }
+
+    public static &lt;T&gt; ArrayList&lt;T&gt; concat(Stream&lt;ArrayList&lt;T&gt;&gt; stream) {
+        Optional&lt;ArrayList&lt;T&gt;&gt; optional = stream.reduce(Test::arrayListConcat);
+        return optional.get();
+    }
+
+    public static &lt;T&gt; ArrayList&lt;T&gt; arrayListConcat(ArrayList&lt;T&gt; prev, ArrayList&lt;T&gt; next) {
+        ArrayList&lt;T&gt; temp = (ArrayList&lt;T&gt;) prev.clone();
+        temp.addAll(next);
+        return temp;
+    }
+</code></pre><p>注意reduce（聚合）和collect（收集）的区别，就是让Stream&lt;ArrayList<t>&gt;转换成ArrayList<t>和ArrayList&lt;ArrayList<t>&gt;的区别。</t></t></t></p>
 <hr>
 <p>12.</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">String content = new String(Files.readAllBytes(Paths.get(</span><br><span class="line">		&quot;C:/Users/Administrator/Desktop/WarAndPeace.txt&quot;)), &quot;UTF-8&quot;);</span><br><span class="line">List&lt;String&gt; words = Arrays.asList(content.split(&quot;[\\P&#123;L&#125;]+&quot;));</span><br><span class="line">Stream&lt;String&gt; stream = words.stream();</span><br><span class="line">AtomicInteger[] wordLengthNum = new AtomicInteger[5];</span><br><span class="line">for (int i = 0; i &lt; wordLengthNum.length; i++) &#123;</span><br><span class="line">	AtomicInteger atomicInteger = new AtomicInteger(0);</span><br><span class="line">	wordLengthNum[i] = atomicInteger;</span><br><span class="line">&#125;</span><br><span class="line">stream.parallel().forEach(s-&gt;&#123;</span><br><span class="line">	if (s.length() &lt;= 5) &#123;</span><br><span class="line">		wordLengthNum[s.length()-1].incrementAndGet();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;);</span><br><span class="line">for (AtomicInteger atomicInteger : wordLengthNum) &#123;</span><br><span class="line">	System.out.println(atomicInteger);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<hr>
+<pre><code>            String content = new String(Files.readAllBytes(Paths.get(
+                    &quot;C:/Users/Administrator/Desktop/WarAndPeace.txt&quot;)), &quot;UTF-8&quot;);
+            List&lt;String&gt; words = Arrays.asList(content.split(&quot;[\\P{L}]+&quot;));
+            Stream&lt;String&gt; stream = words.stream();
+            AtomicInteger[] wordLengthNum = new AtomicInteger[5];
+            for (int i = 0; i &lt; wordLengthNum.length; i++) {
+                AtomicInteger atomicInteger = new AtomicInteger(0);
+                wordLengthNum[i] = atomicInteger;
+            }
+            stream.parallel().forEach(s-&gt;{
+                if (s.length() &lt;= 5) {
+                    wordLengthNum[s.length()-1].incrementAndGet();
+                }
+            });
+            for (AtomicInteger atomicInteger : wordLengthNum) {
+                System.out.println(atomicInteger);
+            }
+</code></pre><hr>
 <p>13.</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Map&lt;Integer, Long&gt; result = stream.collect(Collectors.groupingBy(String::length, Collectors.counting()));</span><br></pre></td></tr></table></figure>
+<pre><code>Map&lt;Integer, Long&gt; result = stream.collect(Collectors.groupingBy(String::length, Collectors.counting()));
+</code></pre>
   </article>
   
     
@@ -215,7 +272,7 @@
 <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.15.8/build/highlight.min.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>
 
-<script src="/js/app.js?v=1565794710558"></script>
+<script src="/js/app.js?v=1565795013870"></script>
 <script src="https://cdn.jsdelivr.net/npm/lazysizes@5.1.0/lazysizes.min.js"></script>
 
   

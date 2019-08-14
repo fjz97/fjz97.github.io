@@ -32,7 +32,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
   
   <link rel="stylesheet" href="//at.alicdn.com/t/font_1038733_0xvrvpg9c0r.css">
-  <link rel="stylesheet" href="/css/style.css?v=1565794710299">
+  <link rel="stylesheet" href="/css/style.css?v=1565795013644">
 </head>
 
 <body class="mdui-drawer-body-left">
@@ -146,7 +146,7 @@
   <div class="nexmoe-post-meta">
     <a><i class="nexmoefont icon-calendar-fill"></i>2018年05月21日</a>
     <a><i class="nexmoefont icon-areachart"></i>1k 字</a>
-    <a><i class="nexmoefont icon-time-circle-fill"></i>大概 5 分钟</a>
+    <a><i class="nexmoefont icon-time-circle-fill"></i>大概 4 分钟</a>
     
       <a class="nexmoefont icon-appstore-fill -link" href="/categories/技术/">技术</a>
     
@@ -161,27 +161,111 @@
 <hr>
 <h2 id="在开始前"><a href="#在开始前" class="headerlink" title="在开始前"></a>在开始前</h2><p>我们需要一个颜色设置选项，可以选择不同的颜色，并把选择的颜色显示在右侧。</p>
 <p>那么理所应当的，我们需要写一个布局文件：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span><br><span class="line">&lt;RelativeLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;</span><br><span class="line">                android:layout_width=&quot;match_parent&quot;</span><br><span class="line">                android:layout_height=&quot;60dp&quot;</span><br><span class="line">                android:gravity=&quot;center_vertical&quot; &gt;</span><br><span class="line"></span><br><span class="line">    &lt;TextView</span><br><span class="line">            android:id=&quot;@+id/title&quot;</span><br><span class="line">            android:text=&quot;color&quot;</span><br><span class="line">            android:layout_width=&quot;wrap_content&quot;</span><br><span class="line">            android:layout_height=&quot;wrap_content&quot;</span><br><span class="line">            android:layout_marginLeft=&quot;20dp&quot; /&gt;</span><br><span class="line"></span><br><span class="line">    &lt;ImageView</span><br><span class="line">            android:id=&quot;@+id/color&quot;</span><br><span class="line">            android:layout_width=&quot;20dp&quot;</span><br><span class="line">            android:layout_height=&quot;20dp&quot;</span><br><span class="line">            android:layout_alignParentRight=&quot;true&quot;</span><br><span class="line">            android:layout_alignTop=&quot;@+id/title&quot;</span><br><span class="line">            android:layout_marginRight=&quot;30dp&quot;</span><br><span class="line">            android:background=&quot;@color/colorPrimary&quot; /&gt;</span><br><span class="line"></span><br><span class="line">&lt;/RelativeLayout&gt;</span><br></pre></td></tr></table></figure>
-<p>just like this:</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;RelativeLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+                android:layout_width=&quot;match_parent&quot;
+                android:layout_height=&quot;60dp&quot;
+                android:gravity=&quot;center_vertical&quot; &gt;
+
+    &lt;TextView
+            android:id=&quot;@+id/title&quot;
+            android:text=&quot;color&quot;
+            android:layout_width=&quot;wrap_content&quot;
+            android:layout_height=&quot;wrap_content&quot;
+            android:layout_marginLeft=&quot;20dp&quot; /&gt;
+
+    &lt;ImageView
+            android:id=&quot;@+id/color&quot;
+            android:layout_width=&quot;20dp&quot;
+            android:layout_height=&quot;20dp&quot;
+            android:layout_alignParentRight=&quot;true&quot;
+            android:layout_alignTop=&quot;@+id/title&quot;
+            android:layout_marginRight=&quot;30dp&quot;
+            android:background=&quot;@color/colorPrimary&quot; /&gt;
+
+&lt;/RelativeLayout&gt;
+</code></pre><p>just like this:</p>
 <p><img src="/images/27/layout.png" alt="layout"></p>
 <h1 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h1><p>接下来重写Preference，我们看到重载方法中有onCreateView，那么显而易见，我们应该在这里inflate我们的布局文件。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public class ColorPreference extends ListPreference &#123;</span><br><span class="line">	@Override</span><br><span class="line">    protected View onCreateView(ViewGroup parent) &#123;</span><br><span class="line">        super.onCreateView(parent);</span><br><span class="line">        View view = LayoutInflater.from(getContext()).inflate(R.layout.preference_color, parent, false);</span><br><span class="line">        return view;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这样，我们就可以在preference的xml文件里使用我们自定义的Preference了：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;com.fengjingzhe.fightpicture.preference.ColorPreference</span><br><span class="line">            android:key=&quot;theme&quot;</span><br><span class="line">            android:entries=&quot;@array/settings_theme_colors&quot;</span><br><span class="line">            android:entryValues=&quot;@array/settings_theme_colors_values&quot;/&gt;</span><br></pre></td></tr></table></figure></p>
-<p>效果如图</p>
+<pre><code>public class ColorPreference extends ListPreference {
+    @Override
+    protected View onCreateView(ViewGroup parent) {
+        super.onCreateView(parent);
+        View view = LayoutInflater.from(getContext()).inflate(R.layout.preference_color, parent, false);
+        return view;
+    }
+}
+</code></pre><p>这样，我们就可以在preference的xml文件里使用我们自定义的Preference了：</p>
+<pre><code>&lt;com.fengjingzhe.fightpicture.preference.ColorPreference
+            android:key=&quot;theme&quot;
+            android:entries=&quot;@array/settings_theme_colors&quot;
+            android:entryValues=&quot;@array/settings_theme_colors_values&quot;/&gt;
+</code></pre><p>效果如图</p>
 <p><img src="/images/27/color_preference.png" alt="color_preference"></p>
 <h1 id="One-More-Step"><a href="#One-More-Step" class="headerlink" title="One More Step"></a>One More Step</h1><p>虽然我们实现了一个有着自定义View的Preference，但是TextView和ImageView中的内容都被限制了，需要每次到layout中更改，也不能动态设置内容，可重用性很差，我们希望实现的是一个通用的颜色选项，那么就需要做一点修改。</p>
 <p>回想起之前使用fresco的经验，当我们需要给SimpleDraweeView加上一个url或是设置默认图案的时候，我们在xml文档中使用了fresco的自定义属性，那么在这里，我们肯定也能使用自定义属性。</p>
 <p>在attrs.xml中添加我们的自定义属性title和imageColor，分别对应了TextView和ImageView的内容。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span><br><span class="line">&lt;resources&gt;</span><br><span class="line">    &lt;declare-styleable name=&quot;fightpicture&quot;&gt;</span><br><span class="line">        &lt;attr name=&quot;title&quot; format=&quot;string&quot;&gt;&lt;/attr&gt;</span><br><span class="line">        &lt;attr name=&quot;imageColor&quot; format=&quot;string&quot;&gt;&lt;/attr&gt;</span><br><span class="line">    &lt;/declare-styleable&gt;</span><br><span class="line">&lt;/resources&gt;</span><br></pre></td></tr></table></figure>
-<p>接着我们在Preference的xml文档中使用我们的自定义属性：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;com.fengjingzhe.fightpicture.preference.ColorPreference</span><br><span class="line">    android:key=&quot;theme&quot;</span><br><span class="line">    fightpicture:title=&quot;@string/settings_theme_color&quot;</span><br><span class="line">    fightpicture:imageColor=&quot;?attr/colorPrimary&quot;</span><br><span class="line">    android:entries=&quot;@array/settings_theme_colors&quot;</span><br><span class="line">    android:entryValues=&quot;@array/settings_theme_colors_values&quot; /&gt;</span><br></pre></td></tr></table></figure>
-<p>接下来的思路很明确，我们要在自定义的Preference类中获取到这两个属性并设置到TextView和ImageView上。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public class ColorPreference extends ListPreference &#123;</span><br><span class="line"></span><br><span class="line">    private String title;</span><br><span class="line">    private String color;</span><br><span class="line"></span><br><span class="line">    public ColorPreference(Context context, AttributeSet attrs) &#123;</span><br><span class="line">        this(context, attrs, 0);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public ColorPreference(Context context, AttributeSet attrs, int defStyle) &#123;</span><br><span class="line">        super(context, attrs, defStyle);</span><br><span class="line">        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.fightpicture, defStyle, 0);</span><br><span class="line">        title = a.getString(R.styleable.fightpicture_title);</span><br><span class="line">        color = a.getString(R.styleable.fightpicture_imageColor);</span><br><span class="line">        a.recycle();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    protected View onCreateView(ViewGroup parent) &#123;</span><br><span class="line">        super.onCreateView(parent);</span><br><span class="line">        View view = LayoutInflater.from(getContext()).inflate(R.layout.preference_color, parent, false);</span><br><span class="line">        if (title != null) &#123;</span><br><span class="line">            TextView titleTextView = view.findViewById(R.id.title);</span><br><span class="line">            titleTextView.setText(title);</span><br><span class="line">        &#125;</span><br><span class="line">        if (color != null) &#123;</span><br><span class="line">            ImageView colorImageView = view.findViewById(R.id.color);</span><br><span class="line">            colorImageView.setBackgroundColor(Color.parseColor(color));</span><br><span class="line">        &#125;</span><br><span class="line">        return view;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>在构造方法中使用TypedArray可以获取到xml文档中使用的属性，接下来拿到子View并将属性值设置上去就大功告成了！</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;resources&gt;
+    &lt;declare-styleable name=&quot;fightpicture&quot;&gt;
+        &lt;attr name=&quot;title&quot; format=&quot;string&quot;&gt;&lt;/attr&gt;
+        &lt;attr name=&quot;imageColor&quot; format=&quot;string&quot;&gt;&lt;/attr&gt;
+    &lt;/declare-styleable&gt;
+&lt;/resources&gt;
+</code></pre><p>接着我们在Preference的xml文档中使用我们的自定义属性：</p>
+<pre><code>        &lt;com.fengjingzhe.fightpicture.preference.ColorPreference
+            android:key=&quot;theme&quot;
+            fightpicture:title=&quot;@string/settings_theme_color&quot;
+            fightpicture:imageColor=&quot;?attr/colorPrimary&quot;
+            android:entries=&quot;@array/settings_theme_colors&quot;
+            android:entryValues=&quot;@array/settings_theme_colors_values&quot; /&gt;
+</code></pre><p>接下来的思路很明确，我们要在自定义的Preference类中获取到这两个属性并设置到TextView和ImageView上。</p>
+<pre><code>public class ColorPreference extends ListPreference {
+
+    private String title;
+    private String color;
+
+    public ColorPreference(Context context, AttributeSet attrs) {
+        this(context, attrs, 0);
+    }
+
+    public ColorPreference(Context context, AttributeSet attrs, int defStyle) {
+        super(context, attrs, defStyle);
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.fightpicture, defStyle, 0);
+        title = a.getString(R.styleable.fightpicture_title);
+        color = a.getString(R.styleable.fightpicture_imageColor);
+        a.recycle();
+    }
+
+    @Override
+    protected View onCreateView(ViewGroup parent) {
+        super.onCreateView(parent);
+        View view = LayoutInflater.from(getContext()).inflate(R.layout.preference_color, parent, false);
+        if (title != null) {
+            TextView titleTextView = view.findViewById(R.id.title);
+            titleTextView.setText(title);
+        }
+        if (color != null) {
+            ImageView colorImageView = view.findViewById(R.id.color);
+            colorImageView.setBackgroundColor(Color.parseColor(color));
+        }
+        return view;
+    }
+}
+</code></pre><p>在构造方法中使用TypedArray可以获取到xml文档中使用的属性，接下来拿到子View并将属性值设置上去就大功告成了！</p>
 <p>再接着回想fresco，我们在给它设置url属性的时候，往往都不是在xml文档中，而是在代码中，也就是说，我们的自定义Preference还得具备动态设置属性的功能，很简单，我们给类添加两个set方法。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public void setTitle(String title) &#123;</span><br><span class="line">    this.title = title;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public void setColor(String color) &#123;</span><br><span class="line">    this.color = color;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>由于PreferenceFragment的onCreate回调肯定先与Preference的onCreateView回调，我们在PreferenceFragment的onCreate回调中拿到Preference实例并对它设置属性就可以了。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">ColorPreference theme = (ColorPreference) findPreference(THEME_KEY);</span><br><span class="line">theme.setTitle(title);</span><br><span class="line">theme.setColor(color);</span><br></pre></td></tr></table></figure>
+<pre><code>    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+</code></pre><p>由于PreferenceFragment的onCreate回调肯定先与Preference的onCreateView回调，我们在PreferenceFragment的onCreate回调中拿到Preference实例并对它设置属性就可以了。</p>
+<pre><code>ColorPreference theme = (ColorPreference) findPreference(THEME_KEY);
+theme.setTitle(title);
+theme.setColor(color);
+</code></pre>
   </article>
   
     
@@ -228,7 +312,7 @@
 <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.15.8/build/highlight.min.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>
 
-<script src="/js/app.js?v=1565794710306"></script>
+<script src="/js/app.js?v=1565795013651"></script>
 <script src="https://cdn.jsdelivr.net/npm/lazysizes@5.1.0/lazysizes.min.js"></script>
 
   

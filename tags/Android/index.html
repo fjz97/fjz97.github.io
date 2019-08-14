@@ -3,7 +3,7 @@
 
 <head>
   
-  <title>标签：android - 冯京哲的狗窝</title>
+  <title>标签：Android - 冯京哲的狗窝</title>
   <meta charset="UTF-8">
   <meta name="description" content="feng&#39;s blog">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -14,7 +14,7 @@
   <meta name="description" content="feng&apos;s blog">
 <meta property="og:type" content="website">
 <meta property="og:title" content="冯京哲的狗窝">
-<meta property="og:url" content="http://www.fengjingzhe.com/tags/android/index.html">
+<meta property="og:url" content="http://www.fengjingzhe.com/tags/Android/index.html">
 <meta property="og:site_name" content="冯京哲的狗窝">
 <meta property="og:description" content="feng&apos;s blog">
 <meta property="og:locale" content="zh-CN">
@@ -27,7 +27,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
   
   <link rel="stylesheet" href="//at.alicdn.com/t/font_1038733_0xvrvpg9c0r.css">
-  <link rel="stylesheet" href="/css/style.css?v=1565794710976">
+  <link rel="stylesheet" href="/css/style.css?v=1565795014381">
 </head>
 
 <body class="mdui-drawer-body-left">
@@ -134,369 +134,107 @@
         <section class="nexmoe-posts" id="brand-waterfall">
     
     <div class="nexmoe-post">
-        <a href="/2019/07/14/与或操作处理状态码/">
+        <a href="/2019/05/18/MVVM初体验/">
             <div class="nexmoe-post-cover mdui-ripple"> 
                 
-                    <img src="/images/bg.jpg" alt="与或操作处理状态码">
+                    <img src="/images/bg.jpg" alt="MVVM初体验">
                 
-                <h1>与或操作处理状态码</h1>
+                <h1>MVVM初体验</h1>
             </div>
         </a>
         <div class="nexmoe-post-meta">
-            <a><i class="nexmoefont icon-calendar-fill"></i>2019年07月14日</a>
-            <a><i class="nexmoefont icon-areachart"></i>229 字</a>
-            <a><i class="nexmoefont icon-time-circle-fill"></i>大概 1 分钟</a>
-            
-                <a class="nexmoefont icon-appstore-fill -link" href="/categories/技术/">技术</a>
-            
-            
-                <a class="nexmoefont icon-tag-fill -link" href="/tags/android/">android</a>
-            
-        </div>
-        <article>
-            
-            <p>当状态码有叠加态的时候，可以用与或操作去处理。<br>当左右的值分别是2的次方且不相同的时候，或操作表示相加。<br>1 | 2 = 3<br>1 | 2 | 4 = 7<br>1 | 4 = 5<br>这个不难理解，2的次方bit码最高位为1，其余为0，如果左右的值不同，进行或操作后，会把两个最高位都置为1，即相加。<br>当左值为2的次方叠加，右值为2的次方时，与操作可以用来判断右值是否是左值的加数，当右值为左值加数时，结果是右值，否则是0。<br>15 &amp; 1 = 1<br>15 &amp; 2 = 2<br>15 &amp; 4 = 4<br>15 &amp; 8 = 8<br>15 &amp; 16 = 0<br>这个同理也不难理解。<br>于是可以这样处理状态码：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public int state;</span><br><span class="line">public static final int STATE_1 = 1;</span><br><span class="line">public static final int STATE_2 = 2;</span><br><span class="line">public static final int STATE_3 = 4;</span><br><span class="line"></span><br><span class="line">//set</span><br><span class="line">state = STATE_1 | STATE_2 | STATE_3;</span><br><span class="line"></span><br><span class="line">//get </span><br><span class="line">if ((state &amp; STATE_1) == STATE_1) &#123;</span><br><span class="line">	//state include STATE_1</span><br><span class="line">&#125;</span><br><span class="line">......</span><br></pre></td></tr></table></figure></p>
-
-            
-        </article>
-    </div>
-    
-    <div class="nexmoe-post">
-        <a href="/2019/03/20/从哔哩哔哩漫画开始说起/">
-            <div class="nexmoe-post-cover mdui-ripple"> 
-                
-                    <img src="/images/bg.jpg" alt="从哔哩哔哩漫画开始说起">
-                
-                <h1>从哔哩哔哩漫画开始说起</h1>
-            </div>
-        </a>
-        <div class="nexmoe-post-meta">
-            <a><i class="nexmoefont icon-calendar-fill"></i>2019年03月20日</a>
-            <a><i class="nexmoefont icon-areachart"></i>814 字</a>
-            <a><i class="nexmoefont icon-time-circle-fill"></i>大概 3 分钟</a>
-            
-                <a class="nexmoefont icon-appstore-fill -link" href="/categories/技术/">技术</a>
-            
-            
-                <a class="nexmoefont icon-tag-fill -link" href="/tags/android/">android</a>
-            
-        </div>
-        <article>
-            
-            <p>下了个哔哩哔哩漫画用来追五等分的花嫁。今早躺在床上，无意间点到了评分按钮，直接跳转到了锤子应用商店，把我吓了一跳。<br>出于职业病，我琢磨了一下实现原理。这并不难，我们知道Android存在隐式Intent机制，通过设置Action、Data、Category属性，可以选择合适的Activity打开。以打开浏览器为例，下面的代码可以打开浏览器，如果系统中存在多个可被第三方程序打开的浏览器，那么选择权会被移交给用户。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Intent intent = new Intent();</span><br><span class="line">intent.setAction(Intent.ACTION_VIEW);</span><br><span class="line">startActivity(intent);</span><br></pre></td></tr></table></figure>
-<p>根据这个原理，一定存在一个和应用商店相关的Action，它就是通过这个Action打开了我的应用商店，由于我系统里只有默认的锤子应用商店，所以它被直接打开了。为了验证我的猜想，我安装了豌豆荚，再次回到哔哩哔哩漫画，点击评分按钮，果然出现了选择应用选项。<br><img src="/images/29/choose_app.png" alt="choose_app"><br>到此为止，除了再一次感叹隐式Intent这种过滤思想的精妙之外，没有任何问题。问题在于，即使应用商店声明了自己接收这种隐式意图，处于非活动状态的它又是怎么知道有应用发出了这种意图的呢？<br>我的第一个想法是通过Service，监听这种意图，这条思路很清晰，但是很快就被我否决了。且不说Service占用资源且容易被杀死，就从实现原理来讲可能性也不大，我可没听说过startActivity方法被调用以后，会发出什么可以被监听到的广播或者其它什么的信息，就算有，它应该也是处于底层的，不是留给开发者处理的，而且就我自己的回忆，当初学习隐式Intent的时候似乎写过类似功能的Demo，并没有涉及到Service，只是在intent-filter里声明了相关的Action，就可以被其它的应用打开。<br>基于上面的考量，选择合适的应用打开，应该是系统完成的事，那么第一个问题被解决了，不是应用主动获知有自己监听的Intent，而是Android系统通知它并唤醒它的。其实通过另外一点也可以推出这个结论：选择应用的对话框，明显不属于打开和被打开的两方应用，肯定是系统层级的。<br>那么第二个问题出来了：Android系统是如何知道哪些应用监听了这些Intent呢？这个问题解决起来思路就极其明确了，Activity通过intent-filter声明自己监听的Intent，而这些内容全被注册在了Manifest.xml文件里了，Android系统手握所有应用的Manifest.xml，自然可以查出哪个应用哪个Activity监听了哪个Intent，就可以轻易的调出相关应用了。<br>查阅了官方文档关于Manifest.xml的解释，官方文档说的清清楚楚，甚至把Intent过滤器拿出来做了个小标题。<a href="https://developer.android.google.cn/guide/topics/manifest/manifest-intro.html" target="_blank" rel="noopener">应用清单 | Android Developers</a></p>
-<p>脸红~ 还是滚去学习了~</p>
-
-            
-        </article>
-    </div>
-    
-    <div class="nexmoe-post">
-        <a href="/2018/05/21/Android自定义Preference/">
-            <div class="nexmoe-post-cover mdui-ripple"> 
-                
-                    <img src="/images/bg.jpg" alt="Android自定义Preference">
-                
-                <h1>Android自定义Preference</h1>
-            </div>
-        </a>
-        <div class="nexmoe-post-meta">
-            <a><i class="nexmoefont icon-calendar-fill"></i>2018年05月21日</a>
-            <a><i class="nexmoefont icon-areachart"></i>1k 字</a>
+            <a><i class="nexmoefont icon-calendar-fill"></i>2019年05月18日</a>
+            <a><i class="nexmoefont icon-areachart"></i>1.2k 字</a>
             <a><i class="nexmoefont icon-time-circle-fill"></i>大概 5 分钟</a>
             
                 <a class="nexmoefont icon-appstore-fill -link" href="/categories/技术/">技术</a>
             
             
-                <a class="nexmoefont icon-tag-fill -link" href="/tags/android/">android</a>
+                <a class="nexmoefont icon-tag-fill -link" href="/tags/Android/">Android</a>
             
         </div>
         <article>
             
-            <p>在写设置时参考了EH，发现使用了Preference类，它帮我们自动实现了ListView，只需要编写一个xml文件就可以实现各种样式的设置项，并自动将设置项保存到SharedPreferences内，非常方便。具体可以参考这篇文章：<a href="https://www.cnblogs.com/valenhua/archive/2017/10/03/7624640.html" target="_blank" rel="noopener">Android Preference 设置偏好全攻略</a></p>
-<p>这篇文章讲一下如何重写Preference，以实现自定义样式。</p>
-            
-        </article>
-    </div>
-    
-    <div class="nexmoe-post">
-        <a href="/2018/03/31/Android性能优化之ViewHolder&convertView/">
-            <div class="nexmoe-post-cover mdui-ripple"> 
-                
-                    <img src="/images/bg.jpg" alt="Android性能优化之ViewHolder&amp;convertView">
-                
-                <h1>Android性能优化之ViewHolder&amp;convertView</h1>
-            </div>
-        </a>
-        <div class="nexmoe-post-meta">
-            <a><i class="nexmoefont icon-calendar-fill"></i>2018年03月31日</a>
-            <a><i class="nexmoefont icon-areachart"></i>1.1k 字</a>
-            <a><i class="nexmoefont icon-time-circle-fill"></i>大概 4 分钟</a>
-            
-                <a class="nexmoefont icon-appstore-fill -link" href="/categories/技术/">技术</a>
-            
-            
-                <a class="nexmoefont icon-tag-fill -link" href="/tags/android/">android</a>
-            
-        </div>
-        <article>
-            
-            <p>查阅了许多博客，对ViewHolder的优化原理仍然不明白，今天深入研究了一下，总算是理解了。<br>先贴上项目里使用的一个图片GridView的Adapter代码：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public class MyAdapter extends BaseAdapter &#123;</span><br><span class="line"></span><br><span class="line">    private LayoutInflater mInflater;</span><br><span class="line">    private Context context;</span><br><span class="line">    private List&lt;String&gt; pictureUrls;</span><br><span class="line"></span><br><span class="line">    public MyAdapter(Context context, List&lt;String&gt; pictures) &#123;</span><br><span class="line">        mInflater = LayoutInflater.from(context);</span><br><span class="line">        this.context = context;</span><br><span class="line">        this.pictureUrls = pictures;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public View getView(int position, View convertView, ViewGroup parent) &#123;</span><br><span class="line">        ViewHolder viewHolder = null;</span><br><span class="line">        if (convertView == null) &#123;</span><br><span class="line">            convertView = mInflater.inflate(R.layout.picture_item_layout, parent, false);</span><br><span class="line">            viewHolder = new ViewHolder();</span><br><span class="line">            viewHolder.picture = convertView.findViewById(R.id.picture);</span><br><span class="line">            convertView.setTag(viewHolder);</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            viewHolder = (ViewHolder) convertView.getTag();</span><br><span class="line">        &#125;</span><br><span class="line">        viewHolder.picture.setImageURI(getItem(position));</span><br><span class="line">        return convertView;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public int getCount() &#123;</span><br><span class="line">        return pictureUrls.size();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public String getItem(int position) &#123;</span><br><span class="line">        return pictureUrls.get(position);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public long getItemId(int position) &#123;</span><br><span class="line">        return position;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private final class ViewHolder &#123;</span><br><span class="line">        SimpleDraweeView picture;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>其他三个方法不用多说，关键在于getView方法。<br>getView方法用于返回item的View，我们看方法的参数convertView，通过查阅博客，我知道了convertView是android中Recycler构件缓存的View，当有item移出屏幕的时候，获取下一个item时调用的getView方法的convertView参数就是被移除的item的View，如下图：</p>
-<p><img src="/images/5/Recycler.jpg" alt="Recycler"></p>
-<p>至此都不难理解，这些预备知识我早先就知道了，却仍然不明白如何实现的性能优化。</p>
-<p>苦思冥想后，恍然大悟，我不过是进入了一次思维误区：<br>从来没见过ViewHolder这种复用机制的我感觉太新鲜了，认为ViewHolder才是主角，convertView不过是个参数，小小配角而已，殊不知android如此大费周章编写的构件，怎么可能会给一个甚至没有加入SDK的自定义类抢去风头！实现性能优化的恰恰是convertView，ViewHolder不过是个添头。</p>
-<p>不论是GridView还是ListView，它们的item都是从同一个layout中inflate的，所以说白了，我们接下来要生成的View，从组成上说，与convertView是一样的，唯一不同的就是其中填充的数据，复用convertView，就可以省下重新inflate的开销（这可是IO操作），达到提升性能的效果。</p>
-<p>那么ViewHolder呢？它有什么用呢？要想解决这个问题，先回答另一个问题，ViewHolder中保存的是什么？以上面的代码为例，是SimpleDraweeView，也就是新View和convertView存在内容上不同的子控件，在getView方法里我们肯定要修改它的内容，那就肯定要获取到它，使用传统的findViewById也存在一定的时间开销，当要修改内容的控件增多时，开销会更大，所以使用ViewHolder通过View的setTag方法把控件保存起来，需要修改的时候再取出来，可以省下一定的开销。也就是说，这是一种空间换时间的策略。</p>
-<p>至此我们的问题解决了，不妨跟着例子的代码走一遍：</p>
-<ol>
-<li>GridView初始化，创建item，调用getView方法，此时convertView为空，我们通过LayoutInflater填充View赋给convertView，并创建ViewHolder绑定到View上（ViewHolder里面有我们获取到的SimpleDraweeView子控件），接着给SimpleDraweeView设置图片的URL（修改子控件内容），最后返回convertView。这个阶段会重复若干次，直到屏幕显示满图片。</li>
-<li>下拉屏幕，获取新的item，此时创建item，调用getView方法，convertView就不为空了，我们直接拿到ViewHolder并修改其中子控件的内容，此时这个被回收的convertView就摇身一变，变成了我们期望的新View了（图片URL被改变了），于是我们将它返回。</li>
-</ol>
-<p>最后满足一下我的好奇心~当GridView多个View被回收，又创建多个新View的时候，convertView会是怎么样对应的呢？<br>我们对上述例子代码修改SimpleDraweeView内容的一行注释掉，看看运行结果~</p>
-<p><img src="/images/5/before.png" alt="before"></p>
-<p><img src="/images/5/after.png" alt="after"></p>
-<p>可以看出来，当下拉加载第一排图片的时候，第一张图片的convertView是下拉前的第一张图片，也就是第一个被回收的图片，第二三四张图片的convertView却是null，所以加载了正确的图片。接着下拉加载第二排的图片，第一二张图片的convertView是下拉前的第三四张图片，也就是最后回收的两张图片。</p>
+            <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>网上关于MVVM的文章很多了，本文站在一个初学者的角度，从实践出发，讲一下我对MVVM的理解和体验，如有误，待勘验。</p>
+<hr>
+<h3 id="为什么要使用MVVM"><a href="#为什么要使用MVVM" class="headerlink" title="为什么要使用MVVM"></a>为什么要使用MVVM</h3><p>为什么要使用MVVM？最关键的，就是解耦，MVVM将项目分成View、ViewModel、Model三层，各层完成不同的工作，使逻辑更加独立清晰，大大方便了维护和测试。MVVM与MVP有何不同？<br><img src="http://zjutkz.net/images/%E9%80%89%E6%8B%A9%E6%81%90%E6%83%A7%E7%97%87%E7%9A%84%E7%A6%8F%E9%9F%B3%EF%BC%81%E6%95%99%E4%BD%A0%E8%AE%A4%E6%B8%85MVC-MVP%E5%92%8CMVVM/mvp.png" alt="MVP"><img src="http://zjutkz.net/images/%E9%80%89%E6%8B%A9%E6%81%90%E6%83%A7%E7%97%87%E7%9A%84%E7%A6%8F%E9%9F%B3%EF%BC%81%E6%95%99%E4%BD%A0%E8%AE%A4%E6%B8%85MVC-MVP%E5%92%8CMVVM/mvvm.png" alt="MVVM"><br>看图，MVP的View和Presenter双向依赖，而MVVM的View和ViewModel是单向依赖的，ViewModel持有View，View却不持有ViewModel，更进一步降低了耦合。如何实现View和ViewModel的单向依赖？有两种方法，一种是通过Google官方的DataBinding机制，这是一种数据驱动的思想，类似Vue，另一种是使用RxJava，这是一种事件驱动的思想，类似RxBus，本文使用RxJava作为解决方案。</p>
+<hr>
+<h3 id="开始之前"><a href="#开始之前" class="headerlink" title="开始之前"></a>开始之前</h3><p>在着手代码前，我有必要先讲一下RxJava。这是我第一次使用RxJava，其实直到现在，我对于它还是一知半解，我希望用通俗的语言介绍一下它，尽管很可能不正确。<br>首先，要知道的是，RxJava最核心的思想是异步，实现的方式是观察者模式，Observable类对应了被观察者，Observer类对应了观察者。当被观察者和观察者被创建后，调用Observable.subscribe(Observer)即完成订阅，订阅即触发，Observable开始执行耗时操作，当操作完成后，通知Observer进行回调。这是最基本的异步使用方法，即使不用RxJava，我们也可以用Message-Handler去实现。但我不想用这种角度去看待Observable和Observer，在我看来，Observable是数据源，Observer是数据消费者。<br>接下来，要说的是Subject类，Subject有点特殊，它既是Observable，又是Observer，也就是说，它既可以生产数据，又可以消费数据。<br>最后再简单提一下CompositeDisposable这个类，Observable在调用subscribe方法后，会返回一个Disposable类，用于取消订阅，CompositeDisposable顾名思义可以对Disposable进行统一管理，当想要取消订阅的时候，调用CompositeDisposable.clear()就可以了。<br>以上就是项目中用到的所有RxJava提供的类。</p>
+<hr>
+<h3 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h3><p>直接上手代码，本文代码完全参考了<a href="https://github.com/onlynight/V2EX" target="_blank" rel="noopener">这个项目</a>，为了使代码更加简洁，我只创建了三个类，分别对应了View、ViewModel、Model，并省去了一些生命周期方法，在实际的开发中，需要做一定的封装，并做好生命周期控制。</p>
+<p>先看Model类，Model类比较简单，主要负责从网络或数据库获取数据，这里模拟一下从网络获取数据，返回一个Observable类。</p>
+<pre><code>public class Model {
+    //模拟从服务器获取数据
+    public Observable&lt;List&lt;String&gt;&gt; getData() {
+        return Observable.create((emitter) -&gt; {
+            Thread.sleep(2000);
+            List&lt;String&gt; list = new ArrayList&lt;&gt;();
+            list.add(String.valueOf(System.currentTimeMillis()));
+            emitter.onNext(list);
+        });
+    }
+}
+</code></pre><p>接下来是ViewModel类，ViewModel类持有一个Subject，作为数据消费者，通过bindData方法，将其与Model获取到的数据进行绑定。</p>
+<pre><code>public class ViewModel {
 
-            
-        </article>
-    </div>
-    
-    <div class="nexmoe-post">
-        <a href="/2017/04/15/AS编写自己的库/">
-            <div class="nexmoe-post-cover mdui-ripple"> 
-                
-                    <img src="/images/bg.jpg" alt="AS编写自己的库">
-                
-                <h1>AS编写自己的库</h1>
-            </div>
-        </a>
-        <div class="nexmoe-post-meta">
-            <a><i class="nexmoefont icon-calendar-fill"></i>2017年04月15日</a>
-            <a><i class="nexmoefont icon-areachart"></i>666 字</a>
-            <a><i class="nexmoefont icon-time-circle-fill"></i>大概 2 分钟</a>
-            
-                <a class="nexmoefont icon-appstore-fill -link" href="/categories/配置/">配置</a>
-            
-            
-                <a class="nexmoefont icon-tag-fill -link" href="/tags/android/">android</a>
-            
-        </div>
-        <article>
-            
-            <h2 id="1-编写android-library"><a href="#1-编写android-library" class="headerlink" title="1.编写android library"></a>1.编写android library</h2><p>除了我们熟知的jar包外，android还支持另外一种打包——aar包，它与jar包不同之处在于它可以把资源文件一起打包，而jar包只打包源代码。</p>
-<p>1.点击file-&gt;new-&gt;new module-&gt;android library，发现我们的项目下多了一个文件，gradle脚本也多了一个文件。</p>
-<p><img src="/images/23/project.png" alt="project"></p>
-<p>实质上我们的android library是以新的module的形式创建的，它与原本项目的app module是一样的，唯一不同之处在于它的module的gradle文件的第一行是</p>
-<p><code>apply plugin: &#39;com.android.library&#39;</code></p>
-<p>这样以后在项目build后会在它的build文件夹下生成aar文件而不是apk文件。</p>
-<p>打开project的gradle文件，include的module从原来的app变成了app和mylibrary，说明我们确实给项目增加了module。</p>
-<p><code>include &#39;:app&#39;, &#39;:mylibrary&#39;</code></p>
-<p>如果我们想删除这个库，直接从project的gradle文件中删除它的module就可以了，剩下的移除工作全由AS解决。</p>
-<p>2.编写完android库后，回到app module中却发现写的库并不可用，原因是app module并没有引入库module。</p>
-<p>点击file-&gt;project structure-&gt;app-&gt;dependencies-&gt;add-&gt;3.module dependencies-&gt;mylibrary就可以把库module添加到app module的依赖中去了。</p>
-<p>app module的gradle文件中多了这么一行</p>
-<p><code>compile project(&quot;:mylibrary&quot;)</code></p>
-<p>3.如果在别的项目中想要使用库，有两种办法</p>
-<p>①引入module。好处在于可以更改库中的文件，更加灵活。点击file-&gt;new-&gt;import module选择要引入的module，重复2的操作在app module中引入依赖。</p>
-<p>②引入aar包。我们将库所在文件夹的build文件里找到aar包，复制到要使用库的项目的libs文件夹下，按照先前的经验，接下来应该在app module的gradle文件中增加aar依赖。</p>
-<p><code>compile(name:&#39;mylibrary&#39;, ext:&#39;aar&#39;)</code></p>
-<p>之后的思路也很明确，AS如何能找到mylibrary文件呢，libs只是一个普通文件夹而已，并没有环境变量定义它的路径，办法是给app module增加一个仓库，仓库地址就是libs文件夹。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">repositories &#123;</span><br><span class="line">    flatDir &#123;</span><br><span class="line">        dirs &apos;libs&apos;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>OK，可以愉快地在项目中使用我们自己编写的android库啦~</p>
-<h2 id="2-创建自己的gradle依赖包"><a href="#2-创建自己的gradle依赖包" class="headerlink" title="2.创建自己的gradle依赖包"></a>2.创建自己的gradle依赖包</h2><p>参考：<a href="https://blog.csdn.net/tgbus18990140382/article/details/53066865" target="_blank" rel="noopener">Android创建自己的gradle依赖包</a></p>
-<p>首先这里需要用到两个网站：</p>
-<p>1.github</p>
-<p>2.jitpack</p>
-<p>具体步骤</p>
-<p>1.在AS创建好我们的android library后，使用AS自带的VCS插件关联到github仓库（自己创建仓库也没关系）。</p>
-<p>2.在github中发布release版本，进入jitpack，生成依赖包。</p>
-<p>3.在项目中加入gradle依赖。</p>
+    private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
-            
-        </article>
-    </div>
-    
-    <div class="nexmoe-post">
-        <a href="/2017/04/07/RecyclerView学习笔记/">
-            <div class="nexmoe-post-cover mdui-ripple"> 
-                
-                    <img src="/images/bg.jpg" alt="RecyclerView学习笔记">
-                
-                <h1>RecyclerView学习笔记</h1>
-            </div>
-        </a>
-        <div class="nexmoe-post-meta">
-            <a><i class="nexmoefont icon-calendar-fill"></i>2017年04月07日</a>
-            <a><i class="nexmoefont icon-areachart"></i>1.4k 字</a>
-            <a><i class="nexmoefont icon-time-circle-fill"></i>大概 6 分钟</a>
-            
-                <a class="nexmoefont icon-appstore-fill -link" href="/categories/技术/">技术</a>
-            
-            
-                <a class="nexmoefont icon-tag-fill -link" href="/tags/android/">android</a>
-            
-        </div>
-        <article>
-            
-            <p>以前在做app时，我习惯使用ListView、GridView等控件来实现列表、网格展示数据的效果。今天研究b站客户端源码的时候，稍微了解了一下RecyclerView控件，它可以用来替代以往的ListView和GridView，并且对上拉刷新和下拉加载功能有很方便的回调，此外添加删除操作也有特殊的动效，而且结合前面所学的Design Library，CoordinatorLayout对它有很好的支持，看来很值得学习一下它。</p>
-<p>学习参考：<a href="https://blog.csdn.net/developer_jiangqq/article/details/49927631" target="_blank" rel="noopener">【FastDev4Android框架开发】RecyclerView完全解析,让你从此爱上它(二十八)</a></p>
-<p><a href="https://blog.csdn.net/developer_jiangqq/article/details/49992269" target="_blank" rel="noopener">【FastDev4Android框架开发】RecyclerView完全解析之下拉刷新与上拉加载SwipeRefreshLayout(三十一)</a></p>
-            
-        </article>
-    </div>
-    
-    <div class="nexmoe-post">
-        <a href="/2017/04/04/Android Design Support Library（材料设计兼容库）学习/">
-            <div class="nexmoe-post-cover mdui-ripple"> 
-                
-                    <img src="/images/bg.jpg" alt="Android Design Support Library（材料设计兼容库）学习">
-                
-                <h1>Android Design Support Library（材料设计兼容库）学习</h1>
-            </div>
-        </a>
-        <div class="nexmoe-post-meta">
-            <a><i class="nexmoefont icon-calendar-fill"></i>2017年04月04日</a>
-            <a><i class="nexmoefont icon-areachart"></i>2.9k 字</a>
-            <a><i class="nexmoefont icon-time-circle-fill"></i>大概 14 分钟</a>
-            
-                <a class="nexmoefont icon-appstore-fill -link" href="/categories/技术/">技术</a>
-            
-            
-                <a class="nexmoefont icon-tag-fill -link" href="/tags/android/">android</a>
-            
-        </div>
-        <article>
-            
-            <p>android5.0引入了Material Design，后续发布的android design support library直接兼容到了android2.1，现在越来越多的App开始使用它的组件，这将是未来App的主流设计风格。</p>
-<p>引入项目</p>
-<p><code>compile &#39;com.android.support:design:24.2.0&#39;</code></p>
-            
-        </article>
-    </div>
-    
-    <div class="nexmoe-post">
-        <a href="/2017/03/26/android Toolbar学习笔记/">
-            <div class="nexmoe-post-cover mdui-ripple"> 
-                
-                    <img src="/images/bg.jpg" alt="android Toolbar学习笔记">
-                
-                <h1>android Toolbar学习笔记</h1>
-            </div>
-        </a>
-        <div class="nexmoe-post-meta">
-            <a><i class="nexmoefont icon-calendar-fill"></i>2017年03月26日</a>
-            <a><i class="nexmoefont icon-areachart"></i>1.6k 字</a>
-            <a><i class="nexmoefont icon-time-circle-fill"></i>大概 8 分钟</a>
-            
-                <a class="nexmoefont icon-appstore-fill -link" href="/categories/技术/">技术</a>
-            
-            
-                <a class="nexmoefont icon-tag-fill -link" href="/tags/android/">android</a>
-            
-        </div>
-        <article>
-            
-            <p>学习Toolbar之前，需要了解Toolbar与ActionBar之间的区别。这里贴上官方文档对Toolbar的解释。</p>
-<blockquote>
-<p>A Toolbar is a generalization of action bars for use within application layouts. While an action bar is traditionally part of an Activity’s opaque window decor controlled by the framework, a Toolbar may be placed at any arbitrary level of nesting within a view hierarchy. An application may choose to designate a Toolbar as the action bar for an Activity using the setSupportActionBar() method.</p>
-</blockquote>
-<p>简单翻译一下，Toolbar是ActionBar的更一般化，他可以存在于一个view的任何层次，我们可以给Activity定制一个Toolbar用于取代ActionBar。</p>
-<p>究其历史原因，Android3.0推了ActionBar这个控件，而到了2013年Google开始大力地推动所谓的android style，想要逐渐改善过去纷乱的界面设计，希望让终端使用者尽可能在android手机有个一致的操作体验，Toolbar的出现意味着官方在某些程度上认为ActionBar限制了开发与设计的弹性。</p>
-<p>（2018/5/10修订：Activity不带ActionBar，可以给它添加ActionBar而不能给它添加Toolbar，这里的添加是指代码中setSupportActionBar，而不是布局文件中添加，如果强行在布局文件中添加，menu不会显示。AppCompatActivity带ActionBar，也可以给它添加Toolbar，如果AppCompatActivity不隐藏ActionBar而添加Toolbar，会报运行时异常）<br>由于Activity是自带ActionBar的，所以想要使用Toolbar，先得将ActionBar隐藏起来。我们可以在style.xml中更改Activity的Theme，加入下面两行代码。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;item name=&quot;windowNoTitle&quot;&gt;true&lt;/item&gt;</span><br><span class="line">&lt;item name=&quot;windowActionBar&quot;&gt;false&lt;/item&gt;</span><br></pre></td></tr></table></figure>
-<p>或者更方便的，我们让Theme的parent为Theme.AppCompat.Light.NoActionBar</p>
-<p>接着在Activity的Layout里面加入我们Toolbar的xml文件。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;android.support.v7.widget.Toolbar xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;</span><br><span class="line">         android:id=&quot;@+id/toolbar&quot;</span><br><span class="line">         android:layout_width=&quot;match_parent&quot;</span><br><span class="line">         android:layout_height=&quot;wrap_content&quot;</span><br><span class="line">         &lt;!-- 当ToolBar没有添加任何东西时给其一个最小高度 --&gt;</span><br><span class="line">         android:minHeight=&quot;?attr/actionBarSize&quot;</span><br><span class="line">         android:background=&quot;?attr/colorPrimary&quot;&gt;</span><br><span class="line"></span><br><span class="line">&lt;/android.support.v7.widget.Toolbar&gt;</span><br></pre></td></tr></table></figure>
-<p>现在来看看效果，Toolbar已经成功显示了。</p>
-<p><img src="/images/20/toolbar1.png" alt="toolbar"></p>
-<p>得到了Toolbar以后，我们接下来研究如何给Toolbar自定义颜色和增加控件。</p>
-            
-        </article>
-    </div>
-    
-    <div class="nexmoe-post">
-        <a href="/2017/03/25/android LayoutInflater学习笔记/">
-            <div class="nexmoe-post-cover mdui-ripple"> 
-                
-                    <img src="/images/bg.jpg" alt="android LayoutInflater学习笔记">
-                
-                <h1>android LayoutInflater学习笔记</h1>
-            </div>
-        </a>
-        <div class="nexmoe-post-meta">
-            <a><i class="nexmoefont icon-calendar-fill"></i>2017年03月25日</a>
-            <a><i class="nexmoefont icon-areachart"></i>515 字</a>
-            <a><i class="nexmoefont icon-time-circle-fill"></i>大概 2 分钟</a>
-            
-                <a class="nexmoefont icon-appstore-fill -link" href="/categories/技术/">技术</a>
-            
-            
-                <a class="nexmoefont icon-tag-fill -link" href="/tags/android/">android</a>
-            
-        </div>
-        <article>
-            
-            <h2 id="获取LayoutInflater"><a href="#获取LayoutInflater" class="headerlink" title="获取LayoutInflater"></a>获取LayoutInflater</h2><p>有三种方法获取LayoutInflater，分别是：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">LayoutInflater inflater = LayoutInflater.from(context);</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">LayoutInflater inflater = getLayoutInflater();//在activity中使用</span><br></pre></td></tr></table></figure>
-<p>而后两种方法实际也是调用第一种方法，得到的是LayoutInflater的实现类PhoneLayoutInflater。</p>
-<h2 id="inflate方法"><a href="#inflate方法" class="headerlink" title="inflate方法"></a>inflate方法</h2><p>在生成view的时候常常要使用inflate方法，在fragment的onCreateView方法中我习惯写</p>
-<p><code>View view = inflater.inflate(R.layout.xxx, container, false);</code></p>
-<p>在listview adapter的getView方法中我又习惯写</p>
-<p><code>View view = inflater.inflate(R.layout.xxx, null);</code></p>
-<p>而却完全不明白这两个重载之间的区别。实际上inflate方法有四个重载而前三个方法本质也是调用最后一个方法。</p>
-<p><img src="/images/19/inflate.png" alt="inflate"></p>
-<p>那么回到上面的两个例子，它们究竟有什么不同呢。通过下面这个例子解释一下。</p>
-<p>布局文件</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span><br><span class="line">&lt;TextView xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;</span><br><span class="line">    android:layout_width=&quot;match_parent&quot;</span><br><span class="line">    android:layout_height=&quot;match_parent&quot;</span><br><span class="line">    android:text=&quot;hello world&quot;</span><br><span class="line">    android:background=&quot;@android:color/darker_gray&quot;</span><br><span class="line">    android:gravity=&quot;center&quot;/&gt;</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;Button</span><br><span class="line">       android:id=&quot;@+id/btn&quot;</span><br><span class="line">       android:layout_width=&quot;wrap_content&quot;</span><br><span class="line">       android:layout_height=&quot;wrap_content&quot;</span><br><span class="line">       android:text=&quot;加载布局&quot;/&gt;</span><br><span class="line"></span><br><span class="line">   &lt;LinearLayout</span><br><span class="line">       android:id=&quot;@+id/root&quot;</span><br><span class="line">       android:orientation=&quot;vertical&quot;</span><br><span class="line">       android:layout_width=&quot;300dp&quot;</span><br><span class="line">       android:layout_height=&quot;300dp&quot;&gt;</span><br><span class="line">   &lt;/LinearLayout&gt;</span><br></pre></td></tr></table></figure>
-<p>MainActivity</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">final LinearLayout root = (LinearLayout) findViewById(R.id.root);</span><br><span class="line">        Button btn = (Button) findViewById(R.id.btn);</span><br><span class="line">        btn.setOnClickListener(new View.OnClickListener() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public void onClick(View v) &#123;</span><br><span class="line">                LayoutInflater inflater = getLayoutInflater();</span><br><span class="line">                View view = inflater.inflate(R.layout.item, null);</span><br><span class="line">                root.addView(view);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br></pre></td></tr></table></figure>
-<p>我们给ViewGroup传null，运行结果如下</p>
-<p><img src="/images/19/ViewGroup_null.png" alt="ViewGroup_null"></p>
-<p>发现我们给textview设定的match_parent属性并没有生效（毕竟它没有parent）。这就是第二个参数的作用所在，给生成的view限定一个parent，修改代码如下</p>
-<p><code>View view = inflater.inflate(R.layout.item, root, true);</code></p>
-<p>运行结果则让人满意</p>
-<p><img src="/images/19/ViewGroup_root.png" alt="ViewGroup_root"></p>
-<p>另外第三个Boolean参数的作用是决定是否将view加入parent的xml文档结构里去，默认为true，当为false时，parent只作为参照决定view的位置和大小，而不把view加入它的xml文档里去，当然，这样的话它不存在与文档结构中，所以也不会显示出来。</p>
+    private Model model = new Model();
 
-            
-        </article>
-    </div>
-    
-    <div class="nexmoe-post">
-        <a href="/2017/02/20/AS中使用lambda/">
-            <div class="nexmoe-post-cover mdui-ripple"> 
-                
-                    <img src="/images/bg.jpg" alt="AS中使用lambda">
-                
-                <h1>AS中使用lambda</h1>
-            </div>
-        </a>
-        <div class="nexmoe-post-meta">
-            <a><i class="nexmoefont icon-calendar-fill"></i>2017年02月20日</a>
-            <a><i class="nexmoefont icon-areachart"></i>49 字</a>
-            <a><i class="nexmoefont icon-time-circle-fill"></i>大概 1 分钟</a>
-            
-                <a class="nexmoefont icon-appstore-fill -link" href="/categories/配置/">配置</a>
-            
-            
-                <a class="nexmoefont icon-tag-fill -link" href="/tags/android/">android</a>
-            
-        </div>
-        <article>
-            
-            <p>在项目gradle中加入</p>
-<p><code>classpath &#39;me.tatarka:gradle-retrolambda:3.2.5&#39;</code></p>
-<p>在app模块gradle中加入</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">android &#123;</span><br><span class="line">    compileOptions &#123;</span><br><span class="line">        sourceCompatibility JavaVersion.VERSION_1_8</span><br><span class="line">        targetCompatibility JavaVersion.VERSION_1_8</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>以及</p>
-<p><code>apply plugin: &#39;me.tatarka.retrolambda&#39;</code></p>
-<p>引入插件</p>
+    private PublishSubject&lt;List&lt;String&gt;&gt; data = PublishSubject.create();
+
+    private &lt;T&gt; void bindData(Observable&lt;List&lt;T&gt;&gt; observable, PublishSubject&lt;List&lt;T&gt;&gt; subject) {
+        compositeDisposable.add(observable.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subject::onNext));
+    }
+
+    public void getUpdateData() {
+        bindData(model.getData(), data);
+    }
+
+    public PublishSubject&lt;List&lt;String&gt;&gt; getData() {
+        return data;
+    }
+}
+</code></pre><p>最后是View，View也有bindData方法，它将ViewModel中获得到的Subject（这里成为了数据源）与一个消费方法绑定，这样，每当数据源发生改变了后，消费方法就会被调用。这里值得一提的是，View和ViewModel都有bindData方法，它们在实现上是一样的，具体的效果却有所不同，View的bindData方法确实如同名字一样，将生产者和消费者进行了绑定，但是ViewModel的bindData只是让Subject获取了数据，并没有进行绑定，因为Model每次生产的数据源引用的不是同一个对象。</p>
+<pre><code>public class MainActivity extends AppCompatActivity {
+
+    private ListViewAdapter adapter;
+
+    private CompositeDisposable compositeDisposable = new CompositeDisposable();
+
+    private ViewModel viewModel = new ViewModel();
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        Button button = findViewById(R.id.button);
+        ListView listView = findViewById(R.id.list_view);
+
+        adapter = new ListViewAdapter(this);
+        listView.setAdapter(adapter);
+
+        bindData(viewModel.getData(), this::updateData);
+        button.setOnClickListener((v) -&gt; {
+            viewModel.getUpdateData();
+        });
+    }
+
+    private &lt;T&gt; void bindData(Subject&lt;T&gt; subject, Consumer&lt;? super T&gt; consumer) {
+        compositeDisposable.add(subject.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(consumer));
+    }
+
+    private void updateData(List&lt;String&gt; data) {
+        swipeRefreshLayout.setRefreshing(false);
+        adapter.setData(data);
+        adapter.notifyDataSetChanged();
+    }
+}
+</code></pre><p>综上，我们是通过这种观察者模式实现的View与ViewModel解耦，实现的关键在于Subject，它可以同时作为数据的生产者和消费者，它存在于ViewModel中，一方面从Model中获取数据，一方面当数据变化时通知View进行操作。<br><a href="https://github.com/fjz97/MVVMDemo" target="_blank" rel="noopener">源码</a></p>
 
             
         </article>
@@ -519,7 +257,7 @@
 <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.15.8/build/highlight.min.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>
 
-<script src="/js/app.js?v=1565794710983"></script>
+<script src="/js/app.js?v=1565795014387"></script>
 <script src="https://cdn.jsdelivr.net/npm/lazysizes@5.1.0/lazysizes.min.js"></script>
 
   

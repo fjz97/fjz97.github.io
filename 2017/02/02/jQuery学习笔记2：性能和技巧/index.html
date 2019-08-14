@@ -29,7 +29,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
   
   <link rel="stylesheet" href="//at.alicdn.com/t/font_1038733_0xvrvpg9c0r.css">
-  <link rel="stylesheet" href="/css/style.css?v=1565794710595">
+  <link rel="stylesheet" href="/css/style.css?v=1565795013904">
 </head>
 
 <body class="mdui-drawer-body-left">
@@ -142,7 +142,7 @@
     </div>
   <div class="nexmoe-post-meta">
     <a><i class="nexmoefont icon-calendar-fill"></i>2017年02月02日</a>
-    <a><i class="nexmoefont icon-areachart"></i>326 字</a>
+    <a><i class="nexmoefont icon-areachart"></i>318 字</a>
     <a><i class="nexmoefont icon-time-circle-fill"></i>大概 1 分钟</a>
     
       <a class="nexmoefont icon-appstore-fill -link" href="/categories/技术/">技术</a>
@@ -160,15 +160,25 @@
 <h2 id="2、尽量缓存对象"><a href="#2、尽量缓存对象" class="headerlink" title="2、尽量缓存对象"></a>2、尽量缓存对象</h2><p><strong>原则：重复出现的元素用变量缓存下来，防止jQuery创建多个对象占用内存</strong>。</p>
 <hr>
 <h2 id="3、不要在循环内操作DOM或者其他耗时操作"><a href="#3、不要在循环内操作DOM或者其他耗时操作" class="headerlink" title="3、不要在循环内操作DOM或者其他耗时操作"></a>3、不要在循环内操作DOM或者其他耗时操作</h2><p>错误例子如下</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">for(var i = 0; i &lt; 100; i++)&#123;</span><br><span class="line">    $list = $(&quot;#list&quot;);</span><br><span class="line">    $list.append(&quot;&lt;li&gt;&quot; + i + &quot;&lt;/li&gt;&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>上面代码段有两处地方欠妥：在循环中查找元素，在循环中操作DOM。</p>
+<pre><code>for(var i = 0; i &lt; 100; i++){
+    $list = $(&quot;#list&quot;);
+    $list.append(&quot;&lt;li&gt;&quot; + i + &quot;&lt;/li&gt;&quot;);
+}
+</code></pre><p>上面代码段有两处地方欠妥：在循环中查找元素，在循环中操作DOM。</p>
 <hr>
 <h2 id="4、使用事件代理"><a href="#4、使用事件代理" class="headerlink" title="4、使用事件代理"></a>4、使用事件代理</h2><p>每个js事件都会冒泡到父级节点，当给多个元素元素调用同一个函数时，可以对父对象进行事件绑定。</p>
 <p>例如，给table中的td绑定点击背景变红事件时，可以这样写。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$(&quot;#table&quot;).click(function(e)&#123;</span><br><span class="line">    var $clicked = $(e.target);</span><br><span class="line">    $clicked.css(&quot;background&quot;, &quot;red&quot;);</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-<hr>
-<h2 id="5、使用-proxy-指定上下文"><a href="#5、使用-proxy-指定上下文" class="headerlink" title="5、使用$.proxy()指定上下文"></a>5、使用$.proxy()指定上下文</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$(&quot;#panel&quot;).fadeIn(function()&#123;</span><br><span class="line">    $(&quot;#panel button&quot;).click($.proxy(function()&#123;</span><br><span class="line">        $(this).fadeOut();</span><br><span class="line">    &#125;, this));</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-<p>click触发后panel消失。</p>
+<pre><code>$(&quot;#table&quot;).click(function(e){
+    var $clicked = $(e.target);
+    $clicked.css(&quot;background&quot;, &quot;red&quot;);
+})
+</code></pre><hr>
+<h2 id="5、使用-proxy-指定上下文"><a href="#5、使用-proxy-指定上下文" class="headerlink" title="5、使用$.proxy()指定上下文"></a>5、使用$.proxy()指定上下文</h2><pre><code>$(&quot;#panel&quot;).fadeIn(function(){
+    $(&quot;#panel button&quot;).click($.proxy(function(){
+        $(this).fadeOut();
+    }, this));
+})
+</code></pre><p>click触发后panel消失。</p>
 
   </article>
   
@@ -216,7 +226,7 @@
 <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.15.8/build/highlight.min.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>
 
-<script src="/js/app.js?v=1565794710602"></script>
+<script src="/js/app.js?v=1565795013911"></script>
 <script src="https://cdn.jsdelivr.net/npm/lazysizes@5.1.0/lazysizes.min.js"></script>
 
   

@@ -27,7 +27,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
   
   <link rel="stylesheet" href="//at.alicdn.com/t/font_1038733_0xvrvpg9c0r.css">
-  <link rel="stylesheet" href="/css/style.css?v=1565794710790">
+  <link rel="stylesheet" href="/css/style.css?v=1565795014032">
 </head>
 
 <body class="mdui-drawer-body-left">
@@ -144,7 +144,7 @@
         </a>
         <div class="nexmoe-post-meta">
             <a><i class="nexmoefont icon-calendar-fill"></i>2017年04月15日</a>
-            <a><i class="nexmoefont icon-areachart"></i>666 字</a>
+            <a><i class="nexmoefont icon-areachart"></i>662 字</a>
             <a><i class="nexmoefont icon-time-circle-fill"></i>大概 2 分钟</a>
             
                 <a class="nexmoefont icon-appstore-fill -link" href="/categories/配置/">配置</a>
@@ -173,8 +173,12 @@
 <p>②引入aar包。我们将库所在文件夹的build文件里找到aar包，复制到要使用库的项目的libs文件夹下，按照先前的经验，接下来应该在app module的gradle文件中增加aar依赖。</p>
 <p><code>compile(name:&#39;mylibrary&#39;, ext:&#39;aar&#39;)</code></p>
 <p>之后的思路也很明确，AS如何能找到mylibrary文件呢，libs只是一个普通文件夹而已，并没有环境变量定义它的路径，办法是给app module增加一个仓库，仓库地址就是libs文件夹。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">repositories &#123;</span><br><span class="line">    flatDir &#123;</span><br><span class="line">        dirs &apos;libs&apos;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>OK，可以愉快地在项目中使用我们自己编写的android库啦~</p>
+<pre><code>repositories {
+    flatDir {
+        dirs &#39;libs&#39;
+    }
+}
+</code></pre><p>OK，可以愉快地在项目中使用我们自己编写的android库啦~</p>
 <h2 id="2-创建自己的gradle依赖包"><a href="#2-创建自己的gradle依赖包" class="headerlink" title="2.创建自己的gradle依赖包"></a>2.创建自己的gradle依赖包</h2><p>参考：<a href="https://blog.csdn.net/tgbus18990140382/article/details/53066865" target="_blank" rel="noopener">Android创建自己的gradle依赖包</a></p>
 <p>首先这里需要用到两个网站：</p>
 <p>1.github</p>
@@ -199,7 +203,7 @@
         </a>
         <div class="nexmoe-post-meta">
             <a><i class="nexmoefont icon-calendar-fill"></i>2017年04月07日</a>
-            <a><i class="nexmoefont icon-areachart"></i>1.4k 字</a>
+            <a><i class="nexmoefont icon-areachart"></i>1.3k 字</a>
             <a><i class="nexmoefont icon-time-circle-fill"></i>大概 6 分钟</a>
             
                 <a class="nexmoefont icon-appstore-fill -link" href="/categories/技术/">技术</a>
@@ -263,7 +267,7 @@
 <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.15.8/build/highlight.min.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>
 
-<script src="/js/app.js?v=1565794710797"></script>
+<script src="/js/app.js?v=1565795014038"></script>
 <script src="https://cdn.jsdelivr.net/npm/lazysizes@5.1.0/lazysizes.min.js"></script>
 
   

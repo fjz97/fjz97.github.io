@@ -40,7 +40,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
   
   <link rel="stylesheet" href="//at.alicdn.com/t/font_1038733_0xvrvpg9c0r.css">
-  <link rel="stylesheet" href="/css/style.css?v=1565794710490">
+  <link rel="stylesheet" href="/css/style.css?v=1565795013801">
 </head>
 
 <body class="mdui-drawer-body-left">
@@ -169,33 +169,172 @@
 <a id="more"></a>
 <hr>
 <h1 id="1-DrawerLayout-amp-NavigationView"><a href="#1-DrawerLayout-amp-NavigationView" class="headerlink" title="1.DrawerLayout&amp;NavigationView"></a>1.DrawerLayout&amp;NavigationView</h1><p>创建布局文件，官方推荐DrawerLayout作为根布局，添加NavigationView。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span><br><span class="line">&lt;android.support.v4.widget.DrawerLayout</span><br><span class="line">    xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;</span><br><span class="line">    xmlns:tools=&quot;http://schemas.android.com/tools&quot;</span><br><span class="line">    xmlns:app=&quot;http://schemas.android.com/apk/res-auto&quot;</span><br><span class="line">    android:id=&quot;@+id/drawer_layout&quot;</span><br><span class="line">    android:layout_width=&quot;match_parent&quot;</span><br><span class="line">    android:layout_height=&quot;match_parent&quot;&gt;</span><br><span class="line"></span><br><span class="line">    &lt;android.support.design.widget.NavigationView</span><br><span class="line">        android:id=&quot;@+id/navigation&quot;</span><br><span class="line">        android:layout_width=&quot;wrap_content&quot;</span><br><span class="line">        android:layout_height=&quot;match_parent&quot;</span><br><span class="line">        android:layout_gravity=&quot;start&quot;</span><br><span class="line">        app:headerLayout=&quot;@layout/nav_header&quot;</span><br><span class="line">        app:menu=&quot;@menu/layout_navigation_drawer&quot;&gt;</span><br><span class="line">    &lt;/android.support.design.widget.NavigationView&gt;</span><br><span class="line"></span><br><span class="line">&lt;/android.support.v4.widget.DrawerLayout&gt;</span><br></pre></td></tr></table></figure>
-<p>这里解释一下NavigationView里的几个重要属性。</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;android.support.v4.widget.DrawerLayout
+    xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+    xmlns:tools=&quot;http://schemas.android.com/tools&quot;
+    xmlns:app=&quot;http://schemas.android.com/apk/res-auto&quot;
+    android:id=&quot;@+id/drawer_layout&quot;
+    android:layout_width=&quot;match_parent&quot;
+    android:layout_height=&quot;match_parent&quot;&gt;
+
+    &lt;android.support.design.widget.NavigationView
+        android:id=&quot;@+id/navigation&quot;
+        android:layout_width=&quot;wrap_content&quot;
+        android:layout_height=&quot;match_parent&quot;
+        android:layout_gravity=&quot;start&quot;
+        app:headerLayout=&quot;@layout/nav_header&quot;
+        app:menu=&quot;@menu/layout_navigation_drawer&quot;&gt;
+    &lt;/android.support.design.widget.NavigationView&gt;
+
+&lt;/android.support.v4.widget.DrawerLayout&gt;
+</code></pre><p>这里解释一下NavigationView里的几个重要属性。</p>
 <p>android:layout_gravity：start/end，其中start表示view在左侧，end表示view在右侧。</p>
 <p>app:headerLayout：表示view上部分的layout。</p>
 <p>app:menu：表示view的菜单部分。</p>
 <p>接下来创建headerLayout和menu布局文件。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span><br><span class="line">&lt;LinearLayout</span><br><span class="line">    xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;</span><br><span class="line">    xmlns:app=&quot;http://schemas.android.com/apk/res-auto&quot;</span><br><span class="line">    android:layout_width=&quot;320dp&quot;</span><br><span class="line">    android:layout_height=&quot;@dimen/nav_header_height&quot;</span><br><span class="line">    android:background=&quot;?attr/colorPrimary&quot;</span><br><span class="line">    android:paddingBottom=&quot;@dimen/activity_vertical_margin&quot;</span><br><span class="line">    android:paddingLeft=&quot;@dimen/activity_horizontal_margin&quot;</span><br><span class="line">    android:paddingRight=&quot;@dimen/activity_horizontal_margin&quot;</span><br><span class="line">    android:paddingTop=&quot;@dimen/activity_vertical_margin&quot;</span><br><span class="line">    android:theme=&quot;@style/ThemeOverlay.AppCompat.Dark&quot;</span><br><span class="line">    android:orientation=&quot;vertical&quot;</span><br><span class="line">    android:gravity=&quot;bottom&quot;&gt;</span><br><span class="line"></span><br><span class="line">&lt;/LinearLayout&gt;</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span><br><span class="line">&lt;menu xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;&gt;</span><br><span class="line"></span><br><span class="line">    &lt;group android:checkableBehavior=&quot;single&quot;&gt;</span><br><span class="line">        &lt;item</span><br><span class="line">            android:id=&quot;@+id/nav_camera&quot;</span><br><span class="line">            android:icon=&quot;@android:drawable/ic_menu_camera&quot;</span><br><span class="line">            android:title=&quot;Import&quot;/&gt;</span><br><span class="line">        &lt;item</span><br><span class="line">            android:id=&quot;@+id/nav_gallery&quot;</span><br><span class="line">            android:icon=&quot;@android:drawable/ic_menu_gallery&quot;</span><br><span class="line">            android:title=&quot;Gallery&quot;/&gt;</span><br><span class="line">        &lt;item</span><br><span class="line">            android:id=&quot;@+id/nav_slideshow&quot;</span><br><span class="line">            android:icon=&quot;@android:drawable/ic_menu_slideshow&quot;</span><br><span class="line">            android:title=&quot;Slideshow&quot;/&gt;</span><br><span class="line">        &lt;item</span><br><span class="line">            android:id=&quot;@+id/nav_manage&quot;</span><br><span class="line">            android:icon=&quot;@android:drawable/ic_menu_manage&quot;</span><br><span class="line">            android:title=&quot;Tools&quot;/&gt;</span><br><span class="line">    &lt;/group&gt;</span><br><span class="line"></span><br><span class="line">    &lt;item android:title=&quot;Communicate&quot;&gt;</span><br><span class="line">        &lt;menu&gt;</span><br><span class="line">            &lt;item</span><br><span class="line">                android:id=&quot;@+id/nav_share&quot;</span><br><span class="line">                android:icon=&quot;@android:drawable/ic_menu_share&quot;</span><br><span class="line">                android:title=&quot;Share&quot;/&gt;</span><br><span class="line">            &lt;item</span><br><span class="line">                android:id=&quot;@+id/nav_send&quot;</span><br><span class="line">                android:icon=&quot;@android:drawable/ic_menu_send&quot;</span><br><span class="line">                android:title=&quot;Send&quot;/&gt;</span><br><span class="line">        &lt;/menu&gt;</span><br><span class="line">    &lt;/item&gt;</span><br><span class="line">&lt;/menu&gt;</span><br></pre></td></tr></table></figure>
-<p>还差一步，我们需要监听返回键，当drawer被打开的时候可以通过返回键关闭它。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public void onBackPressed() &#123;</span><br><span class="line">    DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);</span><br><span class="line">    if (drawer.isDrawerOpen(GravityCompat.START)) &#123;</span><br><span class="line">        drawer.closeDrawer(GravityCompat.START);</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        super.onBackPressed();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这样以后基本的效果就完成了。</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;LinearLayout
+    xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+    xmlns:app=&quot;http://schemas.android.com/apk/res-auto&quot;
+    android:layout_width=&quot;320dp&quot;
+    android:layout_height=&quot;@dimen/nav_header_height&quot;
+    android:background=&quot;?attr/colorPrimary&quot;
+    android:paddingBottom=&quot;@dimen/activity_vertical_margin&quot;
+    android:paddingLeft=&quot;@dimen/activity_horizontal_margin&quot;
+    android:paddingRight=&quot;@dimen/activity_horizontal_margin&quot;
+    android:paddingTop=&quot;@dimen/activity_vertical_margin&quot;
+    android:theme=&quot;@style/ThemeOverlay.AppCompat.Dark&quot;
+    android:orientation=&quot;vertical&quot;
+    android:gravity=&quot;bottom&quot;&gt;
+
+&lt;/LinearLayout&gt;
+</code></pre><pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;menu xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;&gt;
+
+    &lt;group android:checkableBehavior=&quot;single&quot;&gt;
+        &lt;item
+            android:id=&quot;@+id/nav_camera&quot;
+            android:icon=&quot;@android:drawable/ic_menu_camera&quot;
+            android:title=&quot;Import&quot;/&gt;
+        &lt;item
+            android:id=&quot;@+id/nav_gallery&quot;
+            android:icon=&quot;@android:drawable/ic_menu_gallery&quot;
+            android:title=&quot;Gallery&quot;/&gt;
+        &lt;item
+            android:id=&quot;@+id/nav_slideshow&quot;
+            android:icon=&quot;@android:drawable/ic_menu_slideshow&quot;
+            android:title=&quot;Slideshow&quot;/&gt;
+        &lt;item
+            android:id=&quot;@+id/nav_manage&quot;
+            android:icon=&quot;@android:drawable/ic_menu_manage&quot;
+            android:title=&quot;Tools&quot;/&gt;
+    &lt;/group&gt;
+
+    &lt;item android:title=&quot;Communicate&quot;&gt;
+        &lt;menu&gt;
+            &lt;item
+                android:id=&quot;@+id/nav_share&quot;
+                android:icon=&quot;@android:drawable/ic_menu_share&quot;
+                android:title=&quot;Share&quot;/&gt;
+            &lt;item
+                android:id=&quot;@+id/nav_send&quot;
+                android:icon=&quot;@android:drawable/ic_menu_send&quot;
+                android:title=&quot;Send&quot;/&gt;
+        &lt;/menu&gt;
+    &lt;/item&gt;
+&lt;/menu&gt;
+</code></pre><p>还差一步，我们需要监听返回键，当drawer被打开的时候可以通过返回键关闭它。</p>
+<pre><code>    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
+</code></pre><p>这样以后基本的效果就完成了。</p>
 <p><img src="/images/21/navigation.png" alt="navigation"></p>
 <p>接下来看下如何设置NavigationView选项按钮的回调。这里的回调和之前我们学习的Toolbar上的menu回调很相似。既可以通过给NavigationView调用setNavigationItemSelectedListener方法来设置回调，也可以在Activity的onNavigationItemSelected方法里设置回调。具体可以看看对Android Menu的介绍（虽然navigation不属于三种menu）。</p>
 <p>这里贴上通过Listener设置回调的代码。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">NavigationView navigationView = (NavigationView) findViewById(R.id.navigation);</span><br><span class="line">        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public boolean onNavigationItemSelected(@NonNull MenuItem item) &#123;</span><br><span class="line">                int selected = item.getItemId();</span><br><span class="line">                if (selected == R.id.nav_share) &#123;</span><br><span class="line">                    Toast.makeText(MainActivity.this, &quot;share clicked&quot;, Toast.LENGTH_SHORT).show();</span><br><span class="line">                &#125;</span><br><span class="line">                return true;//返回true表示处理了事件</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br></pre></td></tr></table></figure>
-<p><img src="/images/21/navigation_click.png" alt="navigation_click"></p>
+<pre><code>NavigationView navigationView = (NavigationView) findViewById(R.id.navigation);
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                int selected = item.getItemId();
+                if (selected == R.id.nav_share) {
+                    Toast.makeText(MainActivity.this, &quot;share clicked&quot;, Toast.LENGTH_SHORT).show();
+                }
+                return true;//返回true表示处理了事件
+            }
+        });
+</code></pre><p><img src="/images/21/navigation_click.png" alt="navigation_click"></p>
 <h1 id="2-DrawerLayout与Toolbar结合以及交互"><a href="#2-DrawerLayout与Toolbar结合以及交互" class="headerlink" title="2.DrawerLayout与Toolbar结合以及交互"></a>2.DrawerLayout与Toolbar结合以及交互</h1><p>首先要说的是，官方推荐让DrawerLayout作为根布局，NavigationView作为它的最后一个直接子view，如果不这么做，可能会有各种小bug，我已经体验过了。但是如果直接把Toolbar作为DrawerLayout的直接子view，Toolbar会占满整个屏幕。</p>
 <p>我们注意到官方文档里有这样一句话：</p>
 <blockquote>
 <p>To use a DrawerLayout, position your primary content view as the first child with width and height of match_parent and no layout_gravity&gt;.</p>
 </blockquote>
 <p>也就是说，第一个子view会占满屏幕，所以我们应该把一个layout作为第一个子view并把它的layout_height设为match_parent，就像这样：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span><br><span class="line">&lt;android.support.v4.widget.DrawerLayout</span><br><span class="line">        xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;</span><br><span class="line">        xmlns:app=&quot;http://schemas.android.com/apk/res-auto&quot;</span><br><span class="line">        android:id=&quot;@+id/drawer_layout&quot;</span><br><span class="line">        android:layout_width=&quot;match_parent&quot;</span><br><span class="line">        android:layout_height=&quot;match_parent&quot;&gt;</span><br><span class="line"></span><br><span class="line">    &lt;LinearLayout</span><br><span class="line">            android:layout_width=&quot;match_parent&quot;</span><br><span class="line">            android:layout_height=&quot;match_parent&quot;&gt;</span><br><span class="line">        </span><br><span class="line">        &lt;android.support.v7.widget.Toolbar</span><br><span class="line">                xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;</span><br><span class="line">                android:id=&quot;@+id/toolbar&quot;</span><br><span class="line">                android:layout_width=&quot;match_parent&quot;</span><br><span class="line">                android:layout_height=&quot;wrap_content&quot;</span><br><span class="line">                android:minHeight=&quot;?attr/actionBarSize&quot;</span><br><span class="line">                android:background=&quot;?attr/colorPrimary&quot;&gt;</span><br><span class="line"></span><br><span class="line">            &lt;LinearLayout</span><br><span class="line">                    android:layout_width=&quot;wrap_content&quot;</span><br><span class="line">                    android:layout_height=&quot;match_parent&quot;</span><br><span class="line">                    android:orientation=&quot;vertical&quot;&gt;</span><br><span class="line"></span><br><span class="line">                &lt;TextView</span><br><span class="line">                        android:layout_width=&quot;wrap_content&quot;</span><br><span class="line">                        android:layout_height=&quot;25dp&quot;</span><br><span class="line">                        android:textSize=&quot;20sp&quot;</span><br><span class="line">                        android:text=&quot;Demo&quot;/&gt;</span><br><span class="line"></span><br><span class="line">                &lt;TextView</span><br><span class="line">                        android:layout_marginTop=&quot;3dp&quot;</span><br><span class="line">                        android:layout_width=&quot;wrap_content&quot;</span><br><span class="line">                        android:layout_height=&quot;20dp&quot;</span><br><span class="line">                        android:textSize=&quot;14sp&quot;</span><br><span class="line">                        android:text=&quot;jzfeng&quot;/&gt;</span><br><span class="line"></span><br><span class="line">            &lt;/LinearLayout&gt;</span><br><span class="line"></span><br><span class="line">        &lt;/android.support.v7.widget.Toolbar&gt;</span><br><span class="line">        </span><br><span class="line">    &lt;/LinearLayout&gt;</span><br><span class="line"></span><br><span class="line">    &lt;android.support.design.widget.NavigationView</span><br><span class="line">            android:id=&quot;@+id/navigation&quot;</span><br><span class="line">            android:layout_width=&quot;wrap_content&quot;</span><br><span class="line">            android:layout_height=&quot;match_parent&quot;</span><br><span class="line">            android:layout_gravity=&quot;start&quot;</span><br><span class="line">            app:headerLayout=&quot;@layout/nav_header&quot;</span><br><span class="line">            app:menu=&quot;@menu/layout_navigation_drawer&quot;&gt;</span><br><span class="line">    &lt;/android.support.design.widget.NavigationView&gt;</span><br><span class="line"></span><br><span class="line">&lt;/android.support.v4.widget.DrawerLayout&gt;</span><br></pre></td></tr></table></figure>
-<p>接着进入主题，DrawerLayout和Toolbar的交互。两者可以通过ActionBarDrawerToggle类来实现交互，我们来研究这个类。</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;android.support.v4.widget.DrawerLayout
+        xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+        xmlns:app=&quot;http://schemas.android.com/apk/res-auto&quot;
+        android:id=&quot;@+id/drawer_layout&quot;
+        android:layout_width=&quot;match_parent&quot;
+        android:layout_height=&quot;match_parent&quot;&gt;
+
+    &lt;LinearLayout
+            android:layout_width=&quot;match_parent&quot;
+            android:layout_height=&quot;match_parent&quot;&gt;
+
+        &lt;android.support.v7.widget.Toolbar
+                xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+                android:id=&quot;@+id/toolbar&quot;
+                android:layout_width=&quot;match_parent&quot;
+                android:layout_height=&quot;wrap_content&quot;
+                android:minHeight=&quot;?attr/actionBarSize&quot;
+                android:background=&quot;?attr/colorPrimary&quot;&gt;
+
+            &lt;LinearLayout
+                    android:layout_width=&quot;wrap_content&quot;
+                    android:layout_height=&quot;match_parent&quot;
+                    android:orientation=&quot;vertical&quot;&gt;
+
+                &lt;TextView
+                        android:layout_width=&quot;wrap_content&quot;
+                        android:layout_height=&quot;25dp&quot;
+                        android:textSize=&quot;20sp&quot;
+                        android:text=&quot;Demo&quot;/&gt;
+
+                &lt;TextView
+                        android:layout_marginTop=&quot;3dp&quot;
+                        android:layout_width=&quot;wrap_content&quot;
+                        android:layout_height=&quot;20dp&quot;
+                        android:textSize=&quot;14sp&quot;
+                        android:text=&quot;jzfeng&quot;/&gt;
+
+            &lt;/LinearLayout&gt;
+
+        &lt;/android.support.v7.widget.Toolbar&gt;
+
+    &lt;/LinearLayout&gt;
+
+    &lt;android.support.design.widget.NavigationView
+            android:id=&quot;@+id/navigation&quot;
+            android:layout_width=&quot;wrap_content&quot;
+            android:layout_height=&quot;match_parent&quot;
+            android:layout_gravity=&quot;start&quot;
+            app:headerLayout=&quot;@layout/nav_header&quot;
+            app:menu=&quot;@menu/layout_navigation_drawer&quot;&gt;
+    &lt;/android.support.design.widget.NavigationView&gt;
+
+&lt;/android.support.v4.widget.DrawerLayout&gt;
+</code></pre><p>接着进入主题，DrawerLayout和Toolbar的交互。两者可以通过ActionBarDrawerToggle类来实现交互，我们来研究这个类。</p>
 <p>ActionBarDrawerToggle本质上是DrawerLayout.DrawerListener接口的实现类，也就是说它是官方给我们提供的一个写好的DrawerListener，我们可以直接拿来用。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);</span><br><span class="line">drawerLayout.setDrawerListener(toggle);</span><br><span class="line">toggle.syncState();</span><br></pre></td></tr></table></figure>
-<p>效果如图：</p>
+<pre><code>        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawerLayout.setDrawerListener(toggle);
+        toggle.syncState();
+</code></pre><p>效果如图：</p>
 <p><img src="/images/21/toggle.gif" width="30%" height="30%"></p>
 <p>那么我们想让NavigationView出现在Toolbar的下方呢？我思前想后也只能想到把Toolbar和DrawerLayout放在一个LinearLayout里，bug出现了，如图所示，点击空白处NavigationView收不回去。</p>
 <p><img src="/images/21/toggle_below.gif" width="30%" height="30%"></p>
@@ -205,35 +344,101 @@
 <p><img src="/images/21/toggle_below_success.gif" width="30%" height="30%"></p>
 <h1 id="3-TextInputLayout-amp-TextInputTextEdit"><a href="#3-TextInputLayout-amp-TextInputTextEdit" class="headerlink" title="3.TextInputLayout&amp;TextInputTextEdit"></a>3.TextInputLayout&amp;TextInputTextEdit</h1><p>TextInputLayout&amp;TextInputTextEdit对传统的EditText做了进一步的优化改善，赋予了它一些美观以及实用的动效。TextInputEditText继承自EditText，提供了不一样的UI，但是xml属性和方法是完全一致的。TextInputLayout继承自LinearLayout，使用非常简单，我们熟悉一下一些有用的属性和Java方法就可以了。</p>
 <p>在布局里加入TextInputLayout&amp;TextInputTextEdit，注意TextInputTextEdit必须存在于TextInputLayout里面，不然不会提供动效。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;android.support.design.widget.TextInputLayout</span><br><span class="line">    android:layout_width=&quot;match_parent&quot;</span><br><span class="line">    android:layout_height=&quot;wrap_content&quot;</span><br><span class="line">    android:hint=&quot;@string/app_name&quot;&gt;</span><br><span class="line">    &lt;android.support.design.widget.TextInputEditText</span><br><span class="line">        android:layout_width=&quot;match_parent&quot;</span><br><span class="line">        android:layout_height=&quot;wrap_content&quot;/&gt;</span><br><span class="line">&lt;/android.support.design.widget.TextInputLayout&gt;</span><br></pre></td></tr></table></figure>
-<p>以上代码引入了最基本的TextInputLayout样式，注意，hint属性最好写在TextInputLayout中。</p>
+<pre><code>        &lt;android.support.design.widget.TextInputLayout
+            android:layout_width=&quot;match_parent&quot;
+            android:layout_height=&quot;wrap_content&quot;
+            android:hint=&quot;@string/app_name&quot;&gt;
+            &lt;android.support.design.widget.TextInputEditText
+                android:layout_width=&quot;match_parent&quot;
+                android:layout_height=&quot;wrap_content&quot;/&gt;
+        &lt;/android.support.design.widget.TextInputLayout&gt;
+</code></pre><p>以上代码引入了最基本的TextInputLayout样式，注意，hint属性最好写在TextInputLayout中。</p>
 <p>下面通过java代码对它进行一些操作。</p>
 <h2 id="1-错误提示。"><a href="#1-错误提示。" class="headerlink" title="1.错误提示。"></a>1.错误提示。</h2><p>我们来看一个邮箱检验的例子。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">String regex = &quot;^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\\.[a-zA-Z0-9_-]+)+$&quot;;</span><br><span class="line">final Pattern pattern = Pattern.compile(regex);</span><br><span class="line">final TextInputLayout emailLayout = (TextInputLayout) findViewById(R.id.email_layout);</span><br><span class="line">TextInputEditText emailText = (TextInputEditText) findViewById(R.id.email_text);</span><br><span class="line">emailText.addTextChangedListener(new TextWatcher() &#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void beforeTextChanged(CharSequence s, int start, int count, int after) &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void onTextChanged(CharSequence s, int start, int before, int count) &#123;</span><br><span class="line">        Matcher matcher = pattern.matcher(s);</span><br><span class="line">        if(!matcher.matches())&#123;</span><br><span class="line">            if(!emailLayout.isErrorEnabled())&#123;</span><br><span class="line">                emailLayout.setErrorEnabled(true);</span><br><span class="line">            &#125;</span><br><span class="line">            emailLayout.setError(&quot;邮箱格式不正确&quot;);</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            emailLayout.setErrorEnabled(false);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void afterTextChanged(Editable s) &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<p>TextInputLayout.setErrorEnabled方法设置是否可以显示错误提示信息，对TextInputEditText设置监听，当内容改变时，如果邮箱不符合格式，那么允许显示错误提示信息并且通过setError方法显示它，反之则禁用错误提示信息。</p>
+<pre><code>        String regex = &quot;^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\\.[a-zA-Z0-9_-]+)+$&quot;;
+        final Pattern pattern = Pattern.compile(regex);
+        final TextInputLayout emailLayout = (TextInputLayout) findViewById(R.id.email_layout);
+        TextInputEditText emailText = (TextInputEditText) findViewById(R.id.email_text);
+        emailText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                Matcher matcher = pattern.matcher(s);
+                if(!matcher.matches()){
+                    if(!emailLayout.isErrorEnabled()){
+                        emailLayout.setErrorEnabled(true);
+                    }
+                    emailLayout.setError(&quot;邮箱格式不正确&quot;);
+                } else {
+                    emailLayout.setErrorEnabled(false);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+</code></pre><p>TextInputLayout.setErrorEnabled方法设置是否可以显示错误提示信息，对TextInputEditText设置监听，当内容改变时，如果邮箱不符合格式，那么允许显示错误提示信息并且通过setError方法显示它，反之则禁用错误提示信息。</p>
 <p><img src="/images/21/check_mail.gif" width="30%" height="30%"></p>
 <h1 id="4-FloatingActionButton"><a href="#4-FloatingActionButton" class="headerlink" title="4.FloatingActionButton"></a>4.FloatingActionButton</h1><p>接下来来看个很简单的组件，FloatingActionButton，我们关注它的几个属性就好了。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;android.support.design.widget.FloatingActionButton</span><br><span class="line">            android:id=&quot;@+id/fab&quot;</span><br><span class="line">            android:layout_width=&quot;wrap_content&quot;</span><br><span class="line">            android:layout_height=&quot;wrap_content&quot;</span><br><span class="line">            android:layout_gravity=&quot;end|bottom&quot;</span><br><span class="line">            app:backgroundTint=&quot;#ff87ffeb&quot;</span><br><span class="line">            app:rippleColor=&quot;#33728dff&quot;</span><br><span class="line">            app:elevation=&quot;6dp&quot;</span><br><span class="line">            app:pressedTranslationZ=&quot;12dp&quot;</span><br><span class="line">            android:src=&quot;@android:drawable/ic_dialog_info&quot;/&gt;</span><br></pre></td></tr></table></figure>
-<p>backgroundTint：背景颜色，默认为Theme中的colorAccent</p>
+<pre><code>&lt;android.support.design.widget.FloatingActionButton
+            android:id=&quot;@+id/fab&quot;
+            android:layout_width=&quot;wrap_content&quot;
+            android:layout_height=&quot;wrap_content&quot;
+            android:layout_gravity=&quot;end|bottom&quot;
+            app:backgroundTint=&quot;#ff87ffeb&quot;
+            app:rippleColor=&quot;#33728dff&quot;
+            app:elevation=&quot;6dp&quot;
+            app:pressedTranslationZ=&quot;12dp&quot;
+            android:src=&quot;@android:drawable/ic_dialog_info&quot;/&gt;
+</code></pre><p>backgroundTint：背景颜色，默认为Theme中的colorAccent</p>
 <p>rippleColor：点击颜色，默认为Theme中的colorControlHighlight</p>
 <p>elevation：阴影的大小</p>
 <p>pressedTranslationZ：点击时的阴影大小</p>
 <h1 id="5-Snackbar"><a href="#5-Snackbar" class="headerlink" title="5.Snackbar"></a>5.Snackbar</h1><p>再来看一个简单的组件——Snackbar，它是一个升级版的Toast，与Toast不同的是，它可以提供一个feedback操作。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);</span><br><span class="line">fab.setOnClickListener(new View.OnClickListener() &#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void onClick(View v) &#123;</span><br><span class="line">        //make方法第一个参数传的view我们一般就选取它提供的view（这里是fab）</span><br><span class="line">        Snackbar.make(drawerLayout, &quot;fab clicked&quot;, Snackbar.LENGTH_SHORT).setAction(&quot;DONE&quot;, new View.OnClickListener() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public void onClick(View v) &#123;</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;).show();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<p>点击DONE或经过一小段时间后消失。</p>
+<pre><code>        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //make方法第一个参数传的view我们一般就选取它提供的view（这里是fab）
+                Snackbar.make(drawerLayout, &quot;fab clicked&quot;, Snackbar.LENGTH_SHORT).setAction(&quot;DONE&quot;, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                    }
+                }).show();
+            }
+        });
+</code></pre><p>点击DONE或经过一小段时间后消失。</p>
 <p>当然我们也可以设定自动消失的时间</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Snackbar.make(drawerLayout, &quot;fab clicked&quot;, Snackbar.LENGTH_SHORT).setDuration(5000).show();</span><br></pre></td></tr></table></figure>
-<h1 id="6-TabLayout"><a href="#6-TabLayout" class="headerlink" title="6.TabLayout"></a>6.TabLayout</h1><h2 id="1-基本使用"><a href="#1-基本使用" class="headerlink" title="1.基本使用"></a>1.基本使用</h2><p>TabLayout提供了一个可以滑动的选项卡，我们在xml文件中引入它。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;android.support.design.widget.TabLayout</span><br><span class="line">    android:id=&quot;@+id/tab_layout&quot;</span><br><span class="line">    android:layout_width=&quot;match_parent&quot;</span><br><span class="line">    android:layout_height=&quot;wrap_content&quot;</span><br><span class="line">    app:tabMode=&quot;scrollable&quot;&gt;</span><br><span class="line">&lt;/android.support.design.widget.TabLayout&gt;</span><br></pre></td></tr></table></figure>
-<p>我们一般不会对TabLayout的样式做太多的定制，如果需要，移步：<a href="https://www.jianshu.com/p/2b2bb6be83a8" target="_blank" rel="noopener">TabLayout属性详解</a></p>
+<pre><code>Snackbar.make(drawerLayout, &quot;fab clicked&quot;, Snackbar.LENGTH_SHORT).setDuration(5000).show();
+</code></pre><h1 id="6-TabLayout"><a href="#6-TabLayout" class="headerlink" title="6.TabLayout"></a>6.TabLayout</h1><h2 id="1-基本使用"><a href="#1-基本使用" class="headerlink" title="1.基本使用"></a>1.基本使用</h2><p>TabLayout提供了一个可以滑动的选项卡，我们在xml文件中引入它。</p>
+<pre><code>        &lt;android.support.design.widget.TabLayout
+            android:id=&quot;@+id/tab_layout&quot;
+            android:layout_width=&quot;match_parent&quot;
+            android:layout_height=&quot;wrap_content&quot;
+            app:tabMode=&quot;scrollable&quot;&gt;
+        &lt;/android.support.design.widget.TabLayout&gt;
+</code></pre><p>我们一般不会对TabLayout的样式做太多的定制，如果需要，移步：<a href="https://www.jianshu.com/p/2b2bb6be83a8" target="_blank" rel="noopener">TabLayout属性详解</a></p>
 <p>我们关注TabLayout最关键的属性app:tabMode，它有两个值，分别是scrollable和fixed。如果是scrollable，当屏幕显示不下所有tab的时候，有些tab会被隐藏；如果是fixed，所有tab会全部显示，当有很多个tab的时候，它们会被挤压到很小。</p>
 <p>我们可以在xml文件中创建选项卡，但是一般习惯在java代码中创建。</p>
 <p><code>tabLayout.addTab(tabLayout.newTab().setText(&quot;tab1&quot;));</code></p>
 <p>运行效果如图：</p>
 <p><img src="/images/21/tab.png" alt="tab"></p>
 <p>我们发现TabLayout宽度并没有占满整个屏幕，这时候必须设置app:tabGravity属性为fill，而该属性只有tabMode为fixed的时候才生效。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;android.support.design.widget.TabLayout</span><br><span class="line">    android:id=&quot;@+id/tab_layout&quot;</span><br><span class="line">    android:layout_width=&quot;match_parent&quot;</span><br><span class="line">    android:layout_height=&quot;wrap_content&quot;</span><br><span class="line">    app:tabMode=&quot;fixed&quot;</span><br><span class="line">    app:tabGravity=&quot;fill&quot;&gt;</span><br><span class="line">&lt;/android.support.design.widget.TabLayout&gt;</span><br></pre></td></tr></table></figure>
-<p><img src="/images/21/tab_fill.png" alt="tab_fill"></p>
+<pre><code>        &lt;android.support.design.widget.TabLayout
+            android:id=&quot;@+id/tab_layout&quot;
+            android:layout_width=&quot;match_parent&quot;
+            android:layout_height=&quot;wrap_content&quot;
+            app:tabMode=&quot;fixed&quot;
+            app:tabGravity=&quot;fill&quot;&gt;
+        &lt;/android.support.design.widget.TabLayout&gt;
+</code></pre><p><img src="/images/21/tab_fill.png" alt="tab_fill"></p>
 <p>小结：当选项卡较少时，我们使用appMode:fixed配合tabGravity:fill；当选项卡较多时，我们使用appMode:scrollable。</p>
 <h2 id="2-TabLayout配合ViewPager使用"><a href="#2-TabLayout配合ViewPager使用" class="headerlink" title="2.TabLayout配合ViewPager使用"></a>2.TabLayout配合ViewPager使用</h2><p>我们一般将TabLayout和ViewPager一起使用，实现像b站、知乎等app的效果。</p>
 <p>只需要一行代码就可以实现它们之间的协作了</p>
@@ -241,8 +446,48 @@
 <p>本质上其实是调用了</p>
 <p><code>viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));</code></p>
 <p>还有，必须得实现ViewPager适配器中的getPageTitle方法，不然tab的标题无法正常显示。另外，我们就不需要自己创建tab了，会自动适配生成tab。实例代码如下：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">TabLayout tabLayout = findViewById(R.id.tab_layout);</span><br><span class="line">      tabLayout.addTab(tabLayout.newTab());</span><br><span class="line">      tabLayout.addTab(tabLayout.newTab());</span><br><span class="line">      tabLayout.addTab(tabLayout.newTab());</span><br><span class="line">      final List&lt;String&gt; titles = new ArrayList&lt;&gt;();</span><br><span class="line">      titles.add(&quot;tab1&quot;);</span><br><span class="line">      titles.add(&quot;tab2&quot;);</span><br><span class="line">      titles.add(&quot;tab3&quot;);</span><br><span class="line">      final List&lt;LinearLayout&gt; layouts = new ArrayList&lt;&gt;();</span><br><span class="line">      layouts.add(new LinearLayout(this));</span><br><span class="line">      layouts.add(new LinearLayout(this));</span><br><span class="line">      layouts.add(new LinearLayout(this));</span><br><span class="line">      ViewPager vp = findViewById(R.id.view_pager);</span><br><span class="line">      vp.setAdapter(new PagerAdapter() &#123;</span><br><span class="line">          @Override</span><br><span class="line">          public Object instantiateItem(ViewGroup container, int position) &#123;</span><br><span class="line">              container.addView(layouts.get(position));</span><br><span class="line">              return layouts.get(position);</span><br><span class="line">          &#125;</span><br><span class="line"></span><br><span class="line">          @Override</span><br><span class="line">          public void destroyItem(ViewGroup container, int position, Object object) &#123;</span><br><span class="line">              container.removeView(layouts.get(position));</span><br><span class="line">          &#125;</span><br><span class="line"></span><br><span class="line">          @Override</span><br><span class="line">          public int getCount() &#123;</span><br><span class="line">              return 3;</span><br><span class="line">          &#125;</span><br><span class="line"></span><br><span class="line">          @Override</span><br><span class="line">          public boolean isViewFromObject(View view, Object object) &#123;</span><br><span class="line">              return false;</span><br><span class="line">          &#125;</span><br><span class="line"></span><br><span class="line">          @Override</span><br><span class="line">          public CharSequence getPageTitle(int position) &#123;</span><br><span class="line">              return titles.get(position);</span><br><span class="line">          &#125;</span><br><span class="line">      &#125;);</span><br><span class="line">      tabLayout.setupWithViewPager(vp);</span><br></pre></td></tr></table></figure>
-<p><img src="/images/21/tablayout_viewpager.gif" width="30%" height="30%"></p>
+<pre><code>        TabLayout tabLayout = findViewById(R.id.tab_layout);
+        tabLayout.addTab(tabLayout.newTab());
+        tabLayout.addTab(tabLayout.newTab());
+        tabLayout.addTab(tabLayout.newTab());
+        final List&lt;String&gt; titles = new ArrayList&lt;&gt;();
+        titles.add(&quot;tab1&quot;);
+        titles.add(&quot;tab2&quot;);
+        titles.add(&quot;tab3&quot;);
+        final List&lt;LinearLayout&gt; layouts = new ArrayList&lt;&gt;();
+        layouts.add(new LinearLayout(this));
+        layouts.add(new LinearLayout(this));
+        layouts.add(new LinearLayout(this));
+        ViewPager vp = findViewById(R.id.view_pager);
+        vp.setAdapter(new PagerAdapter() {
+            @Override
+            public Object instantiateItem(ViewGroup container, int position) {
+                container.addView(layouts.get(position));
+                return layouts.get(position);
+            }
+
+            @Override
+            public void destroyItem(ViewGroup container, int position, Object object) {
+                container.removeView(layouts.get(position));
+            }
+
+            @Override
+            public int getCount() {
+                return 3;
+            }
+
+            @Override
+            public boolean isViewFromObject(View view, Object object) {
+                return false;
+            }
+
+            @Override
+            public CharSequence getPageTitle(int position) {
+                return titles.get(position);
+            }
+        });
+        tabLayout.setupWithViewPager(vp);
+</code></pre><p><img src="/images/21/tablayout_viewpager.gif" width="30%" height="30%"></p>
 <h1 id="7-CoordinatorLayout（协调者布局）"><a href="#7-CoordinatorLayout（协调者布局）" class="headerlink" title="7.CoordinatorLayout（协调者布局）"></a>7.CoordinatorLayout（协调者布局）</h1><p>CoordinatorLayout是一个强化版的FrameLayout，从名字上我们就可以知道它用于处理多个子view的协调互动，注意，子view必须是CoordinatorLayout的直接子view。</p>
 <p>我们由几种效果的实现来了解它。</p>
 <h2 id="1-和FAB的互动"><a href="#1-和FAB的互动" class="headerlink" title="1.和FAB的互动"></a>1.和FAB的互动</h2><p>这个很简单，直接在CoordinatorLayout里引入FAB就行了。</p>
@@ -299,7 +544,7 @@
 <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.15.8/build/highlight.min.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>
 
-<script src="/js/app.js?v=1565794710497"></script>
+<script src="/js/app.js?v=1565795013809"></script>
 <script src="https://cdn.jsdelivr.net/npm/lazysizes@5.1.0/lazysizes.min.js"></script>
 
   
