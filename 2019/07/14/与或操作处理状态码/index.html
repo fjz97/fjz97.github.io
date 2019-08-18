@@ -19,7 +19,7 @@
 <meta property="og:site_name" content="冯京哲的狗窝">
 <meta property="og:description" content="当状态码有叠加态的时候，可以用与或操作去处理。当左右的值分别是2的次方且不相同的时候，或操作表示相加。1 | 2 = 31 | 2 | 4 = 71 | 4 = 5这个不难理解，2的次方bit码最高位为1，其余为0，如果左右的值不同，进行或操作后，会把两个最高位都置为1，即相加。当左值为2的次方叠加，右值为2的次方时，与操作可以用来判断右值是否是左值的加数，当右值为左值加数时，结果是右值，否则是0">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-07-14T07:37:04.090Z">
+<meta property="og:updated_time" content="2019-08-18T16:05:37.953Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="与或操作处理状态码">
 <meta name="twitter:description" content="当状态码有叠加态的时候，可以用与或操作去处理。当左右的值分别是2的次方且不相同的时候，或操作表示相加。1 | 2 = 31 | 2 | 4 = 71 | 4 = 5这个不难理解，2的次方bit码最高位为1，其余为0，如果左右的值不同，进行或操作后，会把两个最高位都置为1，即相加。当左值为2的次方叠加，右值为2的次方时，与操作可以用来判断右值是否是左值的加数，当右值为左值加数时，结果是右值，否则是0">
@@ -29,7 +29,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
   
   <link rel="stylesheet" href="//at.alicdn.com/t/font_1038733_0xvrvpg9c0r.css">
-  <link rel="stylesheet" href="/css/style.css?v=1566143372971">
+  <link rel="stylesheet" href="/css/style.css?v=1566144353596">
 </head>
 
 <body class="mdui-drawer-body-left">
@@ -142,7 +142,7 @@
     </div>
   <div class="nexmoe-post-meta">
     <a><i class="nexmoefont icon-calendar-fill"></i>2019年07月14日</a>
-    <a><i class="nexmoefont icon-areachart"></i>228 字</a>
+    <a><i class="nexmoefont icon-areachart"></i>253 字</a>
     <a><i class="nexmoefont icon-time-circle-fill"></i>大概 1 分钟</a>
     
       <a class="nexmoefont icon-appstore-fill -link" href="/categories/技术/">技术</a>
@@ -166,6 +166,10 @@ if ((state &amp; STATE_1) == STATE_1) {
     //state include STATE_1
 }
 ......
+</code></pre><p>最近学了个新招：</p>
+<pre><code>public static final int STATE_1 = 0b0000_0001;
+public static final int STATE_2 = 0b0000_0010;
+public static final int STATE_3 = 0b0000_0100;
 </code></pre>
   </article>
   
@@ -213,7 +217,7 @@ if ((state &amp; STATE_1) == STATE_1) {
 <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.15.8/build/highlight.min.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>
 
-<script src="/js/app.js?v=1566143372983"></script>
+<script src="/js/app.js?v=1566144353605"></script>
 <script src="https://cdn.jsdelivr.net/npm/lazysizes@5.1.0/lazysizes.min.js"></script>
 
   
