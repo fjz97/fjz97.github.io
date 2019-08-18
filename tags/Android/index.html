@@ -3,7 +3,7 @@
 
 <head>
   
-  <title>标签：android - 冯京哲的狗窝</title>
+  <title>标签：Android - 冯京哲的狗窝</title>
   <meta charset="UTF-8">
   <meta name="description" content="feng&#39;s blog">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -14,7 +14,7 @@
   <meta name="description" content="feng&apos;s blog">
 <meta property="og:type" content="website">
 <meta property="og:title" content="冯京哲的狗窝">
-<meta property="og:url" content="http://www.fengjingzhe.com/tags/android/index.html">
+<meta property="og:url" content="http://www.fengjingzhe.com/tags/Android/index.html">
 <meta property="og:site_name" content="冯京哲的狗窝">
 <meta property="og:description" content="feng&apos;s blog">
 <meta property="og:locale" content="zh-CN">
@@ -27,7 +27,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
   
   <link rel="stylesheet" href="//at.alicdn.com/t/font_1038733_0xvrvpg9c0r.css">
-  <link rel="stylesheet" href="/css/style.css?v=1566143165944">
+  <link rel="stylesheet" href="/css/style.css?v=1566143373972">
 </head>
 
 <body class="mdui-drawer-body-left">
@@ -134,131 +134,142 @@
         <section class="nexmoe-posts" id="brand-waterfall">
     
     <div class="nexmoe-post">
-        <a href="/2019/07/14/与或操作处理状态码/">
+        <a href="/2019/05/18/MVVM初体验/">
             <div class="nexmoe-post-cover mdui-ripple"> 
                 
-                    <img src="/images/bg.jpg" alt="与或操作处理状态码">
+                    <img src="/images/bg.jpg" alt="MVVM初体验">
                 
-                <h1>与或操作处理状态码</h1>
+                <h1>MVVM初体验</h1>
             </div>
         </a>
         <div class="nexmoe-post-meta">
-            <a><i class="nexmoefont icon-calendar-fill"></i>2019年07月14日</a>
-            <a><i class="nexmoefont icon-areachart"></i>228 字</a>
-            <a><i class="nexmoefont icon-time-circle-fill"></i>大概 1 分钟</a>
+            <a><i class="nexmoefont icon-calendar-fill"></i>2019年05月18日</a>
+            <a><i class="nexmoefont icon-areachart"></i>1.2k 字</a>
+            <a><i class="nexmoefont icon-time-circle-fill"></i>大概 5 分钟</a>
             
                 <a class="nexmoefont icon-appstore-fill -link" href="/categories/技术/">技术</a>
             
             
-                <a class="nexmoefont icon-tag-fill -link" href="/tags/android/">android</a>
+                <a class="nexmoefont icon-tag-fill -link" href="/tags/Android/">Android</a>
             
         </div>
         <article>
             
-            <p>当状态码有叠加态的时候，可以用与或操作去处理。<br>当左右的值分别是2的次方且不相同的时候，或操作表示相加。<br>1 | 2 = 3<br>1 | 2 | 4 = 7<br>1 | 4 = 5<br>这个不难理解，2的次方bit码最高位为1，其余为0，如果左右的值不同，进行或操作后，会把两个最高位都置为1，即相加。<br>当左值为2的次方叠加，右值为2的次方时，与操作可以用来判断右值是否是左值的加数，当右值为左值加数时，结果是右值，否则是0。<br>15 &amp; 1 = 1<br>15 &amp; 2 = 2<br>15 &amp; 4 = 4<br>15 &amp; 8 = 8<br>15 &amp; 16 = 0<br>这个同理也不难理解。<br>于是可以这样处理状态码：</p>
-<pre><code>public int state;
-public static final int STATE_1 = 1;
-public static final int STATE_2 = 2;
-public static final int STATE_3 = 4;
-
-//set
-state = STATE_1 | STATE_2 | STATE_3;
-
-//get 
-if ((state &amp; STATE_1) == STATE_1) {
-    //state include STATE_1
+            <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>网上关于MVVM的文章很多了，本文站在一个初学者的角度，从实践出发，讲一下我对MVVM的理解和体验，如有误，待勘验。</p>
+<hr>
+<h3 id="为什么要使用MVVM"><a href="#为什么要使用MVVM" class="headerlink" title="为什么要使用MVVM"></a>为什么要使用MVVM</h3><p>为什么要使用MVVM？最关键的，就是解耦，MVVM将项目分成View、ViewModel、Model三层，各层完成不同的工作，使逻辑更加独立清晰，大大方便了维护和测试。MVVM与MVP有何不同？<br><img src="http://zjutkz.net/images/%E9%80%89%E6%8B%A9%E6%81%90%E6%83%A7%E7%97%87%E7%9A%84%E7%A6%8F%E9%9F%B3%EF%BC%81%E6%95%99%E4%BD%A0%E8%AE%A4%E6%B8%85MVC-MVP%E5%92%8CMVVM/mvp.png" alt="MVP"><img src="http://zjutkz.net/images/%E9%80%89%E6%8B%A9%E6%81%90%E6%83%A7%E7%97%87%E7%9A%84%E7%A6%8F%E9%9F%B3%EF%BC%81%E6%95%99%E4%BD%A0%E8%AE%A4%E6%B8%85MVC-MVP%E5%92%8CMVVM/mvvm.png" alt="MVVM"><br>看图，MVP的View和Presenter双向依赖，而MVVM的View和ViewModel是单向依赖的，ViewModel持有View，View却不持有ViewModel，更进一步降低了耦合。如何实现View和ViewModel的单向依赖？有两种方法，一种是通过Google官方的DataBinding机制，这是一种数据驱动的思想，类似Vue，另一种是使用RxJava，这是一种事件驱动的思想，类似RxBus，本文使用RxJava作为解决方案。</p>
+<hr>
+<h3 id="开始之前"><a href="#开始之前" class="headerlink" title="开始之前"></a>开始之前</h3><p>在着手代码前，我有必要先讲一下RxJava。这是我第一次使用RxJava，其实直到现在，我对于它还是一知半解，我希望用通俗的语言介绍一下它，尽管很可能不正确。<br>首先，要知道的是，RxJava最核心的思想是异步，实现的方式是观察者模式，Observable类对应了被观察者，Observer类对应了观察者。当被观察者和观察者被创建后，调用Observable.subscribe(Observer)即完成订阅，订阅即触发，Observable开始执行耗时操作，当操作完成后，通知Observer进行回调。这是最基本的异步使用方法，即使不用RxJava，我们也可以用Message-Handler去实现。但我不想用这种角度去看待Observable和Observer，在我看来，Observable是数据源，Observer是数据消费者。<br>接下来，要说的是Subject类，Subject有点特殊，它既是Observable，又是Observer，也就是说，它既可以生产数据，又可以消费数据。<br>最后再简单提一下CompositeDisposable这个类，Observable在调用subscribe方法后，会返回一个Disposable类，用于取消订阅，CompositeDisposable顾名思义可以对Disposable进行统一管理，当想要取消订阅的时候，调用CompositeDisposable.clear()就可以了。<br>以上就是项目中用到的所有RxJava提供的类。</p>
+<hr>
+<h3 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h3><p>直接上手代码，本文代码完全参考了<a href="https://github.com/onlynight/V2EX" target="_blank" rel="noopener">这个项目</a>，为了使代码更加简洁，我只创建了三个类，分别对应了View、ViewModel、Model，并省去了一些生命周期方法，在实际的开发中，需要做一定的封装，并做好生命周期控制。</p>
+<p>先看Model类，Model类比较简单，主要负责从网络或数据库获取数据，这里模拟一下从网络获取数据，返回一个Observable类。</p>
+<pre><code>public class Model {
+    //模拟从服务器获取数据
+    public Observable&lt;List&lt;String&gt;&gt; getData() {
+        return Observable.create((emitter) -&gt; {
+            Thread.sleep(2000);
+            List&lt;String&gt; list = new ArrayList&lt;&gt;();
+            list.add(String.valueOf(System.currentTimeMillis()));
+            emitter.onNext(list);
+        });
+    }
 }
-......
-</code></pre>
-            
-        </article>
-    </div>
-    
-    <div class="nexmoe-post">
-        <a href="/2019/03/20/从哔哩哔哩漫画开始说起/">
-            <div class="nexmoe-post-cover mdui-ripple"> 
-                
-                    <img src="/images/bg.jpg" alt="从哔哩哔哩漫画开始说起">
-                
-                <h1>从哔哩哔哩漫画开始说起</h1>
-            </div>
-        </a>
-        <div class="nexmoe-post-meta">
-            <a><i class="nexmoefont icon-calendar-fill"></i>2019年03月20日</a>
-            <a><i class="nexmoefont icon-areachart"></i>814 字</a>
-            <a><i class="nexmoefont icon-time-circle-fill"></i>大概 3 分钟</a>
-            
-                <a class="nexmoefont icon-appstore-fill -link" href="/categories/技术/">技术</a>
-            
-            
-                <a class="nexmoefont icon-tag-fill -link" href="/tags/android/">android</a>
-            
-        </div>
-        <article>
-            
-            <p>下了个哔哩哔哩漫画用来追五等分的花嫁。今早躺在床上，无意间点到了评分按钮，直接跳转到了锤子应用商店，把我吓了一跳。<br>出于职业病，我琢磨了一下实现原理。这并不难，我们知道Android存在隐式Intent机制，通过设置Action、Data、Category属性，可以选择合适的Activity打开。以打开浏览器为例，下面的代码可以打开浏览器，如果系统中存在多个可被第三方程序打开的浏览器，那么选择权会被移交给用户。</p>
-<pre><code>Intent intent = new Intent();
-intent.setAction(Intent.ACTION_VIEW);
-startActivity(intent);
-</code></pre><p>根据这个原理，一定存在一个和应用商店相关的Action，它就是通过这个Action打开了我的应用商店，由于我系统里只有默认的锤子应用商店，所以它被直接打开了。为了验证我的猜想，我安装了豌豆荚，再次回到哔哩哔哩漫画，点击评分按钮，果然出现了选择应用选项。<br><img src="/images/29/choose_app.png" alt="choose_app"><br>到此为止，除了再一次感叹隐式Intent这种过滤思想的精妙之外，没有任何问题。问题在于，即使应用商店声明了自己接收这种隐式意图，处于非活动状态的它又是怎么知道有应用发出了这种意图的呢？<br>我的第一个想法是通过Service，监听这种意图，这条思路很清晰，但是很快就被我否决了。且不说Service占用资源且容易被杀死，就从实现原理来讲可能性也不大，我可没听说过startActivity方法被调用以后，会发出什么可以被监听到的广播或者其它什么的信息，就算有，它应该也是处于底层的，不是留给开发者处理的，而且就我自己的回忆，当初学习隐式Intent的时候似乎写过类似功能的Demo，并没有涉及到Service，只是在intent-filter里声明了相关的Action，就可以被其它的应用打开。<br>基于上面的考量，选择合适的应用打开，应该是系统完成的事，那么第一个问题被解决了，不是应用主动获知有自己监听的Intent，而是Android系统通知它并唤醒它的。其实通过另外一点也可以推出这个结论：选择应用的对话框，明显不属于打开和被打开的两方应用，肯定是系统层级的。<br>那么第二个问题出来了：Android系统是如何知道哪些应用监听了这些Intent呢？这个问题解决起来思路就极其明确了，Activity通过intent-filter声明自己监听的Intent，而这些内容全被注册在了Manifest.xml文件里了，Android系统手握所有应用的Manifest.xml，自然可以查出哪个应用哪个Activity监听了哪个Intent，就可以轻易的调出相关应用了。<br>查阅了官方文档关于Manifest.xml的解释，官方文档说的清清楚楚，甚至把Intent过滤器拿出来做了个小标题。<a href="https://developer.android.google.cn/guide/topics/manifest/manifest-intro.html" target="_blank" rel="noopener">应用清单 | Android Developers</a></p>
-<p>脸红~ 还是滚去学习了~</p>
+</code></pre><p>接下来是ViewModel类，ViewModel类持有一个Subject，作为数据消费者，通过bindData方法，将其与Model获取到的数据进行绑定。</p>
+<pre><code>public class ViewModel {
+
+    private CompositeDisposable compositeDisposable = new CompositeDisposable();
+
+    private Model model = new Model();
+
+    private PublishSubject&lt;List&lt;String&gt;&gt; data = PublishSubject.create();
+
+    private &lt;T&gt; void bindData(Observable&lt;List&lt;T&gt;&gt; observable, PublishSubject&lt;List&lt;T&gt;&gt; subject) {
+        compositeDisposable.add(observable.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subject::onNext));
+    }
+
+    public void getUpdateData() {
+        bindData(model.getData(), data);
+    }
+
+    public PublishSubject&lt;List&lt;String&gt;&gt; getData() {
+        return data;
+    }
+}
+</code></pre><p>最后是View，View也有bindData方法，它将ViewModel中获得到的Subject（这里成为了数据源）与一个消费方法绑定，这样，每当数据源发生改变了后，消费方法就会被调用。这里值得一提的是，View和ViewModel都有bindData方法，它们在实现上是一样的，具体的效果却有所不同，View的bindData方法确实如同名字一样，将生产者和消费者进行了绑定，但是ViewModel的bindData只是让Subject获取了数据，并没有进行绑定，因为Model每次生产的数据源引用的不是同一个对象。</p>
+<pre><code>public class MainActivity extends AppCompatActivity {
+
+    private ListViewAdapter adapter;
+
+    private CompositeDisposable compositeDisposable = new CompositeDisposable();
+
+    private ViewModel viewModel = new ViewModel();
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        Button button = findViewById(R.id.button);
+        ListView listView = findViewById(R.id.list_view);
+
+        adapter = new ListViewAdapter(this);
+        listView.setAdapter(adapter);
+
+        bindData(viewModel.getData(), this::updateData);
+        button.setOnClickListener((v) -&gt; {
+            viewModel.getUpdateData();
+        });
+    }
+
+    private &lt;T&gt; void bindData(Subject&lt;T&gt; subject, Consumer&lt;? super T&gt; consumer) {
+        compositeDisposable.add(subject.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(consumer));
+    }
+
+    private void updateData(List&lt;String&gt; data) {
+        swipeRefreshLayout.setRefreshing(false);
+        adapter.setData(data);
+        adapter.notifyDataSetChanged();
+    }
+}
+</code></pre><p>综上，我们是通过这种观察者模式实现的View与ViewModel解耦，实现的关键在于Subject，它可以同时作为数据的生产者和消费者，它存在于ViewModel中，一方面从Model中获取数据，一方面当数据变化时通知View进行操作。<br><a href="https://github.com/fjz97/MVVMDemo" target="_blank" rel="noopener">源码</a></p>
 
             
         </article>
     </div>
     
-    <div class="nexmoe-post">
-        <a href="/2018/05/21/Android自定义Preference/">
-            <div class="nexmoe-post-cover mdui-ripple"> 
-                
-                    <img src="/images/bg.jpg" alt="Android自定义Preference">
-                
-                <h1>Android自定义Preference</h1>
-            </div>
-        </a>
-        <div class="nexmoe-post-meta">
-            <a><i class="nexmoefont icon-calendar-fill"></i>2018年05月21日</a>
-            <a><i class="nexmoefont icon-areachart"></i>1k 字</a>
-            <a><i class="nexmoefont icon-time-circle-fill"></i>大概 4 分钟</a>
-            
-                <a class="nexmoefont icon-appstore-fill -link" href="/categories/技术/">技术</a>
-            
-            
-                <a class="nexmoefont icon-tag-fill -link" href="/tags/android/">android</a>
-            
-        </div>
-        <article>
-            
-            <p>在写设置时参考了EH，发现使用了Preference类，它帮我们自动实现了ListView，只需要编写一个xml文件就可以实现各种样式的设置项，并自动将设置项保存到SharedPreferences内，非常方便。具体可以参考这篇文章：<a href="https://www.cnblogs.com/valenhua/archive/2017/10/03/7624640.html" target="_blank" rel="noopener">Android Preference 设置偏好全攻略</a></p>
-<p>这篇文章讲一下如何重写Preference，以实现自定义样式。</p>
-            
-        </article>
+</section>
+
     </div>
-    
-    <div class="nexmoe-post">
-        <a href="/2018/03/31/Android性能优化之ViewHolder&convertView/">
-            <div class="nexmoe-post-cover mdui-ripple"> 
-                
-                    <img src="/images/bg.jpg" alt="Android性能优化之ViewHolder&amp;convertView">
-                
-                <h1>Android性能优化之ViewHolder&amp;convertView</h1>
-            </div>
-        </a>
-        <div class="nexmoe-post-meta">
-            <a><i class="nexmoefont icon-calendar-fill"></i>2018年03月31日</a>
-            <a><i class="nexmoefont icon-areachart"></i>1k 字</a>
-            <a><i class="nexmoefont icon-time-circle-fill"></i>大概 4 分钟</a>
-            
-                <a class="nexmoefont icon-appstore-fill -link" href="/categories/技术/">技术</a>
-            
-            
-                <a class="nexmoefont icon-tag-fill -link" href="/tags/android/">android</a>
-            
-        </div>
-        <article>
-            
-            <p>查阅了许多博客，对ViewHolder的优化原理仍然不明白，今天深入研究了一下，总算是理解了。<br>先贴上项目里使用的一个图片GridView的Adapter代码：</p>
-<pre><code>public class MyAdapter extends BaseAdapter {
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/mdui@0.4.3/dist/js/mdui.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+ 
+    <script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+
+
+ 
+    <script src="https://cdn.jsdelivr.net/npm/smoothscroll-for-websites@1.4.9/SmoothScroll.min.js"></script>
+
+
+<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.15.8/build/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+<script src="/js/app.js?v=1566143373982"></script>
+<script src="https://cdn.jsdelivr.net/npm/lazysizes@5.1.0/lazysizes.min.js"></script>
+
+  
+
+
+
+
+
+</body>
+
+</html>
+ic class MyAdapter extends BaseAdapter {
 
     private LayoutInflater mInflater;
     private Context context;
@@ -623,7 +634,7 @@ startActivity(intent);
 <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.15.8/build/highlight.min.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>
 
-<script src="/js/app.js?v=1566143165954"></script>
+<script src="/js/app.js?v=1566143373950"></script>
 <script src="https://cdn.jsdelivr.net/npm/lazysizes@5.1.0/lazysizes.min.js"></script>
 
   
