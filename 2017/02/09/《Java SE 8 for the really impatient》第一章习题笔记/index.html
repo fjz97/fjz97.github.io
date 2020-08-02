@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<!-- Head tag -->
+<head>
+
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+    <!--Description-->
+
+    
+
+    
+        <meta name="description" content="feng&#39;s blog"/>
+    
+
+    <!--Author-->
+    
+        <meta name="author" content="feng"/>
+    
+
+    <!--Open Graph Title-->
+    
+        <meta property="og:title" content="《Java SE 8 for the really impatient》第一章习题笔记"/>
+    
+
+    <!--Open Graph Description-->
+    
+        <meta property="og:description" content="feng&#39;s blog"/>
+    
+
+    <!--Open Graph Site Name-->
+        <meta property="og:site_name" content="冯京哲的狗窝"/>
+
+    <!--Type page-->
+    
+        <meta property="og:type" content="article"/>
+    
+
+    <!--Page Cover-->
+    
+    
+        <meta property="og:image" content="http://www.fengjingzhe.comhttps://res.cloudinary.com/bravey/image/upload/v1582873485/wallroom-2880x1620-bg-3cad5d2.jpg"/>
+    
+
+        <meta name="twitter:card" content="summary_large_image"/>
+
+    
+
+    
+        <meta name="twitter:image" content="http://www.fengjingzhe.comhttps://res.cloudinary.com/bravey/image/upload/v1582873485/wallroom-2880x1620-bg-3cad5d2.jpg"/>
+    
+
+    <!-- Title -->
+    
+    <title>《Java SE 8 for the really impatient》第一章习题笔记 - 冯京哲的狗窝</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"/>
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    <!-- Custom Fonts -->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+    <link href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css"/>
+    <link href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css"/>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="//oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Gallery -->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/featherlight/1.3.5/featherlight.min.css" type="text/css" rel="stylesheet"/>
+
+    <!-- Google Analytics -->
+    
+
+
+    <!-- favicon -->
+    
+
+<meta name="generator" content="Hexo 5.0.0"></head>
+
+
+<body>
+
+    <!-- Menu -->
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">冯京哲的狗窝</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                
+                    <li>
+                        <a href="/">
+                            
+                                Home
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/archives">
+                            
+                                Archives
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/tags">
+                            
+                                Tags
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/categories">
+                            
+                                Categories
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/about">
+                            
+                                About
+                            
+                        </a>
+                    </li>
+                
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+
+    <!-- Main Content -->
+    <!-- Page Header -->
+<!-- Set your background image for this header in your post front-matter: cover -->
+
+<header class="intro-header" style="background-image: url('https://res.cloudinary.com/bravey/image/upload/v1582873485/wallroom-2880x1620-bg-3cad5d2.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <h1>《Java SE 8 for the really impatient》第一章习题笔记</h1>
+                    
+                    <span class="meta">
+                        <!-- Date and Author -->
+                        
+                        
+                            2017-02-09
+                        
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Tags and categories -->
+           
+                <div class="col-lg-4 col-lg-offset-2 col-md-5 col-md-offset-1 post-tags">
+                    
+                        
+
+
+<a href="/tags/java/">#java</a>
+
+
+                    
+                </div>
+                <div class="col-lg-4 col-md-5 post-categories">
+                    
+                        
+
+<a href="/categories/技术/">技术</a>
+
+                    
+                </div>
+            
+
+            <!-- Gallery -->
+            
+
+            <!-- Post Main Content -->
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <p>2.</p>
+<p>lambda表达式：</p>
+<pre><code>    public static File[] getChildDirectory(File file) &amp;#123;
+        return file.listFiles(pathname -&gt; &amp;#123;
+            if(pathname.isDirectory()) &amp;#123;
+                return true;
+            &amp;#125;
+            else &amp;#123;
+                return false;
+            &amp;#125;
+        &amp;#125;);</code></pre>
+<p>方法引用：</p>
+<pre><code>    public static File[] getChildDirectory(File file) &amp;#123;
+        return file.listFiles(File::isDirectory);
+    &amp;#125;</code></pre>
+<hr>
+<p>3.</p>
+<pre><code>    public static File[] getChildFilesByExt(File file, String ext) &amp;#123;
+        return file.listFiles((dir, name) -&gt; &amp;#123;
+            if (name.substring(name.lastIndexOf(&quot;.&quot;) + 1).equals(ext)) &amp;#123;
+                return true;
+            &amp;#125; else &amp;#123;
+                return false;
+            &amp;#125;
+        &amp;#125;);
+    &amp;#125;</code></pre>
+<p>捕获file以及ext。</p>
+<hr>
+<p>6.</p>
+<pre><code>public class Test &amp;#123;
+    public static void main(String[] args) &amp;#123;
+
+        new Thread(uncheck(() -&gt; &amp;#123;
+            System.out.println(&quot;start&quot;);
+            Thread.sleep(1000);
+            System.out.println(&quot;end&quot;);
+        &amp;#125;)).start();
+    &amp;#125;
+
+    public static Runnable uncheck(RunnableEx runnableEx) &amp;#123;
+        return new Runnable() &amp;#123;
+            @Override
+            public void run() &amp;#123;
+                try &amp;#123;
+                    runnableEx.run();
+                &amp;#125; catch (Exception e) &amp;#123;
+                    e.printStackTrace();
+                &amp;#125;
+            &amp;#125;
+        &amp;#125;;
+    &amp;#125;
+&amp;#125;
+
+interface RunnableEx &amp;#123;
+    public void run() throws Exception;
+&amp;#125;</code></pre>
+<p> uncheck实际上做的事就是，封装了一个Runnable并返回，其中Runnable的run方法调用了lambda表达式的代码段并检查了代码段。</p>
+<p>我感觉是可以用<code>Callable&lt;Void&gt;</code>的，在代码段最后加上<code>return null</code>就可以了，确实可以跑起来。</p>
+<hr>
+<p>7.</p>
+<pre><code>    public static void main(String[] args) &amp;#123;
+
+        andThen(()-&gt;&amp;#123;System.out.println(&quot;1&quot;);&amp;#125;, ()-&gt;&amp;#123;System.out.println(&quot;2&quot;);&amp;#125;);
+
+    &amp;#125;
+
+    public static Thread[] andThen(Runnable a, Runnable b) &amp;#123;
+        Thread thread1 = new Thread(a);
+        thread1.start();
+        Thread thread2 = new Thread(b);
+        thread2.start();
+        Thread[] threads = new Thread[2];
+        return threads;
+    &amp;#125;</code></pre>
+<hr>
+<p>8.</p>
+<pre><code>    String[] names = &amp;#123; &quot;Peter&quot;, &quot;Paul&quot;, &quot;Merry&quot; &amp;#125;;
+    List&lt;Runnable&gt; runners = new ArrayList&lt;Runnable&gt;();
+    for(String name : names) &amp;#123;
+        runners.add(() -&gt; System.out.println(name));
+    &amp;#125;
+    for(Runnable r : runners) &amp;#123;
+        new Thread(r).start();
+    &amp;#125;</code></pre>
+<p>合法</p>
+<p>如果使用传统的for循环，不合法，编译器报错Local variable i defined in an enclosing scope must be final or effectively final。捕获的i值发生了变化，即为非法。与内部类相同，JDK1.8开始可以在内部类和lambda表达式中使用非final局部变量，前提是值不发生改变（本质上还是final的）。</p>
+
+
+                
+            </div>
+
+            <!-- Comments -->
+            
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    
+
+
+                </div>
+            
+        </div>
+    </div>
+</article>
+
+    <!-- Footer -->
+    <hr />
+
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+
+                    
+
+                    
+                        <li>
+                            <a href="https://github.com/klugjo/hexo-theme-clean-blog" target="_blank">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                    
+
+                    
+
+                    
+
+                    
+                </ul>
+                <p class="copyright text-muted">&copy; 2020 feng<br></p>
+                <p class="copyright text-muted">Original Theme <a target="_blank" href="http://startbootstrap.com/template-overviews/clean-blog/">Clean Blog</a> from <a href="http://startbootstrap.com/" target="_blank">Start Bootstrap</a></p>
+                <p class="copyright text-muted">Adapted for <a target="_blank" href="https://hexo.io/">Hexo</a> by <a href="http://www.codeblocq.com/" target="_blank">Jonathan Klughertz</a></p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+    <!-- After footer scripts -->
+    
+<!-- jQuery -->
+<script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+
+<!-- Bootstrap -->
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+<!-- Gallery -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/featherlight/1.3.5/featherlight.min.js" type="text/javascript" charset="utf-8"></script>
+
+<!-- Disqus Comments -->
+
+
+
+</body>
+
+</html>

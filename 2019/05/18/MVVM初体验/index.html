@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<!-- Head tag -->
+<head>
+
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+    <!--Description-->
+
+    
+
+    
+        <meta name="description" content="feng&#39;s blog"/>
+    
+
+    <!--Author-->
+    
+        <meta name="author" content="feng"/>
+    
+
+    <!--Open Graph Title-->
+    
+        <meta property="og:title" content="MVVM初体验"/>
+    
+
+    <!--Open Graph Description-->
+    
+        <meta property="og:description" content="feng&#39;s blog"/>
+    
+
+    <!--Open Graph Site Name-->
+        <meta property="og:site_name" content="冯京哲的狗窝"/>
+
+    <!--Type page-->
+    
+        <meta property="og:type" content="article"/>
+    
+
+    <!--Page Cover-->
+    
+    
+        <meta property="og:image" content="http://www.fengjingzhe.comhttps://res.cloudinary.com/bravey/image/upload/v1582873485/wallroom-2880x1620-bg-3cad5d2.jpg"/>
+    
+
+        <meta name="twitter:card" content="summary_large_image"/>
+
+    
+
+    
+        <meta name="twitter:image" content="http://www.fengjingzhe.comhttps://res.cloudinary.com/bravey/image/upload/v1582873485/wallroom-2880x1620-bg-3cad5d2.jpg"/>
+    
+
+    <!-- Title -->
+    
+    <title>MVVM初体验 - 冯京哲的狗窝</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"/>
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    <!-- Custom Fonts -->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+    <link href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css"/>
+    <link href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css"/>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="//oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Gallery -->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/featherlight/1.3.5/featherlight.min.css" type="text/css" rel="stylesheet"/>
+
+    <!-- Google Analytics -->
+    
+
+
+    <!-- favicon -->
+    
+
+<meta name="generator" content="Hexo 5.0.0"></head>
+
+
+<body>
+
+    <!-- Menu -->
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">冯京哲的狗窝</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                
+                    <li>
+                        <a href="/">
+                            
+                                Home
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/archives">
+                            
+                                Archives
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/tags">
+                            
+                                Tags
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/categories">
+                            
+                                Categories
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/about">
+                            
+                                About
+                            
+                        </a>
+                    </li>
+                
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+
+    <!-- Main Content -->
+    <!-- Page Header -->
+<!-- Set your background image for this header in your post front-matter: cover -->
+
+<header class="intro-header" style="background-image: url('https://res.cloudinary.com/bravey/image/upload/v1582873485/wallroom-2880x1620-bg-3cad5d2.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <h1>MVVM初体验</h1>
+                    
+                    <span class="meta">
+                        <!-- Date and Author -->
+                        
+                        
+                            2019-05-18
+                        
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Tags and categories -->
+           
+                <div class="col-lg-4 col-lg-offset-2 col-md-5 col-md-offset-1 post-tags">
+                    
+                        
+
+
+<a href="/tags/Android/">#Android</a>
+
+
+                    
+                </div>
+                <div class="col-lg-4 col-md-5 post-categories">
+                    
+                        
+
+<a href="/categories/技术/">技术</a>
+
+                    
+                </div>
+            
+
+            <!-- Gallery -->
+            
+
+            <!-- Post Main Content -->
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>网上关于MVVM的文章很多了，本文站在一个初学者的角度，从实践出发，讲一下我对MVVM的理解和体验，如有误，待勘验。</p>
+<hr>
+<h3 id="为什么要使用MVVM"><a href="#为什么要使用MVVM" class="headerlink" title="为什么要使用MVVM"></a>为什么要使用MVVM</h3><p>为什么要使用MVVM？最关键的，就是解耦，MVVM将项目分成View、ViewModel、Model三层，各层完成不同的工作，使逻辑更加独立清晰，大大方便了维护和测试。MVVM与MVP有何不同？<br><img src="http://zjutkz.net/images/%E9%80%89%E6%8B%A9%E6%81%90%E6%83%A7%E7%97%87%E7%9A%84%E7%A6%8F%E9%9F%B3%EF%BC%81%E6%95%99%E4%BD%A0%E8%AE%A4%E6%B8%85MVC-MVP%E5%92%8CMVVM/mvp.png" alt="MVP"><img src="http://zjutkz.net/images/%E9%80%89%E6%8B%A9%E6%81%90%E6%83%A7%E7%97%87%E7%9A%84%E7%A6%8F%E9%9F%B3%EF%BC%81%E6%95%99%E4%BD%A0%E8%AE%A4%E6%B8%85MVC-MVP%E5%92%8CMVVM/mvvm.png" alt="MVVM"><br>看图，MVP的View和Presenter双向依赖，而MVVM的View和ViewModel是单向依赖的，ViewModel持有View，View却不持有ViewModel，更进一步降低了耦合。如何实现View和ViewModel的单向依赖？有两种方法，一种是通过Google官方的DataBinding机制，这是一种数据驱动的思想，类似Vue，另一种是使用RxJava，这是一种事件驱动的思想，类似RxBus，本文使用RxJava作为解决方案。</p>
+<hr>
+<h3 id="开始之前"><a href="#开始之前" class="headerlink" title="开始之前"></a>开始之前</h3><p>在着手代码前，我有必要先讲一下RxJava。这是我第一次使用RxJava，其实直到现在，我对于它还是一知半解，我希望用通俗的语言介绍一下它，尽管很可能不正确。<br>首先，要知道的是，RxJava最核心的思想是异步，实现的方式是观察者模式，Observable类对应了被观察者，Observer类对应了观察者。当被观察者和观察者被创建后，调用Observable.subscribe(Observer)即完成订阅，订阅即触发，Observable开始执行耗时操作，当操作完成后，通知Observer进行回调。这是最基本的异步使用方法，即使不用RxJava，我们也可以用Message-Handler去实现。但我不想用这种角度去看待Observable和Observer，在我看来，Observable是数据源，Observer是数据消费者。<br>接下来，要说的是Subject类，Subject有点特殊，它既是Observable，又是Observer，也就是说，它既可以生产数据，又可以消费数据。<br>最后再简单提一下CompositeDisposable这个类，Observable在调用subscribe方法后，会返回一个Disposable类，用于取消订阅，CompositeDisposable顾名思义可以对Disposable进行统一管理，当想要取消订阅的时候，调用CompositeDisposable.clear()就可以了。<br>以上就是项目中用到的所有RxJava提供的类。</p>
+<hr>
+<h3 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h3><p>直接上手代码，本文代码完全参考了<a target="_blank" rel="noopener" href="https://github.com/onlynight/V2EX">这个项目</a>，为了使代码更加简洁，我只创建了三个类，分别对应了View、ViewModel、Model，并省去了一些生命周期方法，在实际的开发中，需要做一定的封装，并做好生命周期控制。</p>
+<p>先看Model类，Model类比较简单，主要负责从网络或数据库获取数据，这里模拟一下从网络获取数据，返回一个Observable类。</p>
+<pre><code>public class Model &amp;#123;
+    //模拟从服务器获取数据
+    public Observable&lt;List&lt;String&gt;&gt; getData() &amp;#123;
+        return Observable.create((emitter) -&gt; &amp;#123;
+            Thread.sleep(2000);
+            List&lt;String&gt; list = new ArrayList&lt;&gt;();
+            list.add(String.valueOf(System.currentTimeMillis()));
+            emitter.onNext(list);
+        &amp;#125;);
+    &amp;#125;
+&amp;#125;</code></pre>
+<p>接下来是ViewModel类，ViewModel类持有一个Subject，作为数据消费者，通过bindData方法，将其与Model获取到的数据进行绑定。</p>
+<pre><code>public class ViewModel &amp;#123;
+
+    private CompositeDisposable compositeDisposable = new CompositeDisposable();
+
+    private Model model = new Model();
+
+    private PublishSubject&lt;List&lt;String&gt;&gt; data = PublishSubject.create();
+
+    private &lt;T&gt; void bindData(Observable&lt;List&lt;T&gt;&gt; observable, PublishSubject&lt;List&lt;T&gt;&gt; subject) &amp;#123;
+        compositeDisposable.add(observable.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subject::onNext));
+    &amp;#125;
+
+    public void getUpdateData() &amp;#123;
+        bindData(model.getData(), data);
+    &amp;#125;
+
+    public PublishSubject&lt;List&lt;String&gt;&gt; getData() &amp;#123;
+        return data;
+    &amp;#125;
+&amp;#125;</code></pre>
+<p>最后是View，View也有bindData方法，它将ViewModel中获得到的Subject（这里成为了数据源）与一个消费方法绑定，这样，每当数据源发生改变了后，消费方法就会被调用。这里值得一提的是，View和ViewModel都有bindData方法，它们在实现上是一样的，具体的效果却有所不同，View的bindData方法确实如同名字一样，将生产者和消费者进行了绑定，但是ViewModel的bindData只是让Subject获取了数据，并没有进行绑定，因为Model每次生产的数据源引用的不是同一个对象。</p>
+<pre><code>public class MainActivity extends AppCompatActivity &amp;#123;
+
+    private ListViewAdapter adapter;
+
+    private CompositeDisposable compositeDisposable = new CompositeDisposable();
+
+    private ViewModel viewModel = new ViewModel();
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) &amp;#123;
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        Button button = findViewById(R.id.button);
+        ListView listView = findViewById(R.id.list_view);
+
+        adapter = new ListViewAdapter(this);
+        listView.setAdapter(adapter);
+
+        bindData(viewModel.getData(), this::updateData);
+        button.setOnClickListener((v) -&gt; &amp;#123;
+            viewModel.getUpdateData();
+        &amp;#125;);
+    &amp;#125;
+
+    private &lt;T&gt; void bindData(Subject&lt;T&gt; subject, Consumer&lt;? super T&gt; consumer) &amp;#123;
+        compositeDisposable.add(subject.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(consumer));
+    &amp;#125;
+
+    private void updateData(List&lt;String&gt; data) &amp;#123;
+        swipeRefreshLayout.setRefreshing(false);
+        adapter.setData(data);
+        adapter.notifyDataSetChanged();
+    &amp;#125;
+&amp;#125;</code></pre>
+<p>综上，我们是通过这种观察者模式实现的View与ViewModel解耦，实现的关键在于Subject，它可以同时作为数据的生产者和消费者，它存在于ViewModel中，一方面从Model中获取数据，一方面当数据变化时通知View进行操作。<br><a target="_blank" rel="noopener" href="https://github.com/fjz97/MVVMDemo">源码</a></p>
+
+
+                
+            </div>
+
+            <!-- Comments -->
+            
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    
+
+
+                </div>
+            
+        </div>
+    </div>
+</article>
+
+    <!-- Footer -->
+    <hr />
+
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+
+                    
+
+                    
+                        <li>
+                            <a href="https://github.com/klugjo/hexo-theme-clean-blog" target="_blank">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                    
+
+                    
+
+                    
+
+                    
+                </ul>
+                <p class="copyright text-muted">&copy; 2020 feng<br></p>
+                <p class="copyright text-muted">Original Theme <a target="_blank" href="http://startbootstrap.com/template-overviews/clean-blog/">Clean Blog</a> from <a href="http://startbootstrap.com/" target="_blank">Start Bootstrap</a></p>
+                <p class="copyright text-muted">Adapted for <a target="_blank" href="https://hexo.io/">Hexo</a> by <a href="http://www.codeblocq.com/" target="_blank">Jonathan Klughertz</a></p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+    <!-- After footer scripts -->
+    
+<!-- jQuery -->
+<script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+
+<!-- Bootstrap -->
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+<!-- Gallery -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/featherlight/1.3.5/featherlight.min.js" type="text/javascript" charset="utf-8"></script>
+
+<!-- Disqus Comments -->
+
+
+
+</body>
+
+</html>

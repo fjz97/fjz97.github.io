@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<!-- Head tag -->
+<head>
+
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+    <!--Description-->
+
+    
+
+    
+        <meta name="description" content="feng&#39;s blog"/>
+    
+
+    <!--Author-->
+    
+        <meta name="author" content="feng"/>
+    
+
+    <!--Open Graph Title-->
+    
+        <meta property="og:title" content="jQuery学习笔记2：性能和技巧"/>
+    
+
+    <!--Open Graph Description-->
+    
+        <meta property="og:description" content="feng&#39;s blog"/>
+    
+
+    <!--Open Graph Site Name-->
+        <meta property="og:site_name" content="冯京哲的狗窝"/>
+
+    <!--Type page-->
+    
+        <meta property="og:type" content="article"/>
+    
+
+    <!--Page Cover-->
+    
+    
+        <meta property="og:image" content="http://www.fengjingzhe.comhttps://res.cloudinary.com/bravey/image/upload/v1582873485/wallroom-2880x1620-bg-3cad5d2.jpg"/>
+    
+
+        <meta name="twitter:card" content="summary_large_image"/>
+
+    
+
+    
+        <meta name="twitter:image" content="http://www.fengjingzhe.comhttps://res.cloudinary.com/bravey/image/upload/v1582873485/wallroom-2880x1620-bg-3cad5d2.jpg"/>
+    
+
+    <!-- Title -->
+    
+    <title>jQuery学习笔记2：性能和技巧 - 冯京哲的狗窝</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"/>
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    <!-- Custom Fonts -->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+    <link href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css"/>
+    <link href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css"/>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="//oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Gallery -->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/featherlight/1.3.5/featherlight.min.css" type="text/css" rel="stylesheet"/>
+
+    <!-- Google Analytics -->
+    
+
+
+    <!-- favicon -->
+    
+
+<meta name="generator" content="Hexo 5.0.0"></head>
+
+
+<body>
+
+    <!-- Menu -->
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">冯京哲的狗窝</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                
+                    <li>
+                        <a href="/">
+                            
+                                Home
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/archives">
+                            
+                                Archives
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/tags">
+                            
+                                Tags
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/categories">
+                            
+                                Categories
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/about">
+                            
+                                About
+                            
+                        </a>
+                    </li>
+                
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+
+    <!-- Main Content -->
+    <!-- Page Header -->
+<!-- Set your background image for this header in your post front-matter: cover -->
+
+<header class="intro-header" style="background-image: url('https://res.cloudinary.com/bravey/image/upload/v1582873485/wallroom-2880x1620-bg-3cad5d2.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <h1>jQuery学习笔记2：性能和技巧</h1>
+                    
+                    <span class="meta">
+                        <!-- Date and Author -->
+                        
+                        
+                            2017-02-02
+                        
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Tags and categories -->
+           
+                <div class="col-lg-4 col-lg-offset-2 col-md-5 col-md-offset-1 post-tags">
+                    
+                        
+
+
+<a href="/tags/jQuery/">#jQuery</a>
+
+
+                    
+                </div>
+                <div class="col-lg-4 col-md-5 post-categories">
+                    
+                        
+
+<a href="/categories/技术/">技术</a>
+
+                    
+                </div>
+            
+
+            <!-- Gallery -->
+            
+
+            <!-- Post Main Content -->
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <h2 id="1、选择器的选用"><a href="#1、选择器的选用" class="headerlink" title="1、选择器的选用"></a>1、选择器的选用</h2><p>尽量使用<code>$(&quot;#id&quot;)</code>，会调用js底层的<code>document.getElementById()</code>方法，速度最快。</p>
+<p>其次使用标签选择器<code>$(&quot;p&quot;)</code>，速度也很快。</p>
+<p>接下来是<code>$(&quot;.class&quot;)</code>，再后是<code>$(&quot;:hidden&quot;)</code>。</p>
+<p>后者性能很低，最好用<code>$(&quot;#content&quot;).find(&quot;:hidden&quot;)</code>或是<code>$(&quot;a.button&quot;).filter(&quot;:animated&quot;)</code>来代替。</p>
+<hr>
+<h2 id="2、尽量缓存对象"><a href="#2、尽量缓存对象" class="headerlink" title="2、尽量缓存对象"></a>2、尽量缓存对象</h2><p><strong>原则：重复出现的元素用变量缓存下来，防止jQuery创建多个对象占用内存</strong>。</p>
+<hr>
+<h2 id="3、不要在循环内操作DOM或者其他耗时操作"><a href="#3、不要在循环内操作DOM或者其他耗时操作" class="headerlink" title="3、不要在循环内操作DOM或者其他耗时操作"></a>3、不要在循环内操作DOM或者其他耗时操作</h2><p>错误例子如下</p>
+<pre><code>for(var i = 0; i &lt; 100; i++)&amp;#123;
+    $list = $(&quot;#list&quot;);
+    $list.append(&quot;&lt;li&gt;&quot; + i + &quot;&lt;/li&gt;&quot;);
+&amp;#125;</code></pre>
+<p>上面代码段有两处地方欠妥：在循环中查找元素，在循环中操作DOM。</p>
+<hr>
+<h2 id="4、使用事件代理"><a href="#4、使用事件代理" class="headerlink" title="4、使用事件代理"></a>4、使用事件代理</h2><p>每个js事件都会冒泡到父级节点，当给多个元素元素调用同一个函数时，可以对父对象进行事件绑定。</p>
+<p>例如，给table中的td绑定点击背景变红事件时，可以这样写。</p>
+<pre><code>$(&quot;#table&quot;).click(function(e)&amp;#123;
+    var $clicked = $(e.target);
+    $clicked.css(&quot;background&quot;, &quot;red&quot;);
+&amp;#125;)</code></pre>
+<hr>
+<h2 id="5、使用-proxy-指定上下文"><a href="#5、使用-proxy-指定上下文" class="headerlink" title="5、使用$.proxy()指定上下文"></a>5、使用$.proxy()指定上下文</h2><pre><code>$(&quot;#panel&quot;).fadeIn(function()&amp;#123;
+    $(&quot;#panel button&quot;).click($.proxy(function()&amp;#123;
+        $(this).fadeOut();
+    &amp;#125;, this));
+&amp;#125;)</code></pre>
+<p>click触发后panel消失。</p>
+
+
+                
+            </div>
+
+            <!-- Comments -->
+            
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    
+
+
+                </div>
+            
+        </div>
+    </div>
+</article>
+
+    <!-- Footer -->
+    <hr />
+
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+
+                    
+
+                    
+                        <li>
+                            <a href="https://github.com/klugjo/hexo-theme-clean-blog" target="_blank">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                    
+
+                    
+
+                    
+
+                    
+                </ul>
+                <p class="copyright text-muted">&copy; 2020 feng<br></p>
+                <p class="copyright text-muted">Original Theme <a target="_blank" href="http://startbootstrap.com/template-overviews/clean-blog/">Clean Blog</a> from <a href="http://startbootstrap.com/" target="_blank">Start Bootstrap</a></p>
+                <p class="copyright text-muted">Adapted for <a target="_blank" href="https://hexo.io/">Hexo</a> by <a href="http://www.codeblocq.com/" target="_blank">Jonathan Klughertz</a></p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+    <!-- After footer scripts -->
+    
+<!-- jQuery -->
+<script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+
+<!-- Bootstrap -->
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+<!-- Gallery -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/featherlight/1.3.5/featherlight.min.js" type="text/javascript" charset="utf-8"></script>
+
+<!-- Disqus Comments -->
+
+
+
+</body>
+
+</html>

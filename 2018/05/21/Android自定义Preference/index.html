@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<!-- Head tag -->
+<head>
+
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+    <!--Description-->
+
+    
+
+    
+        <meta name="description" content="feng&#39;s blog"/>
+    
+
+    <!--Author-->
+    
+        <meta name="author" content="feng"/>
+    
+
+    <!--Open Graph Title-->
+    
+        <meta property="og:title" content="Android自定义Preference"/>
+    
+
+    <!--Open Graph Description-->
+    
+        <meta property="og:description" content="feng&#39;s blog"/>
+    
+
+    <!--Open Graph Site Name-->
+        <meta property="og:site_name" content="冯京哲的狗窝"/>
+
+    <!--Type page-->
+    
+        <meta property="og:type" content="article"/>
+    
+
+    <!--Page Cover-->
+    
+    
+        <meta property="og:image" content="http://www.fengjingzhe.comhttps://res.cloudinary.com/bravey/image/upload/v1582873485/wallroom-2880x1620-bg-3cad5d2.jpg"/>
+    
+
+        <meta name="twitter:card" content="summary_large_image"/>
+
+    
+
+    
+        <meta name="twitter:image" content="http://www.fengjingzhe.comhttps://res.cloudinary.com/bravey/image/upload/v1582873485/wallroom-2880x1620-bg-3cad5d2.jpg"/>
+    
+
+    <!-- Title -->
+    
+    <title>Android自定义Preference - 冯京哲的狗窝</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"/>
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    <!-- Custom Fonts -->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+    <link href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css"/>
+    <link href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css"/>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="//oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Gallery -->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/featherlight/1.3.5/featherlight.min.css" type="text/css" rel="stylesheet"/>
+
+    <!-- Google Analytics -->
+    
+
+
+    <!-- favicon -->
+    
+
+<meta name="generator" content="Hexo 5.0.0"></head>
+
+
+<body>
+
+    <!-- Menu -->
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">冯京哲的狗窝</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                
+                    <li>
+                        <a href="/">
+                            
+                                Home
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/archives">
+                            
+                                Archives
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/tags">
+                            
+                                Tags
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/categories">
+                            
+                                Categories
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/about">
+                            
+                                About
+                            
+                        </a>
+                    </li>
+                
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+
+    <!-- Main Content -->
+    <!-- Page Header -->
+<!-- Set your background image for this header in your post front-matter: cover -->
+
+<header class="intro-header" style="background-image: url('https://res.cloudinary.com/bravey/image/upload/v1582873485/wallroom-2880x1620-bg-3cad5d2.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <h1>Android自定义Preference</h1>
+                    
+                    <span class="meta">
+                        <!-- Date and Author -->
+                        
+                        
+                            2018-05-21
+                        
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Tags and categories -->
+           
+                <div class="col-lg-4 col-lg-offset-2 col-md-5 col-md-offset-1 post-tags">
+                    
+                        
+
+
+<a href="/tags/Android/">#Android</a>
+
+
+                    
+                </div>
+                <div class="col-lg-4 col-md-5 post-categories">
+                    
+                        
+
+<a href="/categories/技术/">技术</a>
+
+                    
+                </div>
+            
+
+            <!-- Gallery -->
+            
+
+            <!-- Post Main Content -->
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <p>在写设置时参考了EH，发现使用了Preference类，它帮我们自动实现了ListView，只需要编写一个xml文件就可以实现各种样式的设置项，并自动将设置项保存到SharedPreferences内，非常方便。具体可以参考这篇文章：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/valenhua/archive/2017/10/03/7624640.html">Android Preference 设置偏好全攻略</a></p>
+<p>这篇文章讲一下如何重写Preference，以实现自定义样式。</p>
+<a id="more"></a>
+
+<hr>
+<h2 id="在开始前"><a href="#在开始前" class="headerlink" title="在开始前"></a>在开始前</h2><p>我们需要一个颜色设置选项，可以选择不同的颜色，并把选择的颜色显示在右侧。</p>
+<p>那么理所应当的，我们需要写一个布局文件：</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;RelativeLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+                android:layout_width=&quot;match_parent&quot;
+                android:layout_height=&quot;60dp&quot;
+                android:gravity=&quot;center_vertical&quot; &gt;
+
+    &lt;TextView
+            android:id=&quot;@+id/title&quot;
+            android:text=&quot;color&quot;
+            android:layout_width=&quot;wrap_content&quot;
+            android:layout_height=&quot;wrap_content&quot;
+            android:layout_marginLeft=&quot;20dp&quot; /&gt;
+
+    &lt;ImageView
+            android:id=&quot;@+id/color&quot;
+            android:layout_width=&quot;20dp&quot;
+            android:layout_height=&quot;20dp&quot;
+            android:layout_alignParentRight=&quot;true&quot;
+            android:layout_alignTop=&quot;@+id/title&quot;
+            android:layout_marginRight=&quot;30dp&quot;
+            android:background=&quot;@color/colorPrimary&quot; /&gt;
+
+&lt;/RelativeLayout&gt;</code></pre>
+<p>just like this:</p>
+<p><img src="/images/27/layout.png" alt="layout"></p>
+<h1 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h1><p>接下来重写Preference，我们看到重载方法中有onCreateView，那么显而易见，我们应该在这里inflate我们的布局文件。</p>
+<pre><code>public class ColorPreference extends ListPreference &amp;#123;
+    @Override
+    protected View onCreateView(ViewGroup parent) &amp;#123;
+        super.onCreateView(parent);
+        View view = LayoutInflater.from(getContext()).inflate(R.layout.preference_color, parent, false);
+        return view;
+    &amp;#125;
+&amp;#125;</code></pre>
+<p>这样，我们就可以在preference的xml文件里使用我们自定义的Preference了：</p>
+<pre><code>&lt;com.fengjingzhe.fightpicture.preference.ColorPreference
+            android:key=&quot;theme&quot;
+            android:entries=&quot;@array/settings_theme_colors&quot;
+            android:entryValues=&quot;@array/settings_theme_colors_values&quot;/&gt;</code></pre>
+<p>效果如图</p>
+<p><img src="/images/27/color_preference.png" alt="color_preference"></p>
+<h1 id="One-More-Step"><a href="#One-More-Step" class="headerlink" title="One More Step"></a>One More Step</h1><p>虽然我们实现了一个有着自定义View的Preference，但是TextView和ImageView中的内容都被限制了，需要每次到layout中更改，也不能动态设置内容，可重用性很差，我们希望实现的是一个通用的颜色选项，那么就需要做一点修改。</p>
+<p>回想起之前使用fresco的经验，当我们需要给SimpleDraweeView加上一个url或是设置默认图案的时候，我们在xml文档中使用了fresco的自定义属性，那么在这里，我们肯定也能使用自定义属性。</p>
+<p>在attrs.xml中添加我们的自定义属性title和imageColor，分别对应了TextView和ImageView的内容。</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;resources&gt;
+    &lt;declare-styleable name=&quot;fightpicture&quot;&gt;
+        &lt;attr name=&quot;title&quot; format=&quot;string&quot;&gt;&lt;/attr&gt;
+        &lt;attr name=&quot;imageColor&quot; format=&quot;string&quot;&gt;&lt;/attr&gt;
+    &lt;/declare-styleable&gt;
+&lt;/resources&gt;</code></pre>
+<p>接着我们在Preference的xml文档中使用我们的自定义属性：</p>
+<pre><code>        &lt;com.fengjingzhe.fightpicture.preference.ColorPreference
+            android:key=&quot;theme&quot;
+            fightpicture:title=&quot;@string/settings_theme_color&quot;
+            fightpicture:imageColor=&quot;?attr/colorPrimary&quot;
+            android:entries=&quot;@array/settings_theme_colors&quot;
+            android:entryValues=&quot;@array/settings_theme_colors_values&quot; /&gt;</code></pre>
+<p>接下来的思路很明确，我们要在自定义的Preference类中获取到这两个属性并设置到TextView和ImageView上。</p>
+<pre><code>public class ColorPreference extends ListPreference &amp;#123;
+
+    private String title;
+    private String color;
+
+    public ColorPreference(Context context, AttributeSet attrs) &amp;#123;
+        this(context, attrs, 0);
+    &amp;#125;
+
+    public ColorPreference(Context context, AttributeSet attrs, int defStyle) &amp;#123;
+        super(context, attrs, defStyle);
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.fightpicture, defStyle, 0);
+        title = a.getString(R.styleable.fightpicture_title);
+        color = a.getString(R.styleable.fightpicture_imageColor);
+        a.recycle();
+    &amp;#125;
+
+    @Override
+    protected View onCreateView(ViewGroup parent) &amp;#123;
+        super.onCreateView(parent);
+        View view = LayoutInflater.from(getContext()).inflate(R.layout.preference_color, parent, false);
+        if (title != null) &amp;#123;
+            TextView titleTextView = view.findViewById(R.id.title);
+            titleTextView.setText(title);
+        &amp;#125;
+        if (color != null) &amp;#123;
+            ImageView colorImageView = view.findViewById(R.id.color);
+            colorImageView.setBackgroundColor(Color.parseColor(color));
+        &amp;#125;
+        return view;
+    &amp;#125;
+&amp;#125;</code></pre>
+<p>在构造方法中使用TypedArray可以获取到xml文档中使用的属性，接下来拿到子View并将属性值设置上去就大功告成了！</p>
+<p>再接着回想fresco，我们在给它设置url属性的时候，往往都不是在xml文档中，而是在代码中，也就是说，我们的自定义Preference还得具备动态设置属性的功能，很简单，我们给类添加两个set方法。</p>
+<pre><code>    public void setTitle(String title) &amp;#123;
+        this.title = title;
+    &amp;#125;
+
+    public void setColor(String color) &amp;#123;
+        this.color = color;
+    &amp;#125;</code></pre>
+<p>由于PreferenceFragment的onCreate回调肯定先与Preference的onCreateView回调，我们在PreferenceFragment的onCreate回调中拿到Preference实例并对它设置属性就可以了。</p>
+<pre><code>ColorPreference theme = (ColorPreference) findPreference(THEME_KEY);
+theme.setTitle(title);
+theme.setColor(color);</code></pre>
+
+
+                
+            </div>
+
+            <!-- Comments -->
+            
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    
+
+
+                </div>
+            
+        </div>
+    </div>
+</article>
+
+    <!-- Footer -->
+    <hr />
+
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+
+                    
+
+                    
+                        <li>
+                            <a href="https://github.com/klugjo/hexo-theme-clean-blog" target="_blank">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                    
+
+                    
+
+                    
+
+                    
+                </ul>
+                <p class="copyright text-muted">&copy; 2020 feng<br></p>
+                <p class="copyright text-muted">Original Theme <a target="_blank" href="http://startbootstrap.com/template-overviews/clean-blog/">Clean Blog</a> from <a href="http://startbootstrap.com/" target="_blank">Start Bootstrap</a></p>
+                <p class="copyright text-muted">Adapted for <a target="_blank" href="https://hexo.io/">Hexo</a> by <a href="http://www.codeblocq.com/" target="_blank">Jonathan Klughertz</a></p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+    <!-- After footer scripts -->
+    
+<!-- jQuery -->
+<script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+
+<!-- Bootstrap -->
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+<!-- Gallery -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/featherlight/1.3.5/featherlight.min.js" type="text/javascript" charset="utf-8"></script>
+
+<!-- Disqus Comments -->
+
+
+
+</body>
+
+</html>
